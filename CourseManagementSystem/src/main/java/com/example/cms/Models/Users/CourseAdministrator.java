@@ -56,11 +56,11 @@ public class CourseAdministrator extends User {
         throw new Exception("Not implemented yet");
     }
 
-    public void assignInstructorToModule(CourseModule courseModule, Instructor instructor) throws Exception {
+    public void assignInstructorToCourseModule(CourseModule courseModule, Instructor instructor) throws Exception {
         throw new Exception("Not implemented yet");
     }
 
-    public void removeInstructorFromModule(CourseModule courseModule) throws Exception {
+    public void removeInstructorFromCourseModule(CourseModule courseModule) throws Exception {
         throw new Exception("Not implemented yet");
     }
 }

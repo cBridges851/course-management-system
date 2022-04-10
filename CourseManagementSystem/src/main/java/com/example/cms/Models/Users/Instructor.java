@@ -18,4 +18,8 @@ public class Instructor extends User {
     public void addMark(Student student, Assignment assignment, int mark) throws Exception {
         throw new Exception("Not implemented yet");
     }
+
+    public Student getStudentsOnModule(Module module) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
 }
