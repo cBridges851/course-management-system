@@ -1,4 +1,4 @@
-package com.example.coursemanagementsystem.Models;
+package com.example.cms.Models.Users;
 
 import java.util.Calendar;
 
