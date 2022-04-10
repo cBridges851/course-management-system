@@ -19,4 +19,28 @@ public abstract class User {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getMiddleName() {
+        return this.middleName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public Calendar getDateOfBirth() {
+        return this.dateOfBirth;
+    }
 }
