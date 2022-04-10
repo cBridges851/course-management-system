@@ -12,7 +12,43 @@ public class CourseAdministrator extends User {
         this.courses = courses;
     }
 
+    public void addNewCourse(Course course) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void addNewCourseModule(CourseModule courseModule) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public ArrayList<Course> getAllAvailableCourses() throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
     public ArrayList<Course> getAllCourses() {
         return this.courses;
+    }
+
+    public void cancelCourse(Course course) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void reopenCourse(Course course) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void deleteCourse(Course course) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void renameCourse(Course course, String newName) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void renameCourseModule(CourseModule courseModule, String newName) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public String createResultsSlip(Student student) throws Exception {
+        throw new Exception("Not implemented yet");
     }
 }
