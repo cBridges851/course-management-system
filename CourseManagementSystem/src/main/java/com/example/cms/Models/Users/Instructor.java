@@ -1,9 +1,10 @@
 package com.example.cms.Models.Users;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Instructor extends User {
-    private CourseModules[] courseModules;
+    private CourseModules[] courseModules = new CourseModules[4];
 
     public Instructor(String username, String password, String firstName, String middleName, String lastName,
                       Calendar dateOfBirth, CourseModules[] modules) {
