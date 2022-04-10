@@ -40,4 +40,12 @@ public class Student extends User {
     public CourseModule[] getCurrentModules() {
         return this.currentModules;
     }
+
+    public void registerForCourse() throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void enrolForModule() throws Exception {
+        throw new Exception("Not implemented yet");
+    }
 }
