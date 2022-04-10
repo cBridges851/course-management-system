@@ -19,7 +19,7 @@ public class Instructor extends User {
         throw new Exception("Not implemented yet");
     }
 
-    public Student getStudentsOnModule(Module module) throws Exception {
+    public ArrayList<Student> getStudentsOnModule(int index) throws Exception {
         throw new Exception("Not implemented yet");
     }
 }
