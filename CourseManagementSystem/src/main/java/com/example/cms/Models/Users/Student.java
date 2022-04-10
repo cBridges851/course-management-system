@@ -33,11 +33,11 @@ public class Student extends User {
         return this.course;
     }
 
-    public ArrayList<Module> getCompletedModules() {
+    public ArrayList<Module> getCompletedCourseModules() {
         return this.completedModules;
     }
 
-    public CourseModule[] getCurrentModules() {
+    public CourseModule[] getCurrentCourseModules() {
         return this.currentModules;
     }
 
@@ -46,6 +46,10 @@ public class Student extends User {
     }
 
     public void enrolForModule() throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public Instructor getInstructorOnCourseModule(CourseModule courseModule) throws Exception {
         throw new Exception("Not implemented yet");
     }
 }
