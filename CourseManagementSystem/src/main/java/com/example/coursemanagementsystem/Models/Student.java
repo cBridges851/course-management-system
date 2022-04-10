@@ -20,4 +20,24 @@ public class Student extends User {
         this.completedModules = completedModules;
         this.currentModules = currentModules;
     }
+
+    public int getYear() {
+        return this.year;
+    }
+
+    public int getLevel() {
+        return this.level;
+    }
+
+    public Course getCourse() {
+        return this.course;
+    }
+
+    public ArrayList<Module> getCompletedModules() {
+        return this.completedModules;
+    }
+
+    public CourseModule[] getCurrentModules() {
+        return this.currentModules;
+    }
 }
