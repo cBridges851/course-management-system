@@ -8,7 +8,7 @@ public class CourseAdministrator extends User {
 
     public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth,
                                ArrayList<Course> courses) {
-        super(username, password, firstName, middleName, lastName,dateOfBirth);
+        super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.courses = courses;
     }
 
@@ -21,6 +21,10 @@ public class CourseAdministrator extends User {
     }
 
     public ArrayList<Course> getAllAvailableCourses() throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public ArrayList<Course> getAllCancelledCourses() throws Exception {
         throw new Exception("Not implemented yet");
     }
 
@@ -49,6 +53,14 @@ public class CourseAdministrator extends User {
     }
 
     public String createResultsSlip(Student student) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void assignInstructorToModule(CourseModule courseModule, Instructor instructor) throws Exception {
+        throw new Exception("Not implemented yet");
+    }
+
+    public void removeInstructorFromModule(CourseModule courseModule) throws Exception {
         throw new Exception("Not implemented yet");
     }
 }
