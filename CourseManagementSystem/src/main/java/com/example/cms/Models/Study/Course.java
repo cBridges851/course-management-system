@@ -1,4 +1,4 @@
-package com.example.cms.Models.CourseAssets;
+package com.example.cms.Models.Study;
 
 import java.util.ArrayList;
 
