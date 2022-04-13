@@ -1,5 +1,8 @@
 package com.example.cms.Models.Users;
 
+import com.example.cms.Models.Study.Course;
+import com.example.cms.Models.Study.CourseModule;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -48,7 +51,7 @@ public class Student extends User {
     /**
      * @return the course modules that the student has passed and completed.
      */
-    public ArrayList<Module> getCompletedCourseModules() {
+    public ArrayList<CourseModule> getCompletedCourseModules() {
         return this.completedModules;
     }
 
