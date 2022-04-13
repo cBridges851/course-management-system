@@ -1,4 +1,4 @@
-package com.example.coursemanagementsystem;
+package com.example.cms;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

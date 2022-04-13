@@ -113,7 +113,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.coursemanagementsystem/com.example.coursemanagementsystem.CourseManagementSystemApplication
+                                com.example.coursemanagementsystem/com.example.cms.CourseManagementSystemApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

@@ -10,6 +10,6 @@ module com.example.coursemanagementsystem {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.coursemanagementsystem to javafx.fxml;
-    exports com.example.coursemanagementsystem;
+    opens com.example.cms to javafx.fxml;
+    exports com.example.cms;
 }
