@@ -2,6 +2,9 @@ package com.example.cms.Models.Users;
 
 import java.util.Calendar;
 
+/**
+ * The class that all types of users inherit from.
+ */
 public abstract class User {
     private String username;
     private String password;
