@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Model that represents the course administrator, which is a type of user.
+ * Model that represents the course administrator, which is a type of user who manages the courses.
  */
 public class CourseAdministrator extends User {
     private ArrayList<Course> courses;
