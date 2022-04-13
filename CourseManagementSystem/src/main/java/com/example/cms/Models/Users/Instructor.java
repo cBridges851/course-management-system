@@ -1,5 +1,8 @@
 package com.example.cms.Models.Users;
 
+import com.example.cms.Models.Study.Assignment;
+import com.example.cms.Models.Study.CourseModule;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -7,10 +10,10 @@ import java.util.Calendar;
  * Model that represents the instructor, which is a type of user who teach module content to students.
  */
 public class Instructor extends User {
-    private CourseModules[] courseModules = new CourseModules[4];
+    private CourseModule[] courseModules = new CourseModule[4];
 
     public Instructor(String username, String password, String firstName, String middleName, String lastName,
-                      Calendar dateOfBirth, CourseModules[] modules) {
+                      Calendar dateOfBirth, CourseModule[] modules) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.courseModules = modules;
     }
@@ -18,7 +21,7 @@ public class Instructor extends User {
     /**
      * @return the modules that the instructor teaches on.
      */
-    public CourseModules[] getCourseModules() {
+    public CourseModule[] getCourseModules() {
         return courseModules;
     }
 
