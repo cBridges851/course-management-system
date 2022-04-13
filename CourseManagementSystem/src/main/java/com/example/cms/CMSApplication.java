@@ -1,5 +1,7 @@
 package com.example.cms;
 
+import com.example.cms.FileHandling.FileHandler;
+import com.example.cms.FileHandling.Filename;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +20,7 @@ public class CMSApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        //launch();
+        new FileHandler().loadFile(Filename.COURSE);
     }
 }
