@@ -2,6 +2,7 @@ package com.example.cms.Models.Users;
 
 import com.example.cms.Models.Study.Course;
 import com.example.cms.Models.Study.CourseModule;
+import com.example.cms.Models.Study.ModuleResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ public class Student extends User {
     private Course course;
     private ArrayList<CourseModule> completedModules;
     private CourseModule[] currentModules = new CourseModule[8];
+    private ArrayList<ModuleResult> moduleResults;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
                    Calendar dateOfBirth, int year, int level, Course course, ArrayList<CourseModule> completedModules,

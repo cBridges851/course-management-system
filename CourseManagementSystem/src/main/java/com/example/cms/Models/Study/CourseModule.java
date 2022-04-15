@@ -1,6 +1,7 @@
 package com.example.cms.Models.Study;
 
 import com.example.cms.Models.Users.Instructor;
+import com.example.cms.Models.Users.Student;
 
 import java.util.ArrayList;
 
@@ -14,17 +15,17 @@ public class CourseModule {
     private Instructor instructor;
     private boolean isMandatory;
     private ArrayList<Assignment> assignments;
-    //private ArrayList<StudentResult> studentResults;
+    private ArrayList<Student> students;
 
     public CourseModule(String courseModuleCode, String name, int level, Instructor instructor, boolean isMandatory,
-                        ArrayList<Assignment> assignments, ArrayList<StudentResult> studentResults) {
+                        ArrayList<Assignment> assignments, ArrayList<Student> students) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
         this.instructor = instructor;
         this.isMandatory = isMandatory;
         this.assignments = assignments;
-        //this.studentResults = studentResults;
+        this.students = students;
     }
 
     /**
@@ -73,7 +74,7 @@ public class CourseModule {
     /**
      * @return The results that students have got on the module.
      */
-//    public ArrayList<StudentResult> getStudentResults() {
-//        return this.studentResults;
-//    }
+    public ArrayList<Student> getStudents() {
+        return this.students;
+    }
 }
