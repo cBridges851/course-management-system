@@ -10,7 +10,7 @@ public class FileHandler {
     }
 
     public void loadFile(Filename filename) {
-        if (filename == Filename.COURSE) {
+        if (filename == Filename.COURSES) {
             File file = new File("./src/main/java/com/example/cms/FileHandling/Files/courses.csv");
             System.out.println(file.getAbsoluteFile());
             try {
