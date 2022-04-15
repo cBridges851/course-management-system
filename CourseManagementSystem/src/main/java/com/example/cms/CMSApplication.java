@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static java.util.UUID.randomUUID;
+
 public class CMSApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -21,6 +23,6 @@ public class CMSApplication extends Application {
 
     public static void main(String[] args) {
         //launch();
-        new FileHandler().loadFile(Filename.COURSE);
+        System.out.println(randomUUID());
     }
 }
