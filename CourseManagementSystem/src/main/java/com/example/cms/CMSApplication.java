@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static java.util.UUID.randomUUID;
 
@@ -23,6 +25,10 @@ public class CMSApplication extends Application {
 
     public static void main(String[] args) {
         //launch();
-        System.out.println(randomUUID());
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2022, Calendar.APRIL, 15);
+//        System.out.println(calendar.getTime());
+        Calendar calendar = new GregorianCalendar(2022, 3, 15);
+        System.out.println(calendar.getTime());
     }
 }
