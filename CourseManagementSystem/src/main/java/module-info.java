@@ -9,7 +9,8 @@ module com.example.coursemanagementsystem {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires org.junit.jupiter.api;
 
-    opens com.example.cms to javafx.fxml;
-    exports com.example.cms;
+    opens com.company.cms to javafx.fxml;
+    exports com.company.cms;
 }
