@@ -2,15 +2,14 @@ package com.company.cms.FileHandling.Loaders;
 
 import com.company.cms.FileHandling.FileHandler;
 import com.company.cms.FileHandling.Filename;
-import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
 import java.util.ArrayList;
 
 public class CourseLoader {
-    private FileHandler fileHandler = new FileHandler();
-    private CourseModuleLoader courseModuleLoader = new CourseModuleLoader();
+    private final FileHandler fileHandler = new FileHandler();
+    private final CourseModuleLoader courseModuleLoader = new CourseModuleLoader();
 
     public ArrayList<Course> loadAllCourses() {
         try {

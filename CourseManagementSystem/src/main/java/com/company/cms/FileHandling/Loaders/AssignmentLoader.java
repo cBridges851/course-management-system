@@ -7,9 +7,9 @@ import com.company.cms.Models.Study.Assignment;
 import java.util.ArrayList;
 
 public class AssignmentLoader {
-    private FileHandler fileHandler = new FileHandler();
+    private final FileHandler fileHandler = new FileHandler();
 
-    public Assignment loadAssignment(String assignmentId) throws Exception {
+    public Assignment loadAssignment(String assignmentId) {
         try {
             ArrayList<String> allAssignmentsFromFile = this.fileHandler.loadFile(Filename.ASSIGNMENTS);
 

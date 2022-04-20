@@ -6,10 +6,11 @@ import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.CourseModule;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CourseModuleLoader {
-    private FileHandler fileHandler = new FileHandler();
-    private AssignmentLoader assignmentLoader = new AssignmentLoader();
+    private final FileHandler fileHandler = new FileHandler();
+    private final AssignmentLoader assignmentLoader = new AssignmentLoader();
 
     public CourseModule loadCourseModule(String courseModuleCode) {
         try {
@@ -27,9 +28,7 @@ public class CourseModuleLoader {
 
                     ArrayList<String> students = new ArrayList<>();
 
-                    for (String studentName: parts[6].split(" ")) {
-                        students.add(studentName);
-                    }
+                    Collections.addAll(students, parts[6].split(" "));
 
                     return new CourseModule(parts[0], parts[1], Integer.parseInt(parts[2].trim()), parts[3],
                             Boolean.parseBoolean(parts[4].trim()), assignments, students);
