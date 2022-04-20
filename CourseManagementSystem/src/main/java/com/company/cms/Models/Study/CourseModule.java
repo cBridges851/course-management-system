@@ -15,14 +15,14 @@ public class CourseModule {
     private ArrayList<String> studentNames;
 
     public CourseModule(String courseModuleCode, String name, int level, String instructorName, boolean isMandatory,
-                        ArrayList<Assignment> assignments, ArrayList<String> students) {
+                        ArrayList<Assignment> assignments, ArrayList<String> studentNames) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
         this.instructorName = instructorName;
         this.isMandatory = isMandatory;
         this.assignments = assignments;
-        this.studentNames = students;
+        this.studentNames = studentNames;
     }
 
     /**
