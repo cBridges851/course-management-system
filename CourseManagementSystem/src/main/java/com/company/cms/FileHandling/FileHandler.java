@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Interacts with the files that are used to keep the program's data persistent
+ */
 public class FileHandler {
     public void saveFile(Filename filename) {
 

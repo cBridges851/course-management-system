@@ -1,7 +1,5 @@
 package com.company.cms.Models.Study;
 
-import java.util.UUID;
-
 import static java.util.UUID.randomUUID;
 
 /**
@@ -9,12 +7,12 @@ import static java.util.UUID.randomUUID;
  * the skills they have learnt in the module.
  */
 public class Assignment {
-    private UUID assignmentId;
+    private final String assignmentId;
     private String assignmentName;
     private int totalPossibleMarks;
 
-    public Assignment(String assignmentName, int totalPossibleMarks) {
-        this.assignmentId = randomUUID();
+    public Assignment(String assignmentId, String assignmentName, int totalPossibleMarks) {
+        this.assignmentId = assignmentId == null ? randomUUID().toString() : assignmentId;
         this.assignmentName = assignmentName;
         this.totalPossibleMarks = totalPossibleMarks;
     }
@@ -22,7 +20,7 @@ public class Assignment {
     /**
      * @return the ID that represents the assignment.
      */
-    public UUID getAssignmentId() {
+    public String getAssignmentId() {
         return this.assignmentId;
     }
 

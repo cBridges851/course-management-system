@@ -3,17 +3,17 @@ package com.company.cms.Models.Study;
 import java.util.ArrayList;
 
 /**
- * Model that represents the courses at the college or University, such as BSc Computer Science.
+ * Model that represents the courses at the college or university, such as BSc Computer Science.
  */
 public class Course {
     private String name;
     private ArrayList<CourseModule> courseModules;
-    private boolean isActive;
+    private boolean isAvailable;
 
-    public Course(String name, ArrayList<CourseModule> courseModules, boolean isActive) {
+    public Course(String name, ArrayList<CourseModule> courseModules, boolean isAvailable) {
         this.name = name;
         this.courseModules = courseModules;
-        this.isActive = isActive;
+        this.isAvailable = isAvailable;
     }
 
     /**
@@ -31,10 +31,10 @@ public class Course {
     }
 
     /**
-     * @return whether the course is running. True will mean that it is active, false will mean that it has been
-     * cancelled, so it is inactive.
+     * @return whether the course is running. True will mean that it is available, false will mean that it has been
+     * cancelled, so it is unavailable.
      */
-    public boolean isActive() {
-        return isActive;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 }

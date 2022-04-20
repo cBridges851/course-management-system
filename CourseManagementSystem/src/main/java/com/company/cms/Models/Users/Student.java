@@ -14,19 +14,19 @@ public class Student extends User {
     private int year;
     private int level;
     private Course course;
-    private ArrayList<CourseModule> completedModules;
-    private CourseModule[] currentModules = new CourseModule[8];
+    private ArrayList<CourseModule> completedCourseModules;
+    private CourseModule[] currentCourseModules = new CourseModule[8];
     private ArrayList<ModuleResult> moduleResults;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
-                   Calendar dateOfBirth, int year, int level, Course course, ArrayList<CourseModule> completedModules,
-                   CourseModule[] currentModules) {
+                   Calendar dateOfBirth, int year, int level, Course course, ArrayList<CourseModule> completedCourseModules,
+                   CourseModule[] currentCourseModules) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.year = year;
         this.level = level;
         this.course = course;
-        this.completedModules = completedModules;
-        this.currentModules = currentModules;
+        this.completedCourseModules = completedCourseModules;
+        this.currentCourseModules = currentCourseModules;
     }
 
     /**
@@ -54,14 +54,14 @@ public class Student extends User {
      * @return the course modules that the student has passed and completed.
      */
     public ArrayList<CourseModule> getCompletedCourseModules() {
-        return this.completedModules;
+        return this.completedCourseModules;
     }
 
     /**
      * @return the course modules that the student is currently studying.
      */
     public CourseModule[] getCurrentCourseModules() {
-        return this.currentModules;
+        return this.currentCourseModules;
     }
 
     /**

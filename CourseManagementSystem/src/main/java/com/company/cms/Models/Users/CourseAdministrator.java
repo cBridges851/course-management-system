@@ -1,5 +1,6 @@
 package com.company.cms.Models.Users;
 
+import com.company.cms.FileHandling.Loaders.CourseLoader;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
@@ -36,24 +37,41 @@ public class CourseAdministrator extends User {
 
     /**
      * @return all the courses that are available in the university or college.
-     * @throws Exception
      */
-    public ArrayList<Course> getAllAvailableCourses() throws Exception {
-        throw new Exception("Not implemented yet");
+    public ArrayList<Course> getAllAvailableCourses() {
+        ArrayList<Course> allCourses = this.getAllCourses();
+        ArrayList<Course> availableCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (course.isAvailable()) {
+                availableCourses.add(course);
+            }
+        }
+
+        return availableCourses;
     }
 
     /**
      * @return all the courses that have been cancelled.
-     * @throws Exception
      */
-    public ArrayList<Course> getAllCancelledCourses() throws Exception {
-        throw new Exception("Not implemented yet");
+    public ArrayList<Course> getAllCancelledCourses() {
+        ArrayList<Course> allCourses = this.getAllCourses();
+        ArrayList<Course> cancelledCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (!course.isAvailable()) {
+                cancelledCourses.add(course);
+            }
+        }
+
+        return cancelledCourses;
     }
 
     /**
      * @return all the courses, no matter whether they are available or cancelled.
      */
     public ArrayList<Course> getAllCourses() {
+        this.courses = new CourseLoader().loadAllCourses();
         return this.courses;
     }
 
