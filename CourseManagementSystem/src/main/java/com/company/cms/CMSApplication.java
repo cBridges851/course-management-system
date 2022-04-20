@@ -3,6 +3,8 @@ package com.company.cms;
 import com.company.cms.FileHandling.FileHandler;
 import com.company.cms.FileHandling.Filename;
 import com.company.cms.FileHandling.Loaders.CourseLoader;
+import com.company.cms.FileHandling.Savers.CourseSaver;
+import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 import com.company.cms.Models.Users.CourseAdministrator;
@@ -35,6 +37,14 @@ public class CMSApplication extends Application {
 //        System.out.println(calendar.getTime());
 //        FileHandler fileHandler = new FileHandler();
 //        System.out.println(fileHandler.loadFile(Filename.STUDENTS).get(0));
-        new FileHandler().appendFile(Filename.COURSES, "test");
+        //new FileHandler().appendFile(Filename.COURSES, "test");
+        Assignment assignment = new Assignment("id", "assignment name", 100);
+        ArrayList<Assignment> assignments = new ArrayList<>();
+        assignments.add(assignment);
+        CourseModule courseModule = new CourseModule("code", "course name", 5, "bob", false, null, null);
+        ArrayList<CourseModule> courseModules = new ArrayList<>();
+        courseModules.add(courseModule);
+        Course course = new Course("Test Course", courseModules, true);
+        new CourseSaver().saveCourse(course);
     }
 }
