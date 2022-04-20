@@ -20,10 +20,21 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * @param course The course that needs to be added to the course list.
+     * @param newCourse The course that needs to be added to the course list.
      * @throws Exception
      */
-    public void addNewCourse(Course course) throws Exception {
+    public void addNewCourse(Course newCourse) throws Exception {
+        // Loop through this.courses to see if the course name is already there
+        for (Course course: this.courses) {
+            if (course.getName() == newCourse.getName()) {
+                System.out.println("Course already exists!");
+                return;
+            }
+        }
+
+        // If not add it to this.courses
+        this.courses.add(newCourse);
+        // Use CourseSaver to save it!
         throw new Exception("Not implemented yet");
     }
 
