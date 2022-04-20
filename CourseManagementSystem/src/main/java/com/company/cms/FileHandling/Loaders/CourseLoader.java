@@ -19,11 +19,11 @@ public class CourseLoader {
             for (String course: allCoursesFromFileArray) {
                 String[] parts = course.split(",");
 
-                String[] moduleCodes = parts[1].split(" ");
+                String[] moduleCodes = parts[1].split("  ");
                 ArrayList<CourseModule> courseModules = new ArrayList<>();
 
                 for (String moduleCode: moduleCodes) {
-                    courseModules.add(this.courseModuleLoader.loadCourseModule(moduleCode));
+                    courseModules.add(this.courseModuleLoader.loadCourseModule(moduleCode.trim()));
                 }
 
                 allCourses.add(new Course(parts[0], courseModules, Boolean.parseBoolean(parts[2])));
@@ -34,6 +34,7 @@ public class CourseLoader {
             System.out.println("Unable to load all courses: " + exception);
         }
 
+        System.out.println("No courses returned");
         return null;
     }
 }

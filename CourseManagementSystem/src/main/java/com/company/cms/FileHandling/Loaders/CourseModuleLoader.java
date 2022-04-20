@@ -19,11 +19,11 @@ public class CourseModuleLoader {
                 String[] parts = courseModule.split(",");
 
                 if (parts[0].equals(courseModuleCode)) {
-                    String[] assignmentIds = parts[5].split(" ");
+                    String[] assignmentIds = parts[5].split("  ");
                     ArrayList<Assignment> assignments = new ArrayList<>();
 
                     for (String assignmentId: assignmentIds) {
-                        assignments.add(this.assignmentLoader.loadAssignment(assignmentId));
+                        assignments.add(this.assignmentLoader.loadAssignment(assignmentId.trim()));
                     }
 
                     ArrayList<String> students = new ArrayList<>();
@@ -38,6 +38,7 @@ public class CourseModuleLoader {
             System.out.println("Unable to load course module: " + exception);
         }
 
+        System.out.println("Course Module " + courseModuleCode + " not found");
         return null;
     }
 }

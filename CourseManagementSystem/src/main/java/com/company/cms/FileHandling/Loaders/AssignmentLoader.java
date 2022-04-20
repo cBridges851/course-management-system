@@ -17,13 +17,15 @@ public class AssignmentLoader {
                 String[] parts = assignment.split(",");
 
                 if (parts[0].equals(assignmentId)) {
-                    return new Assignment(parts[0], parts[1], Integer.parseInt(parts[3].trim()));
+                    return new Assignment(parts[0], parts[1], Integer.parseInt(parts[2].trim()));
                 }
             }
 
         } catch (Exception exception) {
             System.out.println("Unable to load assignment: " + exception);
         }
+
+        System.out.println("Assignment " + assignmentId + " not found");
         return null;
     }
 }

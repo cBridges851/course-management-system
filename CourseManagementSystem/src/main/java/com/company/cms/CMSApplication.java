@@ -33,6 +33,8 @@ public class CMSApplication extends Application {
 
         for (Course course: courses) {
             System.out.println(course.getName());
+            //System.out.println(course.getCourseModules().get(0).getName());
+            //System.out.println(course.isActive());
         }
     }
 }
