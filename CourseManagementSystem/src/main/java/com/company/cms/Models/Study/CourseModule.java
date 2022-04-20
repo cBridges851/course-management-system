@@ -12,20 +12,20 @@ public class CourseModule {
     private String courseModuleCode;
     private String name;
     private int level;
-    private Instructor instructor;
+    private String instructorName;
     private boolean isMandatory;
     private ArrayList<Assignment> assignments;
-    private ArrayList<Student> students;
+    private ArrayList<String> studentNames;
 
-    public CourseModule(String courseModuleCode, String name, int level, Instructor instructor, boolean isMandatory,
-                        ArrayList<Assignment> assignments, ArrayList<Student> students) {
+    public CourseModule(String courseModuleCode, String name, int level, String instructorName, boolean isMandatory,
+                        ArrayList<Assignment> assignments, ArrayList<String> students) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
-        this.instructor = instructor;
+        this.instructorName = instructorName;
         this.isMandatory = isMandatory;
         this.assignments = assignments;
-        this.students = students;
+        this.studentNames = students;
     }
 
     /**
@@ -52,8 +52,8 @@ public class CourseModule {
     /**
      * @return the instructor who is teaching the module.
      */
-    public Instructor getInstructor() {
-        return this.instructor;
+    public String getInstructorName() {
+        return this.instructorName;
     }
 
     /**
@@ -74,7 +74,7 @@ public class CourseModule {
     /**
      * @return The results that students have got on the module.
      */
-    public ArrayList<Student> getStudents() {
-        return this.students;
+    public ArrayList<String> getStudentNames() {
+        return this.studentNames;
     }
 }
