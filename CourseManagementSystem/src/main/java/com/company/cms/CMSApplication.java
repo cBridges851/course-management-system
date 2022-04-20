@@ -1,8 +1,6 @@
 package com.company.cms;
 
-import com.company.cms.FileHandling.CourseLoader;
-import com.company.cms.FileHandling.FileHandler;
-import com.company.cms.FileHandling.Filename;
+import com.company.cms.FileHandling.Loaders.CourseLoader;
 import com.company.cms.Models.Study.Course;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +9,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class CMSApplication extends Application {
     @Override

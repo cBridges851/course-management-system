@@ -1,6 +1,6 @@
 package com.company.cms.Models.Users;
 
-import com.company.cms.FileHandling.CourseLoader;
+import com.company.cms.FileHandling.Loaders.CourseLoader;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
