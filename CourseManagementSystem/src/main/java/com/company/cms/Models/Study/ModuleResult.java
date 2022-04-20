@@ -2,6 +2,9 @@ package com.company.cms.Models.Study;
 
 import java.util.HashMap;
 
+/**
+ * A class that represents the results achieved by a student on a module
+ */
 public class ModuleResult {
     private CourseModule courseModule;
     private HashMap<String, Integer> assignmentResults;
@@ -34,6 +37,10 @@ public class ModuleResult {
         return totalMark;
     }
 
+    /**
+     * @param assignmentId the identifier of the assignment that was completed
+     * @param mark the number of marks achieved on the assignment
+     */
     public void addAssignmentResults(String assignmentId, int mark) {
         this.assignmentResults.put(assignmentId, mark);
     }

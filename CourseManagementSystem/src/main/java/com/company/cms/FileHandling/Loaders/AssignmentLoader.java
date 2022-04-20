@@ -6,9 +6,17 @@ import com.company.cms.Models.Study.Assignment;
 
 import java.util.ArrayList;
 
+/**
+ * Retrieves and converts assignments from the assignments.csv file
+ */
 public class AssignmentLoader {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Loads a specific assignment
+     * @param assignmentId The id of the assignment to retrieve
+     * @return the assignment
+     */
     public Assignment loadAssignment(String assignmentId) {
         try {
             ArrayList<String> allAssignmentsFromFile = this.fileHandler.loadFile(Filename.ASSIGNMENTS);

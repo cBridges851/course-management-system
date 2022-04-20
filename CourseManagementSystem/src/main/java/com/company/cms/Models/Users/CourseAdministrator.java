@@ -37,9 +37,8 @@ public class CourseAdministrator extends User {
 
     /**
      * @return all the courses that are available in the university or college.
-     * @throws Exception
      */
-    public ArrayList<Course> getAllAvailableCourses() throws Exception {
+    public ArrayList<Course> getAllAvailableCourses() {
         ArrayList<Course> allCourses = this.getAllCourses();
         ArrayList<Course> availableCourses = new ArrayList<>();
 
@@ -54,9 +53,8 @@ public class CourseAdministrator extends User {
 
     /**
      * @return all the courses that have been cancelled.
-     * @throws Exception
      */
-    public ArrayList<Course> getAllCancelledCourses() throws Exception {
+    public ArrayList<Course> getAllCancelledCourses() {
         ArrayList<Course> allCourses = this.getAllCourses();
         ArrayList<Course> cancelledCourses = new ArrayList<>();
 

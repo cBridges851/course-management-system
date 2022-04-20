@@ -24,7 +24,7 @@ public class CMSApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         //launch();
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.set(2022, Calendar.APRIL, 15);

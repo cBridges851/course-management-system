@@ -3,7 +3,7 @@ package com.company.cms.Models.Study;
 import java.util.ArrayList;
 
 /**
- * Model that represents the courses at the college or University, such as BSc Computer Science.
+ * Model that represents the courses at the college or university, such as BSc Computer Science.
  */
 public class Course {
     private String name;
@@ -31,8 +31,8 @@ public class Course {
     }
 
     /**
-     * @return whether the course is running. True will mean that it is active, false will mean that it has been
-     * cancelled, so it is inactive.
+     * @return whether the course is running. True will mean that it is available, false will mean that it has been
+     * cancelled, so it is unavailable.
      */
     public boolean isAvailable() {
         return isAvailable;

@@ -1,8 +1,5 @@
 package com.company.cms.Models.Study;
 
-import com.company.cms.Models.Users.Instructor;
-import com.company.cms.Models.Users.Student;
-
 import java.util.ArrayList;
 
 /**
