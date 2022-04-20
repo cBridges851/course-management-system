@@ -41,10 +41,10 @@ public class CMSApplication extends Application {
         Assignment assignment = new Assignment("id", "assignment name", 100);
         ArrayList<Assignment> assignments = new ArrayList<>();
         assignments.add(assignment);
-        CourseModule courseModule = new CourseModule("code", "course name", 5, "bob", false, null, null);
+        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, null, null);
         ArrayList<CourseModule> courseModules = new ArrayList<>();
         courseModules.add(courseModule);
         Course course = new Course("Test Course", courseModules, true);
-        new CourseSaver().saveCourse(course);
+        new CourseAdministrator(null, null, null, null, null, null, new ArrayList<Course>()).addNewCourse(course);
     }
 }
