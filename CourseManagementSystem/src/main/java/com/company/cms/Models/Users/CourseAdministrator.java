@@ -40,7 +40,16 @@ public class CourseAdministrator extends User {
      * @throws Exception
      */
     public ArrayList<Course> getAllAvailableCourses() throws Exception {
-        throw new Exception("Not implemented yet");
+        ArrayList<Course> allCourses = this.getAllCourses();
+        ArrayList<Course> availableCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (course.isAvailable()) {
+                availableCourses.add(course);
+            }
+        }
+
+        return availableCourses;
     }
 
     /**
@@ -48,7 +57,16 @@ public class CourseAdministrator extends User {
      * @throws Exception
      */
     public ArrayList<Course> getAllCancelledCourses() throws Exception {
-        throw new Exception("Not implemented yet");
+        ArrayList<Course> allCourses = this.getAllCourses();
+        ArrayList<Course> cancelledCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (!course.isAvailable()) {
+                cancelledCourses.add(course);
+            }
+        }
+
+        return cancelledCourses;
     }
 
     /**

@@ -26,7 +26,7 @@ public class CourseLoader {
                     courseModules.add(this.courseModuleLoader.loadCourseModule(moduleCode.trim()));
                 }
 
-                allCourses.add(new Course(parts[0], courseModules, Boolean.parseBoolean(parts[2])));
+                allCourses.add(new Course(parts[0], courseModules, Boolean.parseBoolean(parts[2].trim())));
             }
 
             return allCourses;
