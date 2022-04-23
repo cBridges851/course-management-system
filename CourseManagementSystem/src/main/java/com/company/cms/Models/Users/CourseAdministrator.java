@@ -1,6 +1,7 @@
 package com.company.cms.Models.Users;
 
 import com.company.cms.FileHandling.Loaders.CourseLoader;
+import com.company.cms.FileHandling.Savers.CourseSaver;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
@@ -20,11 +21,18 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * @param course The course that needs to be added to the course list.
-     * @throws Exception
+     * @param newCourse The course that needs to be added to the course list.
      */
-    public void addNewCourse(Course course) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void addNewCourse(Course newCourse) {
+        for (Course course: this.courses) {
+            if (course.getName().equals(newCourse.getName())) {
+                System.out.println("Course already exists!");
+                return;
+            }
+        }
+
+        this.courses.add(newCourse);
+        new CourseSaver().saveCourse(newCourse);
     }
 
     /**
