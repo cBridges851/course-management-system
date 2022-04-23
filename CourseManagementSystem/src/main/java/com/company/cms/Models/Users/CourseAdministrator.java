@@ -43,6 +43,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Gets all the courses that can be enrolled onto.
      * @return all the courses that are available in the university or college.
      */
     public ArrayList<Course> getAllAvailableCourses() {
@@ -59,6 +60,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Gets all the courses that are not currently available to be enrolled.
      * @return all the courses that have been cancelled.
      */
     public ArrayList<Course> getAllCancelledCourses() {
@@ -75,6 +77,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * A method that retrieves all the courses that are in this class and its file.
      * @return all the courses, no matter whether they are available or cancelled.
      */
     public ArrayList<Course> getAllCourses() {
@@ -99,6 +102,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Permanently removes a course from the list of courses in this class and its file.
      * @param courseToDelete the course to be deleted.
      */
     public void deleteCourse(Course courseToDelete) {

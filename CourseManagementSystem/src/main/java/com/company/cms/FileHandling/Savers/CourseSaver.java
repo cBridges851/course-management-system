@@ -15,6 +15,7 @@ public class CourseSaver {
     private FileHandler fileHandler = new FileHandler();
 
     /**
+     * A method which saves a course to the file
      * @param course The individual course to be saved to the file
      */
     public void saveCourse(Course course) {
@@ -31,6 +32,7 @@ public class CourseSaver {
     }
 
     /**
+     * A method which saves all the courses to a file
      * @param allCourses All the courses in the program to be saved
      */
     public void saveAllCourses(ArrayList<Course> allCourses) {

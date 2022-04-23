@@ -24,6 +24,10 @@ public class FileHandler {
         filenames.put(Filename.STUDENTS, "./src/main/java/com/company/cms/FileHandling/Files/Users/students.csv");
     }
 
+    /**
+     * A method which removes all the records in a file
+     * @param filename The file to clear
+     */
     public void clearFile(Filename filename) {
         try {
             FileWriter fileWriter = new FileWriter(this.filenames.get(filename), false);
@@ -36,6 +40,11 @@ public class FileHandler {
         }
     }
 
+    /**
+     * A method that adds a line to the end of a file
+     * @param filename The file to append to
+     * @param line The line to be added
+     */
     public void appendFile(Filename filename, String line) {
         try {
             FileWriter fileWriter = new FileWriter(this.filenames.get(filename), true);
@@ -49,6 +58,7 @@ public class FileHandler {
     }
 
     /**
+     * A method which loads the contents of the file
      * @param filename The file that data needs to be retrieved from.
      * @return all the lines that are in the file.
      */
