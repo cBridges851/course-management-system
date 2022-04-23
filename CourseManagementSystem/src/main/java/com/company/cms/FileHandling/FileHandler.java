@@ -3,7 +3,6 @@ package com.company.cms.FileHandling;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -12,7 +11,7 @@ import java.util.Scanner;
  * Interacts with the files that are used to keep the program's data persistent
  */
 public class FileHandler {
-    private HashMap<Filename, String> filenames = new HashMap<Filename, String>();
+    private final HashMap<Filename, String> filenames = new HashMap<>();
 
     public FileHandler() {
         filenames.put(Filename.ASSIGNMENTS, "./src/main/java/com/company/cms/FileHandling/Files/Study/assignments.csv");
@@ -51,7 +50,8 @@ public class FileHandler {
             fileWriter.append(line);
             fileWriter.close();
             System.out.println("Written!");
-
+        } catch(FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
         } catch (Exception exception) {
             System.out.println("Unable to append to file: " + exception);
         }

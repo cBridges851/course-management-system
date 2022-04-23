@@ -12,23 +12,23 @@ import java.util.ArrayList;
  * A class that handles the saving of courses
  */
 public class CourseSaver {
-    private FileHandler fileHandler = new FileHandler();
+    private final FileHandler fileHandler = new FileHandler();
 
     /**
      * A method which saves a course to the file
      * @param course The individual course to be saved to the file
      */
     public void saveCourse(Course course) {
-        String line = course.getName() + ", ";
+        StringBuilder line = new StringBuilder(course.getName() + ", ");
 
         for (CourseModule courseModule: course.getCourseModules()) {
             if (courseModule != null) {
-                line += courseModule.getCourseModuleCode() + "  ";
+                line.append(courseModule.getCourseModuleCode()).append("  ");
             }
         }
 
-        line += ", " + course.isAvailable() + "\n";
-        fileHandler.appendFile(Filename.COURSES, line);
+        line.append(", ").append(course.isAvailable()).append("\n");
+        fileHandler.appendFile(Filename.COURSES, line.toString());
     }
 
     /**
@@ -38,16 +38,16 @@ public class CourseSaver {
     public void saveAllCourses(ArrayList<Course> allCourses) {
         fileHandler.clearFile(Filename.COURSES);
         for (Course course: allCourses) {
-            String line = course.getName() + ", ";
+            StringBuilder line = new StringBuilder(course.getName() + ", ");
 
             for (CourseModule courseModule: course.getCourseModules()) {
                 if (courseModule != null) {
-                    line += courseModule.getCourseModuleCode() + "  ";
+                    line.append(courseModule.getCourseModuleCode()).append("  ");
                 }
             }
 
-            line += ", " + course.isAvailable() + "\n";
-            fileHandler.appendFile(Filename.COURSES, line);
+            line.append(", ").append(course.isAvailable()).append("\n");
+            fileHandler.appendFile(Filename.COURSES, line.toString());
         }
     }
 }
