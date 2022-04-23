@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Interacts with the files that are used to keep the program's data persistent
  */
 public class FileHandler {
-    private HashMap<Filename, String> filenames = new HashMap<Filename, String>();
+    private final HashMap<Filename, String> filenames = new HashMap<>();
 
     public FileHandler() {
         filenames.put(Filename.ASSIGNMENTS, "./src/main/java/com/company/cms/FileHandling/Files/Study/assignments.csv");
@@ -23,23 +23,42 @@ public class FileHandler {
         filenames.put(Filename.STUDENTS, "./src/main/java/com/company/cms/FileHandling/Files/Users/students.csv");
     }
 
-    public void saveFile(Filename filename) {
-
+    /**
+     * A method which removes all the records in a file
+     * @param filename The file to clear
+     */
+    public void clearFile(Filename filename) {
+        try {
+            FileWriter fileWriter = new FileWriter(this.filenames.get(filename), false);
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+        } catch (Exception exception) {
+            System.out.println("Unable to clear file " + exception);
+        }
     }
 
+    /**
+     * A method that adds a line to the end of a file
+     * @param filename The file to append to
+     * @param line The line to be added
+     */
     public void appendFile(Filename filename, String line) {
         try {
             FileWriter fileWriter = new FileWriter(this.filenames.get(filename), true);
             fileWriter.append(line);
             fileWriter.close();
             System.out.println("Written!");
-
+        } catch(FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
         } catch (Exception exception) {
             System.out.println("Unable to append to file: " + exception);
         }
     }
 
     /**
+     * A method which loads the contents of the file
      * @param filename The file that data needs to be retrieved from.
      * @return all the lines that are in the file.
      */

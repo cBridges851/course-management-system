@@ -30,21 +30,23 @@ public class CMSApplication extends Application {
 
     public static void main(String[] args) {
         //launch();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2022, Calendar.APRIL, 15);
-//        System.out.println(calendar.getTime());
-          Calendar calendar = new GregorianCalendar(2022, 3, 15);
-//        System.out.println(calendar.getTime());
-//        FileHandler fileHandler = new FileHandler();
-//        System.out.println(fileHandler.loadFile(Filename.STUDENTS).get(0));
-        //new FileHandler().appendFile(Filename.COURSES, "test");
+        Calendar calendar = new GregorianCalendar(2022, 3, 15);
+
         Assignment assignment = new Assignment("id", "assignment name", 100);
         ArrayList<Assignment> assignments = new ArrayList<>();
         assignments.add(assignment);
+
         CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, null, null);
         ArrayList<CourseModule> courseModules = new ArrayList<>();
         courseModules.add(courseModule);
-        Course course = new Course("Test Course", courseModules, true);
-        new CourseAdministrator(null, null, null, null, null, null, new ArrayList<Course>()).addNewCourse(course);
+
+        Course course = new Course("New Test Course", courseModules, true);
+        CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
+        courseAdministrator.addNewCourse(course);
+
+        ArrayList<Course> courses = courseAdministrator.getAllCourses();
+        Course courseToDelete = courses.get(2);
+        courseAdministrator.deleteCourse(courseToDelete);
+
     }
 }

@@ -14,10 +14,9 @@ import java.util.Calendar;
 public class CourseAdministrator extends User {
     private ArrayList<Course> courses;
 
-    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth,
-                               ArrayList<Course> courses) {
+    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
-        this.courses = courses;
+        this.getAllCourses();
     }
 
     /**
@@ -44,6 +43,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Gets all the courses that can be enrolled onto.
      * @return all the courses that are available in the university or college.
      */
     public ArrayList<Course> getAllAvailableCourses() {
@@ -60,6 +60,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Gets all the courses that are not currently available to be enrolled.
      * @return all the courses that have been cancelled.
      */
     public ArrayList<Course> getAllCancelledCourses() {
@@ -76,6 +77,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * A method that retrieves all the courses that are in this class and its file.
      * @return all the courses, no matter whether they are available or cancelled.
      */
     public ArrayList<Course> getAllCourses() {
@@ -100,11 +102,30 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * @param course the course to be deleted.
-     * @throws Exception
+     * Permanently removes a course from the list of courses in this class and its file.
+     * @param courseToDelete the course to be deleted.
      */
-    public void deleteCourse(Course course) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void deleteCourse(Course courseToDelete) {
+        for (Course courseItem: courses) {
+            System.out.println(courseItem.getName());
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < this.courses.size(); i++) {
+            if (this.courses.get(i).getName().equals(courseToDelete.getName())) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Course not found!");
+            return;
+        }
+
+        this.courses.remove(index);
+        new CourseSaver().saveAllCourses(this.courses);
     }
 
     /**
