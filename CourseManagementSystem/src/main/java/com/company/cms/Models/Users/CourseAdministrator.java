@@ -95,11 +95,12 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Make a course available
      * @param course the course to reopen.
-     * @throws Exception
      */
-    public void reopenCourse(Course course) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void reopenCourse(Course course) {
+        course.setIsAvailable(true);
+        new CourseSaver().saveAllCourses(this.courses);
     }
 
     /**
