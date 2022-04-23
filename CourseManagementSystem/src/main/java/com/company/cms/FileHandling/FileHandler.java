@@ -3,6 +3,7 @@ package com.company.cms.FileHandling;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -23,8 +24,16 @@ public class FileHandler {
         filenames.put(Filename.STUDENTS, "./src/main/java/com/company/cms/FileHandling/Files/Users/students.csv");
     }
 
-    public void saveFile(Filename filename) {
-
+    public void clearFile(Filename filename) {
+        try {
+            FileWriter fileWriter = new FileWriter(this.filenames.get(filename), false);
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+        } catch (Exception exception) {
+            System.out.println("Unable to clear file " + exception);
+        }
     }
 
     public void appendFile(Filename filename, String line) {

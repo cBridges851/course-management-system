@@ -14,10 +14,9 @@ import java.util.Calendar;
 public class CourseAdministrator extends User {
     private ArrayList<Course> courses;
 
-    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth,
-                               ArrayList<Course> courses) {
+    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
-        this.courses = courses;
+        this.getAllCourses();
     }
 
     /**
@@ -100,11 +99,30 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * @param course the course to be deleted.
+     * @param courseToDelete the course to be deleted.
      * @throws Exception
      */
-    public void deleteCourse(Course course) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void deleteCourse(Course courseToDelete) {
+        for (Course courseItem: courses) {
+            System.out.println(courseItem.getName());
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < this.courses.size(); i++) {
+            if (this.courses.get(i).getName().equals(courseToDelete.getName())) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Course not found!");
+            return;
+        }
+
+        this.courses.remove(index);
+        new CourseSaver().saveAllCourses(this.courses);
     }
 
     /**

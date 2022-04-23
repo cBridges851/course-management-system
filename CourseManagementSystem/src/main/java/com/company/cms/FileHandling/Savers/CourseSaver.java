@@ -6,6 +6,8 @@ import com.company.cms.FileHandling.Filename;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
+import java.util.ArrayList;
+
 public class CourseSaver {
     private FileHandler fileHandler = new FileHandler();
 
@@ -13,10 +15,28 @@ public class CourseSaver {
         String line = course.getName() + ", ";
 
         for (CourseModule courseModule: course.getCourseModules()) {
-            line += courseModule.getName() + "  ";
+            if (courseModule != null) {
+                line += courseModule.getCourseModuleCode() + "  ";
+            }
         }
 
         line += ", " + course.isAvailable() + "\n";
         fileHandler.appendFile(Filename.COURSES, line);
+    }
+
+    public void saveAllCourses(ArrayList<Course> allCourses) {
+        fileHandler.clearFile(Filename.COURSES);
+        for (Course course: allCourses) {
+            String line = course.getName() + ", ";
+
+            for (CourseModule courseModule: course.getCourseModules()) {
+                if (courseModule != null) {
+                    line += courseModule.getCourseModuleCode() + "  ";
+                }
+            }
+
+            line += ", " + course.isAvailable() + "\n";
+            fileHandler.appendFile(Filename.COURSES, line);
+        }
     }
 }
