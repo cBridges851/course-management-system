@@ -42,11 +42,10 @@ public class CMSApplication extends Application {
 
         Course course = new Course("New Test Course", courseModules, true);
         CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
-        courseAdministrator.addNewCourse(course);
 
         ArrayList<Course> courses = courseAdministrator.getAllCourses();
-        Course courseToDelete = courses.get(2);
-        courseAdministrator.deleteCourse(courseToDelete);
+        Course courseToEdit = courses.get(0);
+        courseAdministrator.cancelCourse(courseToEdit);
 
     }
 }

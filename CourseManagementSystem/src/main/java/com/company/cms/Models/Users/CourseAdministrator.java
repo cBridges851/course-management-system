@@ -86,11 +86,12 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Makes a course unavailable, but not permanently removed
      * @param course the course to be cancelled.
-     * @throws Exception
      */
-    public void cancelCourse(Course course) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void cancelCourse(Course course) {
+        course.setIsAvailable(false);
+        new CourseSaver().saveAllCourses(this.courses);
     }
 
     /**
