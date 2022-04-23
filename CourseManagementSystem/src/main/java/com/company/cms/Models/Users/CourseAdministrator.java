@@ -100,7 +100,6 @@ public class CourseAdministrator extends User {
 
     /**
      * @param courseToDelete the course to be deleted.
-     * @throws Exception
      */
     public void deleteCourse(Course courseToDelete) {
         for (Course courseItem: courses) {

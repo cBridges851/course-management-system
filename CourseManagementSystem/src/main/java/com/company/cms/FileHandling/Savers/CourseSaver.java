@@ -8,9 +8,15 @@ import com.company.cms.Models.Study.CourseModule;
 
 import java.util.ArrayList;
 
+/**
+ * A class that handles the saving of courses
+ */
 public class CourseSaver {
     private FileHandler fileHandler = new FileHandler();
 
+    /**
+     * @param course The individual course to be saved to the file
+     */
     public void saveCourse(Course course) {
         String line = course.getName() + ", ";
 
@@ -24,6 +30,9 @@ public class CourseSaver {
         fileHandler.appendFile(Filename.COURSES, line);
     }
 
+    /**
+     * @param allCourses All the courses in the program to be saved
+     */
     public void saveAllCourses(ArrayList<Course> allCourses) {
         fileHandler.clearFile(Filename.COURSES);
         for (Course course: allCourses) {
