@@ -45,7 +45,8 @@ public class CMSApplication extends Application {
 
         ArrayList<Course> courses = courseAdministrator.getAllCourses();
         Course courseToEdit = courses.get(0);
-        courseAdministrator.cancelCourse(courseToEdit);
+        courseAdministrator.renameCourse(courseToEdit, "BSc Digital and Technology Solutions (Software Engineering)");
+        //courseAdministrator.cancelCourse(courseToEdit);
 
     }
 }

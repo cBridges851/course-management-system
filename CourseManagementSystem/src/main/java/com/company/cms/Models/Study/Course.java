@@ -20,7 +20,11 @@ public class Course {
      * @return the name of the course
      */
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

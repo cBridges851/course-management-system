@@ -135,8 +135,9 @@ public class CourseAdministrator extends User {
      * @param newName the name that the course will be changed to.
      * @throws Exception
      */
-    public void renameCourse(Course course, String newName) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void renameCourse(Course course, String newName) {
+        course.setName(newName);
+        new CourseSaver().saveAllCourses(this.courses);
     }
 
     /**
