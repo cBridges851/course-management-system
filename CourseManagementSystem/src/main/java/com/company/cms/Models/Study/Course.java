@@ -17,17 +17,23 @@ public class Course {
     }
 
     /**
+     * Retrieves the name of the course
      * @return the name of the course
      */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Changes the name of the course
+     * @param name the name to change the course's name to
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
+     * Retrieves the modules that are on the course
      * @return the modules that are on the course
      */
     public ArrayList<CourseModule> getCourseModules() {
