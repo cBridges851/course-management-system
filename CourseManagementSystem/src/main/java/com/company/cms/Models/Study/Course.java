@@ -37,4 +37,8 @@ public class Course {
     public boolean isAvailable() {
         return isAvailable;
     }
+
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
 }

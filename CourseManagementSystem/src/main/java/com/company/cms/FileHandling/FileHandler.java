@@ -49,7 +49,6 @@ public class FileHandler {
             FileWriter fileWriter = new FileWriter(this.filenames.get(filename), true);
             fileWriter.append(line);
             fileWriter.close();
-            System.out.println("Written!");
         } catch(FileNotFoundException fileNotFoundException) {
             System.out.println("File not found");
         } catch (Exception exception) {
