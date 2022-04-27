@@ -1,6 +1,7 @@
 package com.company.cms.Models.Study;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Model that represents a module that could be on a course. For example, 5CS019 - Object-Oriented Programming
@@ -12,10 +13,10 @@ public class CourseModule {
     private String instructorName;
     private boolean isMandatory;
     private ArrayList<Assignment> assignments;
-    private ArrayList<String> studentNames;
+    private HashSet<String> studentNames;
 
     public CourseModule(String courseModuleCode, String name, int level, String instructorName, boolean isMandatory,
-                        ArrayList<Assignment> assignments, ArrayList<String> studentNames) {
+                        ArrayList<Assignment> assignments, HashSet<String> studentNames) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
@@ -71,7 +72,7 @@ public class CourseModule {
     /**
      * @return The results that students have got on the module.
      */
-    public ArrayList<String> getStudentNames() {
+    public HashSet<String> getStudentNames() {
         return this.studentNames;
     }
 }

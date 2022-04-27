@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 
 public class CMSApplication extends Application {
     @Override
@@ -36,16 +37,15 @@ public class CMSApplication extends Application {
         ArrayList<Assignment> assignments = new ArrayList<>();
         assignments.add(assignment);
 
-        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, null, null);
+        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, new ArrayList<>(), new HashSet<>());
         ArrayList<CourseModule> courseModules = new ArrayList<>();
         courseModules.add(courseModule);
 
         Course course = new Course("New Test Course", courseModules, true);
         CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
-
-        ArrayList<Course> courses = courseAdministrator.getAllCourses();
-        Course courseToEdit = courses.get(0);
-        courseAdministrator.renameCourse(courseToEdit, "BSc Digital and Technology Solutions (Software Engineering)");
+        courseAdministrator.addNewCourse(course);
+        //Course course = courseAdministrator.getAllCourses().get(0);
+        courseAdministrator.addNewCourseModule(course, "4CS456", "Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
         //courseAdministrator.cancelCourse(courseToEdit);
 
     }

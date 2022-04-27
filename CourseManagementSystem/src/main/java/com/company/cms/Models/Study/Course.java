@@ -40,6 +40,9 @@ public class Course {
         return courseModules;
     }
 
+    public void addCourseModule(CourseModule courseModule) {
+        this.courseModules.add(courseModule);
+    }
     /**
      * @return whether the course is running. True will mean that it is available, false will mean that it has been
      * cancelled, so it is unavailable.

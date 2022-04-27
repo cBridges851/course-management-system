@@ -21,10 +21,12 @@ public class CourseSaver {
     public void saveCourse(Course course) {
         StringBuilder line = new StringBuilder(course.getName() + ", ");
 
-        for (CourseModule courseModule: course.getCourseModules()) {
-            if (courseModule != null) {
-                line.append(courseModule.getCourseModuleCode()).append("  ");
-            }
+        for (int i = 0; i < course.getCourseModules().size(); i++) {
+           if (course.getCourseModules().get(i) != null && i != course.getCourseModules().size() - 1) {
+                line.append(course.getCourseModules().get(i).getCourseModuleCode()).append("  ");
+           } else if (i == course.getCourseModules().size() - 1) {
+               line.append(course.getCourseModules().get(i).getCourseModuleCode());
+           }
         }
 
         line.append(", ").append(course.isAvailable()).append("\n");
@@ -40,9 +42,11 @@ public class CourseSaver {
         for (Course course: allCourses) {
             StringBuilder line = new StringBuilder(course.getName() + ", ");
 
-            for (CourseModule courseModule: course.getCourseModules()) {
-                if (courseModule != null) {
-                    line.append(courseModule.getCourseModuleCode()).append("  ");
+            for (int i = 0; i < course.getCourseModules().size(); i++) {
+                if (course.getCourseModules().get(i) != null && i != course.getCourseModules().size() - 1) {
+                    line.append(course.getCourseModules().get(i).getCourseModuleCode()).append("  ");
+                } else if(i == course.getCourseModules().size() - 1) {
+                    line.append(course.getCourseModules().get(i).getCourseModuleCode());
                 }
             }
 
