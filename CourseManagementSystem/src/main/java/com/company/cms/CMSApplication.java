@@ -45,7 +45,9 @@ public class CMSApplication extends Application {
         CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
         //courseAdministrator.addNewCourse(course);
         Course course = courseAdministrator.getAllCourses().get(0);
-        courseAdministrator.addNewCourseModule(course, "4CS123", "Brand Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
+        CourseModule courseModuleToRemove = course.getCourseModules().get(0);
+        courseAdministrator.removeCourseModuleFromCourse(course, courseModuleToRemove);
+        //courseAdministrator.addNewCourseModule(course, "4CS123", "Brand Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
         //courseAdministrator.cancelCourse(courseToEdit);
 
     }

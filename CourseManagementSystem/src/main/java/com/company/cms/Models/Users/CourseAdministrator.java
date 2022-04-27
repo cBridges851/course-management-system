@@ -213,6 +213,11 @@ public class CourseAdministrator extends User {
         throw new Exception("Not implemented yet");
     }
 
+    public void removeCourseModuleFromCourse(Course course, CourseModule courseModule) {
+        course.removeCourseModule(courseModule);
+        new CourseSaver().saveAllCourses(this.courses);
+    }
+
     /**
      * @param courseModule the course module that will have the instructor removed from it.
      * @throws Exception
