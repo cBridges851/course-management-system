@@ -30,7 +30,9 @@ public class CourseLoader {
                 ArrayList<CourseModule> courseModules = new ArrayList<>();
 
                 for (String moduleCode: moduleCodes) {
-                    courseModules.add(this.courseModuleLoader.loadCourseModule(moduleCode.trim()));
+                    if (!moduleCode.equals(" ")) {
+                        courseModules.add(this.courseModuleLoader.loadCourseModule(moduleCode.trim()));
+                    }
                 }
 
                 allCourses.add(new Course(parts[0], courseModules, Boolean.parseBoolean(parts[2].trim())));

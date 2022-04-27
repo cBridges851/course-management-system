@@ -1,18 +1,23 @@
 package com.company.cms.Models.Users;
 
 import com.company.cms.FileHandling.Loaders.CourseLoader;
+import com.company.cms.FileHandling.Loaders.CourseModuleLoader;
+import com.company.cms.FileHandling.Savers.CourseModuleSaver;
 import com.company.cms.FileHandling.Savers.CourseSaver;
+import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
  */
 public class CourseAdministrator extends User {
     private ArrayList<Course> courses;
+    private ArrayList<CourseModule> courseModules;
 
     public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
@@ -20,6 +25,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Adds a new course to the list of courses.
      * @param newCourse The course that needs to be added to the course list.
      */
     public void addNewCourse(Course newCourse) {
@@ -35,11 +41,51 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * @param courseModule The module to add to a course.
-     * @throws Exception
+     * Adds a course module to the course, and the persistent data is updated.
+     * @param course the course to add the new module to
+     * @param courseModuleCode the identifier of the new module
+     * @param name the name of the new module
+     * @param level the level of the new module
+     * @param instructorName the name of the instructor teaching the module
+     * @param isMandatory indicator of whether or not the module is optional
+     * @param assignments the assignments that have to be completed in the module
+     * @param studentNames the students enrolled in the module
      */
-    public void addNewCourseModule(Course course, CourseModule courseModule) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void addNewCourseModule(Course course, String courseModuleCode, String name, int level,
+                                   String instructorName, boolean isMandatory, ArrayList<Assignment> assignments,
+                                   HashSet<String> studentNames) {
+        CourseModule courseModule = new CourseModule(courseModuleCode, name, level, instructorName, isMandatory,
+                assignments, studentNames);
+
+        course.addCourseModule(courseModule);
+        new CourseSaver().saveAllCourses(this.courses);
+        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+
+        for (Course courseItem: this.courses) {
+            for (CourseModule courseModuleItem : courseItem.getCourseModules()) {
+                boolean alreadyInAllCourseModules = false;
+
+                for (CourseModule courseModuleFromAllCourseModules : allCourseModules) {
+                    if (courseModuleFromAllCourseModules.getCourseModuleCode()
+                            .equals(courseModule.getCourseModuleCode())) {
+                        System.out.println("Course module already exists!");
+                        return;
+                    }
+
+                    if (courseModuleItem.getCourseModuleCode().trim()
+                            .equals(courseModuleFromAllCourseModules.getCourseModuleCode().trim())) {
+                        alreadyInAllCourseModules = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyInAllCourseModules) {
+                    allCourseModules.add(courseModuleItem);
+                }
+            }
+        }
+
+        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
     }
 
     /**

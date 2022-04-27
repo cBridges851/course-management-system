@@ -41,6 +41,14 @@ public class Course {
     }
 
     /**
+     * Adds a course module to the list
+     * @param courseModule the course module to add to the course
+     */
+    public void addCourseModule(CourseModule courseModule) {
+        this.courseModules.add(courseModule);
+    }
+    /**
+     * Gets whether the course is running or not.
      * @return whether the course is running. True will mean that it is available, false will mean that it has been
      * cancelled, so it is unavailable.
      */
@@ -48,6 +56,10 @@ public class Course {
         return isAvailable;
     }
 
+    /**
+     * Allows the course to be cancelled and reopened.
+     * @param isAvailable whether the course is available or not
+     */
     public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
