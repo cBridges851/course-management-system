@@ -8,7 +8,6 @@ import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.Course;
 import com.company.cms.Models.Study.CourseModule;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -26,6 +25,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Adds a new course to the list of courses.
      * @param newCourse The course that needs to be added to the course list.
      */
     public void addNewCourse(Course newCourse) {
@@ -41,6 +41,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Adds a course module to the course, and the persistent data is updated.
      * @param course the course to add the new module to
      * @param courseModuleCode the identifier of the new module
      * @param name the name of the new module

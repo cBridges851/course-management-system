@@ -2,15 +2,20 @@ package com.company.cms.FileHandling.Savers;
 
 import com.company.cms.FileHandling.FileHandler;
 import com.company.cms.FileHandling.Filename;
-import com.company.cms.Models.Study.Assignment;
 import com.company.cms.Models.Study.CourseModule;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
+/**
+ * A class that handles the saving of the modules that are on the courses.
+ */
 public class CourseModuleSaver {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Saves all the course modules there are in the system.
+     * @param courseModules The list of course modules to be saved.
+     */
     public void saveAllCourseModules(ArrayList<CourseModule> courseModules) {
         fileHandler.clearFile(Filename.COURSEMODULES);
 

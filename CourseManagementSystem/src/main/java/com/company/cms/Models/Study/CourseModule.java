@@ -27,6 +27,7 @@ public class CourseModule {
     }
 
     /**
+     * Gets the code that identifies the module.
      * @return the code that identifies the module.
      */
     public String getCourseModuleCode() {
@@ -34,6 +35,7 @@ public class CourseModule {
     }
 
     /**
+     * Gets the name of the course module.
      * @return the name of the course module.
      */
     public String getName() {
@@ -41,6 +43,7 @@ public class CourseModule {
     }
 
     /**
+     * Gets the level of the course module
      * @return the level of the course module. E.g. 4, 5 or 6.
      */
     public int getLevel() {
@@ -48,13 +51,15 @@ public class CourseModule {
     }
 
     /**
-     * @return the instructor who is teaching the module.
+     * Gets the name of the instructor who is teaching the course module
+     * @return the instructor who is teaching the course module.
      */
     public String getInstructorName() {
         return this.instructorName;
     }
 
     /**
+     * Gets whether or not students must undertake this module.
      * @return whether or not students must do this module. True indicates that it must be completed,
      * false indicates that it is optional.
      */
@@ -63,6 +68,7 @@ public class CourseModule {
     }
 
     /**
+     * A method which gets the assignments that have to be completed as part of the module.
      * @return the assignments that must be completed as part of the module.
      */
     public ArrayList<Assignment> getAssignments() {
@@ -70,7 +76,8 @@ public class CourseModule {
     }
 
     /**
-     * @return The results that students have got on the module.
+     * A method which gets the names of the students who are undertaking the module.
+     * @return the names of the students who are undertaking the module.
      */
     public HashSet<String> getStudentNames() {
         return this.studentNames;

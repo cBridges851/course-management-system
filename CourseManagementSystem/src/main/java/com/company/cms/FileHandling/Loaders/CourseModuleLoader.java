@@ -18,6 +18,10 @@ public class CourseModuleLoader {
     private final FileHandler fileHandler = new FileHandler();
     private final AssignmentLoader assignmentLoader = new AssignmentLoader();
 
+    /**
+     * Retrieves all the course modules there are in the system
+     * @return all the course modules, or null if they were unable to be retrieved
+     */
     public ArrayList<CourseModule> loadAllCourseModules() {
         try {
             ArrayList<String> allCourseModulesFromFileArray = this.fileHandler.loadFile(Filename.COURSEMODULES);
