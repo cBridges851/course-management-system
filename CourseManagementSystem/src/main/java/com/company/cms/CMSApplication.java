@@ -41,11 +41,11 @@ public class CMSApplication extends Application {
         ArrayList<CourseModule> courseModules = new ArrayList<>();
         courseModules.add(courseModule);
 
-        Course course = new Course("New Test Course", courseModules, true);
+        //Course course = new Course("New Test Course", courseModules, true);
         CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
-        courseAdministrator.addNewCourse(course);
-        //Course course = courseAdministrator.getAllCourses().get(0);
-        courseAdministrator.addNewCourseModule(course, "4CS456", "Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
+        //courseAdministrator.addNewCourse(course);
+        Course course = courseAdministrator.getAllCourses().get(0);
+        courseAdministrator.addNewCourseModule(course, "4CS123", "Brand Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
         //courseAdministrator.cancelCourse(courseToEdit);
 
     }

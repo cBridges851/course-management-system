@@ -52,6 +52,7 @@ public class CourseSaver {
 
             line.append(", ").append(course.isAvailable()).append("\n");
             fileHandler.appendFile(Filename.COURSES, line.toString());
+            System.out.println("Courses saved!");
         }
     }
 }
