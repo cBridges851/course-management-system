@@ -49,6 +49,10 @@ public class Course {
     }
 
 
+    /**
+     * Removes a course module from a course
+     * @param courseModule the course module to remove from the course.
+     */
     public void removeCourseModule(CourseModule courseModule) {
         this.courseModules.remove(courseModule);
     }
