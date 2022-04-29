@@ -214,6 +214,16 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Removes course modules from courses
+     * @param course the course to remove the module from
+     * @param courseModule the course module that needs to be removed
+     */
+    public void removeCourseModuleFromCourse(Course course, CourseModule courseModule) {
+        course.removeCourseModule(courseModule);
+        new CourseSaver().saveAllCourses(this.courses);
+    }
+
+    /**
      * @param courseModule the course module that will have the instructor removed from it.
      * @throws Exception
      */

@@ -47,6 +47,16 @@ public class Course {
     public void addCourseModule(CourseModule courseModule) {
         this.courseModules.add(courseModule);
     }
+
+
+    /**
+     * Removes a course module from a course
+     * @param courseModule the course module to remove from the course.
+     */
+    public void removeCourseModule(CourseModule courseModule) {
+        this.courseModules.remove(courseModule);
+    }
+
     /**
      * Gets whether the course is running or not.
      * @return whether the course is running. True will mean that it is available, false will mean that it has been
