@@ -187,6 +187,10 @@ public class CourseAdministrator extends User {
         new CourseSaver().saveAllCourses(this.courses);
     }
 
+    /**
+     * Gets all the course modules that are in the system.
+     * @return all the course modules in the system.
+     */
     public ArrayList<CourseModule> getAllCourseModules() {
         this.courseModules = new CourseModuleLoader().loadAllCourseModules();
         return this.courseModules;

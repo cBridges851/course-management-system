@@ -42,6 +42,10 @@ public class CourseModule {
         return this.name;
     }
 
+    /**
+     * Changes the name of the course module.
+     * @param name the new name for the course module.
+     */
     public void setName(String name) {
         this.name = name;
     }
