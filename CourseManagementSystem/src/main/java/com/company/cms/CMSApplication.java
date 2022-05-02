@@ -32,21 +32,20 @@ public class CMSApplication extends Application {
     public static void main(String[] args) {
         //launch();
         Calendar calendar = new GregorianCalendar(2022, 3, 15);
-
-        Assignment assignment = new Assignment("id", "assignment name", 100);
-        ArrayList<Assignment> assignments = new ArrayList<>();
-        assignments.add(assignment);
+//
+//        Assignment assignment = new Assignment("id", "assignment name", 100);
+//        ArrayList<Assignment> assignments = new ArrayList<>();
+//        assignments.add(assignment);
 
 //        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, new ArrayList<>(), new HashSet<>());
 //        ArrayList<CourseModule> courseModules = new ArrayList<>();
 //        courseModules.add(courseModule);
 
         //Course course = new Course("New Test Course", courseModules, true);
-        CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
         //courseAdministrator.addNewCourse(course);
-        Course course = courseAdministrator.getAllCourses().get(0);
-        CourseModule courseModule = course.getCourseModules().get(0);
-        courseAdministrator.renameCourseModule(courseModule, "Basket Weaving");
+        CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
+        CourseModule courseModule = courseAdministrator.getAllCourseModules().get(0);
+        courseAdministrator.renameCourseModule(courseModule, "Academic Skills and Professional Practice");
 
     }
 }

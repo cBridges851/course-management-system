@@ -198,7 +198,7 @@ public class CourseAdministrator extends User {
      */
     public void renameCourseModule(CourseModule courseModule, String newName) {
         courseModule.setName(newName);
-        //new CourseModuleSaver().saveAllCourseModules(this.courseModules);
+        new CourseModuleSaver().saveAllCourseModules(this.courseModules);
     }
 
     /**
