@@ -42,6 +42,10 @@ public class CourseModule {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Gets the level of the course module
      * @return the level of the course module. E.g. 4, 5 or 6.

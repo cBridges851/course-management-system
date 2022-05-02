@@ -37,18 +37,16 @@ public class CMSApplication extends Application {
         ArrayList<Assignment> assignments = new ArrayList<>();
         assignments.add(assignment);
 
-        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, new ArrayList<>(), new HashSet<>());
-        ArrayList<CourseModule> courseModules = new ArrayList<>();
-        courseModules.add(courseModule);
+//        CourseModule courseModule = new CourseModule("code", "module name", 5, "bob", false, new ArrayList<>(), new HashSet<>());
+//        ArrayList<CourseModule> courseModules = new ArrayList<>();
+//        courseModules.add(courseModule);
 
         //Course course = new Course("New Test Course", courseModules, true);
         CourseAdministrator courseAdministrator = new CourseAdministrator(null, null, null, null, null, null);
         //courseAdministrator.addNewCourse(course);
         Course course = courseAdministrator.getAllCourses().get(0);
-        CourseModule courseModuleToRemove = course.getCourseModules().get(0);
-        courseAdministrator.removeCourseModuleFromCourse(course, courseModuleToRemove);
-        //courseAdministrator.addNewCourseModule(course, "4CS123", "Brand Brand New Module!", 4, "t.cher", true, new ArrayList<>(), new HashSet<>());
-        //courseAdministrator.cancelCourse(courseToEdit);
+        CourseModule courseModule = course.getCourseModules().get(0);
+        courseAdministrator.renameCourseModule(courseModule, "Basket Weaving");
 
     }
 }

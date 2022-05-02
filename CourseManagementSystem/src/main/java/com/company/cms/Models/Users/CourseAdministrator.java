@@ -22,6 +22,7 @@ public class CourseAdministrator extends User {
     public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.getAllCourses();
+        this.getAllCourseModules();
     }
 
     /**
@@ -186,13 +187,18 @@ public class CourseAdministrator extends User {
         new CourseSaver().saveAllCourses(this.courses);
     }
 
+    public ArrayList<CourseModule> getAllCourseModules() {
+        this.courseModules = new CourseModuleLoader().loadAllCourseModules();
+        return this.courseModules;
+    }
+
     /**
      * @param courseModule the course module that needs to be renamed.
      * @param newName the name that the course module will be changed to.
-     * @throws Exception
      */
-    public void renameCourseModule(CourseModule courseModule, String newName) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void renameCourseModule(CourseModule courseModule, String newName) {
+        courseModule.setName(newName);
+        //new CourseModuleSaver().saveAllCourseModules(this.courseModules);
     }
 
     /**
