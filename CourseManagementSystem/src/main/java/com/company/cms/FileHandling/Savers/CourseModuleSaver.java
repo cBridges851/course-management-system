@@ -20,15 +20,17 @@ public class CourseModuleSaver {
         fileHandler.clearFile(Filename.COURSEMODULES);
 
         for (CourseModule courseModule: courseModules) {
-            StringBuilder line = new StringBuilder(courseModule.getCourseModuleCode() + ", " + courseModule.getName() +
-                    ", " + courseModule.getLevel() + ", " + courseModule.getInstructorName() + ", " +
+            StringBuilder line = new StringBuilder(courseModule.getCourseModuleCode().trim() + ", " +
+                    courseModule.getName().trim() + ", " +
+                    courseModule.getLevel() + ", " +
+                    courseModule.getInstructorName().trim() + ", " +
                     courseModule.getIsMandatory() + ", ");
 
             for (int i = 0; i < courseModule.getAssignments().size(); i++) {
                 if (courseModule.getAssignments().get(i) != null && i != courseModule.getAssignments().size() - 1) {
-                    line.append(courseModule.getAssignments().get(i).getAssignmentId()).append("  ");
+                    line.append(courseModule.getAssignments().get(i).getAssignmentId().trim()).append("  ");
                 } else if (i == courseModule.getAssignments().size() - 1) {
-                    line.append(courseModule.getAssignments().get(i).getAssignmentId());
+                    line.append(courseModule.getAssignments().get(i).getAssignmentId().trim());
                 }
             }
 
@@ -36,7 +38,7 @@ public class CourseModuleSaver {
 
             for (String studentName: courseModule.getStudentNames()) {
                 if (studentName != null) {
-                    line.append(studentName).append("  ");
+                    line.append(studentName.trim()).append("  ");
                 }
             }
             line.append("\n");

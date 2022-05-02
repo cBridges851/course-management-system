@@ -30,23 +30,7 @@ public class CourseModuleLoader {
             for (String courseModule: allCourseModulesFromFileArray) {
                 String[] parts = courseModule.split(",");
 
-                String[] assignmentIds = parts[5].split("  ");
-                ArrayList<Assignment> assignments = new ArrayList<>();
-
-                for (String assignmentId : assignmentIds) {
-                    if (!assignmentId.equals(" ")) {
-                        assignments.add(this.assignmentLoader.loadAssignment(assignmentId.trim()));
-                    }
-                }
-
-                String[] studentNamesFromString = parts[6].split(",");
-                HashSet<String> studentNames = new HashSet<>();
-
-                studentNames.addAll(Arrays.asList(studentNamesFromString));
-
-
-                allCourseModules.add(new CourseModule(parts[0].trim(), parts[1].trim(), Integer.parseInt(parts[2].trim()), parts[3].trim(),
-                        Boolean.parseBoolean(parts[4].trim()), assignments, studentNames));
+                allCourseModules.add(this.loadCourseModule(parts[0]));
             }
 
             return allCourseModules;
@@ -65,8 +49,8 @@ public class CourseModuleLoader {
      */
     public CourseModule loadCourseModule(String courseModuleCode) {
         try {
-            ArrayList<String> allModulesFromFile = this.fileHandler.loadFile(Filename.COURSEMODULES);
-            for (String courseModule: allModulesFromFile) {
+            ArrayList<String> allCourseModulesFromFile = this.fileHandler.loadFile(Filename.COURSEMODULES);
+            for (String courseModule: allCourseModulesFromFile) {
                 String[] parts = courseModule.split(",");
 
                 if (parts[0].equals(courseModuleCode)) {
@@ -79,12 +63,14 @@ public class CourseModuleLoader {
                         }
                     }
 
-                    HashSet<String> students = new HashSet<>();
+                    HashSet<String> studentNames = new HashSet<>();
 
-                    Collections.addAll(students, parts[6].split(" "));
+                    if (parts.length == 7) {
+                        Collections.addAll(studentNames, parts[6].split("  "));
+                    }
 
                     return new CourseModule(parts[0], parts[1], Integer.parseInt(parts[2].trim()), parts[3],
-                            Boolean.parseBoolean(parts[4].trim()), assignments, students);
+                            Boolean.parseBoolean(parts[4].trim()), assignments, studentNames);
                 }
             }
         } catch (Exception exception) {
