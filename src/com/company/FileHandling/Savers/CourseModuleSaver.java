@@ -20,6 +20,6 @@ public class CourseModuleSaver {
     public void saveAllCourseModules(ArrayList<CourseModule> courseModules) {
         Gson gson = new Gson();
         String serialisedCourseModules = gson.toJson(courseModules);
-        new FileHandler().writeFile(Filename.COURSEMODULES, serialisedCourseModules);
+        fileHandler.writeFile(Filename.COURSEMODULES, serialisedCourseModules);
     }
 }

@@ -1,7 +1,7 @@
 package com.company.Models.Users;
 
-import com.company.cms.Models.Study.Assignment;
-import com.company.cms.Models.Study.CourseModule;
+import com.company.Models.Study.Assignment;
+import com.company.Models.Study.CourseModule;
 
 import java.util.ArrayList;
 import java.util.Calendar;

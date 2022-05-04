@@ -18,13 +18,34 @@ public class FileHandler {
     private final HashMap<Filename, String> filenames = new HashMap<>();
 
     public FileHandler() {
-        filenames.put(Filename.ASSIGNMENTS, "./src/main/java/com/company/cms/FileHandling/Files/Study/assignments.csv");
-        filenames.put(Filename.COURSEMODULES, "./src/main/java/com/company/cms/FileHandling/Files/Study/course-modules.csv");
-        filenames.put(Filename.COURSES, "./src/main/java/com/company/cms/FileHandling/Files/Study/courses.csv");
-        filenames.put(Filename.RESULTS, "./src/main/java/com/company/cms/FileHandling/Files/Study/results.csv");
-        filenames.put(Filename.COURSEADMINISTRATORS, "./src/main/java/com/company/cms/FileHandling/Files/Users/course-administrators.csv");
-        filenames.put(Filename.INSTRUCTORS, "./src/main/java/com/company/cms/FileHandling/Files/Users/instructors.csv");
-        filenames.put(Filename.STUDENTS, "./src/main/java/com/company/cms/FileHandling/Files/Users/students.csv");
+        filenames.put(
+                Filename.ASSIGNMENTS,
+                "./src/com/company/FileHandling/Files/Study/assignments.json"
+        );
+        filenames.put(
+                Filename.COURSEMODULES,
+                "./src/com/company/FileHandling/Files/Study/course-modules.json"
+        );
+        filenames.put(
+                Filename.COURSES,
+                "./src/com/company/FileHandling/Files/Study/courses.json"
+        );
+        filenames.put(
+                Filename.RESULTS,
+                "./src/com/company/FileHandling/Files/Study/results.json"
+        );
+        filenames.put(
+                Filename.COURSEADMINISTRATORS,
+                "./src/com/company/FileHandling/Files/Users/course-administrators.json"
+        );
+        filenames.put(
+                Filename.INSTRUCTORS,
+                "./src/com/company/FileHandling/Files/Users/instructors.json"
+        );
+        filenames.put(
+                Filename.STUDENTS,
+                "./src/com/company/FileHandling/Files/Users/students.json"
+        );
     }
 
     /**

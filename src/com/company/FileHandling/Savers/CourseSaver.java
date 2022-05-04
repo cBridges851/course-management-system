@@ -30,7 +30,7 @@ public class CourseSaver {
         }
 
         line.append(", ").append(course.isAvailable()).append("\n");
-        fileHandler.appendFile(Filename.COURSES, line.toString());
+        //fileHandler.appendFile(Filename.COURSES, line.toString());
     }
 
     /**
@@ -38,7 +38,7 @@ public class CourseSaver {
      * @param allCourses All the courses in the program to be saved
      */
     public void saveAllCourses(ArrayList<Course> allCourses) {
-        fileHandler.clearFile(Filename.COURSES);
+        //fileHandler.clearFile(Filename.COURSES);
         for (Course course: allCourses) {
             StringBuilder line = new StringBuilder(course.getName() + ", ");
 
@@ -51,7 +51,7 @@ public class CourseSaver {
             }
 
             line.append(", ").append(course.isAvailable()).append("\n");
-            fileHandler.appendFile(Filename.COURSES, line.toString());
+            //fileHandler.appendFile(Filename.COURSES, line.toString());
             System.out.println("Courses saved!");
         }
     }

@@ -1,13 +1,12 @@
 package com.company;
 
+import com.company.FileHandling.Savers.CourseAdministratorSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Users.CourseAdministrator;
 import com.company.Models.Users.User;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -20,15 +19,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String userType = scanner.nextLine();
 
-        User user;
-        if (Objects.equals(userType, "1")) {
-            user = new CourseAdministrator(
-                    "c.administrator",
-                    "password",
-                    "Course",
-                    "",
-                    "Administrator",
-                    new GregorianCalendar(2000, 3, 15));
-        }
+        ArrayList<CourseAdministrator> courseAdministrators = new ArrayList<>();
+        CourseAdministrator courseAdministrator = new CourseAdministrator(
+                "c.administrator",
+                "password",
+                "Course",
+                "",
+                "Administrator",
+                new GregorianCalendar(2000, 3, 15));
+
+        courseAdministrators.add(courseAdministrator);
+        new CourseAdministratorSaver().saveAllCourseAdminstrators(courseAdministrators);
+//        if (Objects.equals(userType, "1")) {
+//        }
     }
 }
