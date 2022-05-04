@@ -55,7 +55,7 @@ public class FileHandler {
      */
     public void writeFile(Filename filename, String contents) {
         try {
-            FileWriter fileWriter = new FileWriter(this.filenames.get(filename), true);
+            FileWriter fileWriter = new FileWriter(this.filenames.get(filename));
             fileWriter.write(contents);
             fileWriter.close();
         } catch(FileNotFoundException fileNotFoundException) {
