@@ -13,5 +13,6 @@ public class CourseAdministratorSaver {
         Gson gson = new Gson();
         String serialisedCourseAdministrators = gson.toJson(courseAdministrators);
         fileHandler.writeFile(Filename.COURSEADMINISTRATORS, serialisedCourseAdministrators);
+        System.out.println("Course Administrators Updated!");
     }
 }
