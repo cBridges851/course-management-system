@@ -21,5 +21,6 @@ public class CourseModuleSaver {
         Gson gson = new Gson();
         String serialisedCourseModules = gson.toJson(courseModules);
         fileHandler.writeFile(Filename.COURSEMODULES, serialisedCourseModules);
+        System.out.println("Course Modules Updated!");
     }
 }

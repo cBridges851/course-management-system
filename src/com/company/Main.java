@@ -16,10 +16,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to the Course Management System!");
 
-        ArrayList<Assignment> assignments = new ArrayList<>();
-        assignments = new AssignmentLoader().loadAllAssignments();
-//        Assignment assignment = new Assignment(UUID.randomUUID().toString(), "test assignment", 10);
-//        assignments.add(assignment);
-//        new AssignmentSaver().saveAllAssignments(assignments);
+
     }
 }
