@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.FileHandling.Loaders.AssignmentLoader;
 import com.company.FileHandling.Loaders.CourseAdministratorLoader;
 import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseAdministratorSaver;
@@ -16,8 +17,9 @@ public class Main {
         System.out.println("Welcome to the Course Management System!");
 
         ArrayList<Assignment> assignments = new ArrayList<>();
-        Assignment assignment = new Assignment(UUID.randomUUID().toString(), "test assignment", 10);
-        assignments.add(assignment);
-        new AssignmentSaver().saveAllAssignments(assignments);
+        assignments = new AssignmentLoader().loadAllAssignments();
+//        Assignment assignment = new Assignment(UUID.randomUUID().toString(), "test assignment", 10);
+//        assignments.add(assignment);
+//        new AssignmentSaver().saveAllAssignments(assignments);
     }
 }
