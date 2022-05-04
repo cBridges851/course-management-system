@@ -12,17 +12,17 @@ public class CourseModule {
     private int level;
     private String instructorName;
     private boolean isMandatory;
-    private ArrayList<Assignment> assignments;
+    private ArrayList<String> assignmentIds;
     private HashSet<String> studentNames;
 
     public CourseModule(String courseModuleCode, String name, int level, String instructorName, boolean isMandatory,
-                        ArrayList<Assignment> assignments, HashSet<String> studentNames) {
+                        ArrayList<String> assignmentIds, HashSet<String> studentNames) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
         this.instructorName = instructorName;
         this.isMandatory = isMandatory;
-        this.assignments = assignments;
+        this.assignmentIds = assignmentIds;
         this.studentNames = studentNames;
     }
 
@@ -79,8 +79,8 @@ public class CourseModule {
      * A method which gets the assignments that have to be completed as part of the module.
      * @return the assignments that must be completed as part of the module.
      */
-    public ArrayList<Assignment> getAssignments() {
-        return this.assignments;
+    public ArrayList<String> getAssignmentIds() {
+        return this.assignmentIds;
     }
 
     /**

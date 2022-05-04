@@ -28,16 +28,12 @@ public class AssignmentLoader {
      * @return the assignment
      */
     public Assignment loadAssignment(String assignmentId) {
-        try {
-            ArrayList<Assignment> allAssignments = this.loadAllAssignments();
+        ArrayList<Assignment> allAssignments = this.loadAllAssignments();
 
-            for (Assignment assignment: allAssignments) {
-                if (assignment.getAssignmentId().equals(assignmentId)) {
-                    return assignment;
-                }
+        for (Assignment assignment: allAssignments) {
+            if (assignment.getAssignmentId().equals(assignmentId)) {
+                return assignment;
             }
-        } catch (Exception exception) {
-            System.out.println("Unable to load assignment: " + exception);
         }
 
         System.out.println("Assignment " + assignmentId + " not found");

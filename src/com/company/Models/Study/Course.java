@@ -7,12 +7,12 @@ import java.util.ArrayList;
  */
 public class Course {
     private String name;
-    private ArrayList<CourseModule> courseModules;
+    private ArrayList<String> courseModuleCodes;
     private boolean isAvailable;
 
-    public Course(String name, ArrayList<CourseModule> courseModules, boolean isAvailable) {
+    public Course(String name, ArrayList<String> courseModuleCodes, boolean isAvailable) {
         this.name = name;
-        this.courseModules = courseModules;
+        this.courseModuleCodes = courseModuleCodes;
         this.isAvailable = isAvailable;
     }
 
@@ -36,25 +36,25 @@ public class Course {
      * Retrieves the modules that are on the course
      * @return the modules that are on the course
      */
-    public ArrayList<CourseModule> getCourseModules() {
-        return courseModules;
+    public ArrayList<String> getCourseModuleCodes() {
+        return courseModuleCodes;
     }
 
     /**
      * Adds a course module to the list
-     * @param courseModule the course module to add to the course
+     * @param courseModuleCode the course module to add to the course
      */
-    public void addCourseModule(CourseModule courseModule) {
-        this.courseModules.add(courseModule);
+    public void addCourseModule(String courseModuleCode) {
+        this.courseModuleCodes.add(courseModuleCode);
     }
 
 
     /**
      * Removes a course module from a course
-     * @param courseModule the course module to remove from the course.
+     * @param courseModuleCode the course module to remove from the course.
      */
-    public void removeCourseModule(CourseModule courseModule) {
-        this.courseModules.remove(courseModule);
+    public void removeCourseModule(String courseModuleCode) {
+        this.courseModuleCodes.remove(courseModuleCode);
     }
 
     /**
