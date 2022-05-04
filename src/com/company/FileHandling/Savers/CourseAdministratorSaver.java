@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class CourseAdministratorSaver {
     private final FileHandler fileHandler = new FileHandler();
+
     public void saveAllCourseAdminstrators(ArrayList<CourseAdministrator> courseAdministrators) {
         Gson gson = new Gson();
         String serialisedCourseAdministrators = gson.toJson(courseAdministrators);
