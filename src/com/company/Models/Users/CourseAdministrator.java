@@ -106,9 +106,9 @@ public class CourseAdministrator extends User {
      * Make a course available
      * @param course the course to reopen.
      */
-    public void reopenCourse(Course course) {
-//        course.setIsAvailable(true);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void reopenCourse(ArrayList<Course>allCourses, Course course) {
+        course.setIsAvailable(true);
+        new CourseSaver().saveAllCourses(allCourses);
     }
 
     /**

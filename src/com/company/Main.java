@@ -44,12 +44,14 @@ public class Main {
             System.out.println(asciiTable.render());
             System.out.println("""
                     What would you like to do?\s
-                    (1) Cancel a course""");
+                    (1) Cancel a course\s
+                    (2) Reopen a course""");
             action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 System.out.print("Enter the number of the course to cancel: ");
                 action = scanner.nextLine();
+
                 if (StringUtils.isNumeric(action)) {
                     Course courseToCancel = courses.get(Integer.parseInt(action) - 1);
 
@@ -62,6 +64,27 @@ public class Main {
                         if (action.toLowerCase(Locale.ROOT).equals("y")) {
                             System.out.println("Cancelling course...");
                             courseAdministrator.cancelCourse(courses, courseToCancel);
+                        }
+                    }
+                } else {
+                    System.out.println("Invalid input");
+                }
+            } else if(Objects.equals(action, "2")) {
+                System.out.print("Enter the number of the course to reopen: ");
+                action = scanner.nextLine();
+
+                if (StringUtils.isNumeric(action)) {
+                    Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
+
+                    if (courseToReopen.getIsAvailable()) {
+                        System.out.println("This course is already available");
+                    } else {
+                        System.out.println("Are you sure you want to reopen " + courseToReopen.getName() + "? (Y/N)");
+                        action = scanner.nextLine();
+
+                        if (action.toLowerCase(Locale.ROOT).equals("y")) {
+                            System.out.println("Reopening course...");
+                            courseAdministrator.reopenCourse(courses, courseToReopen);
                         }
                     }
                 } else {
