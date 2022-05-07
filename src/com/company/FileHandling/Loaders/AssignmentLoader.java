@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * Retrieves and converts assignments from the assignments.csv file
+ * Retrieves and converts assignments from persistent data storage
  */
 public class AssignmentLoader {
     private final FileHandler fileHandler = new FileHandler();
