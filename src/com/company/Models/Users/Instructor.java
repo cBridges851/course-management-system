@@ -10,19 +10,19 @@ import java.util.Calendar;
  * Model that represents the instructor, which is a type of user who teach module content to students.
  */
 public class Instructor extends User {
-    private CourseModule[] courseModules = new CourseModule[4];
+    private String[] courseModuleCodes;
 
     public Instructor(String username, String password, String firstName, String middleName, String lastName,
-                      Calendar dateOfBirth, CourseModule[] modules) {
+                      Calendar dateOfBirth, String[] courseModuleCodes) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
-        this.courseModules = modules;
+        this.courseModuleCodes = courseModuleCodes;
     }
 
     /**
      * @return the modules that the instructor teaches on.
      */
-    public CourseModule[] getCourseModules() {
-        return courseModules;
+    public String[] getCourseModules() {
+        return courseModuleCodes;
     }
 
     /**

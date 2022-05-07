@@ -1,6 +1,8 @@
 package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseLoader;
+import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
@@ -9,6 +11,7 @@ import com.company.Models.Study.Assignment;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Locale;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
@@ -38,44 +41,26 @@ public class CourseAdministrator extends User {
      * @param level the level of the new module
      * @param instructorName the name of the instructor teaching the module
      * @param isMandatory indicator of whether or not the module is optional
-     * @param assignments the assignments that have to be completed in the module
+     * @param assignmentIds the assignments that have to be completed in the module
      * @param studentNames the students enrolled in the module
      */
-    public void addNewCourseModule(Course course, String courseModuleCode, String name, int level,
-                                   String instructorName, boolean isMandatory, ArrayList<Assignment> assignments,
+    public void addNewCourseModuleToCourse(ArrayList<Course> courses, Course course, String courseModuleCode, String name, int level,
+                                   String instructorName, boolean isMandatory, HashSet<String> assignmentIds,
                                    HashSet<String> studentNames) {
-//        CourseModule courseModule = new CourseModule(courseModuleCode, name, level, instructorName, isMandatory,
-//                assignments, studentNames);
-//
-//        course.addCourseModule(courseModule);
-//        new CourseSaver().saveAllCourses(this.courses);
-//        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-//
-//        for (Course courseItem: this.courses) {
-//            for (CourseModule courseModuleItem : courseItem.getCourseModules()) {
-//                boolean alreadyInAllCourseModules = false;
-//
-//                for (CourseModule courseModuleFromAllCourseModules : allCourseModules) {
-//                    if (courseModuleFromAllCourseModules.getCourseModuleCode()
-//                            .equals(courseModule.getCourseModuleCode())) {
-//                        System.out.println("Course module already exists!");
-//                        return;
-//                    }
-//
-//                    if (courseModuleItem.getCourseModuleCode().trim()
-//                            .equals(courseModuleFromAllCourseModules.getCourseModuleCode().trim())) {
-//                        alreadyInAllCourseModules = true;
-//                        break;
-//                    }
-//                }
-//
-//                if (!alreadyInAllCourseModules) {
-//                    allCourseModules.add(courseModuleItem);
-//                }
-//            }
-//        }
-//
-//        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        CourseModule courseModule = new CourseModule(
+                courseModuleCode,
+                name,
+                level,
+                instructorName,
+                isMandatory,
+                assignmentIds,
+                studentNames
+        );
+        course.addCourseModule(courseModule.getCourseModuleCode());
+        new CourseSaver().saveAllCourses(courses);
+        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+        allCourseModules.add(courseModule);
+        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
     }
 
     /**
