@@ -46,7 +46,8 @@ public class CourseAdministratorMenu {
                     What would you like to do?\s
                     (1) Cancel a course\s
                     (2) Reopen a course\s
-                    (3) Add a course""");
+                    (3) Add a course\s
+                    (4) Delete a course""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -55,6 +56,8 @@ public class CourseAdministratorMenu {
             this.reopenCourse(courses);
         } else if (Objects.equals(action, "3")) {
             this.addCourse(courses);
+        } else if (Objects.equals(action, "4")) {
+            this.deleteCourse(courses);
         }
     }
 
@@ -122,6 +125,28 @@ public class CourseAdministratorMenu {
         String courseName = scanner.nextLine();
 
         courseAdministrator.addNewCourse(courses, courseName);
+        this.runCourseAdministratorMenu();
+    }
+
+    public void deleteCourse(ArrayList<Course> courses) {
+        System.out.print("Enter the number of the course to delete: ");
+        String action = scanner.nextLine();
+
+        if (StringUtils.isNumeric(action)) {
+            Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
+
+            System.out.println("Are you sure you want to PERMANENTLY delete " + courseToReopen.getName() + "? (Y/N)");
+            action = scanner.nextLine();
+
+            if (action.toLowerCase(Locale.ROOT).equals("y")) {
+                System.out.println("Deleting course...");
+                courseAdministrator.deleteCourse(courses, courseToReopen);
+            }
+
+        } else {
+            System.out.println("Invalid input");
+        }
+
         this.runCourseAdministratorMenu();
     }
 }
