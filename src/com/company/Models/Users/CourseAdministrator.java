@@ -1,6 +1,7 @@
 package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseLoader;
+import com.company.FileHandling.Savers.CourseSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.Assignment;
@@ -93,20 +94,22 @@ public class CourseAdministrator extends User {
 
     /**
      * Makes a course unavailable, but not permanently removed
+     * @param allCourses the list of courses to update.
      * @param course the course to be cancelled.
      */
-    public void cancelCourse(Course course) {
-//        course.setIsAvailable(false);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void cancelCourse(ArrayList<Course> allCourses, Course course) {
+        course.setIsAvailable(false);
+        new CourseSaver().saveAllCourses(allCourses);
     }
 
     /**
      * Make a course available
+     * @param allCourses the list of courses to update
      * @param course the course to reopen.
      */
-    public void reopenCourse(Course course) {
-//        course.setIsAvailable(true);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void reopenCourse(ArrayList<Course> allCourses, Course course) {
+        course.setIsAvailable(true);
+        new CourseSaver().saveAllCourses(allCourses);
     }
 
     /**
