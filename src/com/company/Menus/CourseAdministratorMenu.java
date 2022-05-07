@@ -6,17 +6,14 @@ import com.company.Models.Users.CourseAdministrator;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class that handles the interactions for the course administrator.
  */
 public class CourseAdministratorMenu {
     private CourseAdministrator courseAdministrator;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public CourseAdministratorMenu(Scanner scanner) {
         this.scanner = scanner;
@@ -48,13 +45,16 @@ public class CourseAdministratorMenu {
         System.out.println("""
                     What would you like to do?\s
                     (1) Cancel a course\s
-                    (2) Reopen a course""");
+                    (2) Reopen a course\s
+                    (3) Add a course""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
             this.cancelCourse(courses);
         } else if(Objects.equals(action, "2")) {
             this.reopenCourse(courses);
+        } else if (Objects.equals(action, "3")) {
+            this.addCourse(courses);
         }
     }
 
@@ -114,6 +114,14 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
+        this.runCourseAdministratorMenu();
+    }
+
+    public void addCourse(ArrayList<Course> courses) {
+        System.out.print("Enter the course name: ");
+        String courseName = scanner.nextLine();
+
+        courseAdministrator.addNewCourse(courses, courseName);
         this.runCourseAdministratorMenu();
     }
 }
