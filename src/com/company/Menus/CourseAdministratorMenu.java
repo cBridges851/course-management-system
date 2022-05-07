@@ -69,6 +69,10 @@ public class CourseAdministratorMenu {
         }
     }
 
+    /**
+     * Displays options in regards to modules.
+     * @param courses the list of courses to update.
+     */
     private void runCourseModuleSubMenu(ArrayList<Course> courses) {
         System.out.println("""
                 What would you like to do?\s
@@ -78,6 +82,8 @@ public class CourseAdministratorMenu {
 
         if (Objects.equals(action, "1")) {
             this.addCourseModuleToCourse(courses);
+        } else if (Objects.equals(action, "2")) {
+            this.runCourseAdministratorMenu();
         }
     }
 
@@ -148,6 +154,10 @@ public class CourseAdministratorMenu {
         this.runCourseAdministratorMenu();
     }
 
+    /**
+     * Adds a new course to the system.
+     * @param courses the list of courses to update.
+     */
     private void addCourse(ArrayList<Course> courses) {
         System.out.print("Enter the course name: ");
         String courseName = scanner.nextLine();
@@ -156,6 +166,10 @@ public class CourseAdministratorMenu {
         this.runCourseAdministratorMenu();
     }
 
+    /**
+     * Permanently deletes a course from a system.
+     * @param courses the list of courses to update.
+     */
     private void deleteCourse(ArrayList<Course> courses) {
         System.out.print("Enter the number of the course to delete: ");
         String action = scanner.nextLine();
@@ -181,6 +195,10 @@ public class CourseAdministratorMenu {
         this.runCourseAdministratorMenu();
     }
 
+    /**
+     * Renames an existing course in the system.
+     * @param courses the list of courses to update.
+     */
     private void renameCourse(ArrayList<Course> courses) {
         System.out.print("Enter the number of the course to rename: ");
         String action = scanner.nextLine();
@@ -207,6 +225,10 @@ public class CourseAdministratorMenu {
         this.runCourseAdministratorMenu();
     }
 
+    /**
+     * Adds a new course module to an existing course.
+     * @param courses the list of courses to update.
+     */
     private void addCourseModuleToCourse(ArrayList<Course> courses) {
         System.out.print("Enter the number of the course to add a course module to: ");
         String action = scanner.nextLine();
