@@ -21,20 +21,14 @@ public class CourseAdministrator extends User {
 
     /**
      * Adds a new course to the list of courses.
-     * @param newCourse The course that needs to be added to the course list.
+     * @param courses The list of courses to update.
+     * @param courseName The name of the new course.
      */
-//    public void addNewCourse(Course newCourse) {
-//        ArrayList<Course> allCourses = new CourseLoader().loadAllCourses();
-//        for (Course course: this.courses) {
-//            if (course.getName().equals(newCourse.getName())) {
-//                System.out.println("Course already exists!");
-//                return;
-//            }
-//        }
-//
-//        this.courses.add(newCourse);
-//        new CourseSaver().saveCourse(newCourse);
-//    }
+    public void addNewCourse(ArrayList<Course> courses, String courseName) {
+        Course newCourse = new Course(courseName, new HashSet<>(), true);
+        courses.add(newCourse);
+        new CourseSaver().saveAllCourses(courses);
+    }
 
     /**
      * Adds a course module to the course, and the persistent data is updated.
