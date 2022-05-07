@@ -2,7 +2,6 @@ package com.company;
 
 
 import com.company.FileHandling.Loaders.CourseAdministratorLoader;
-import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.Models.Study.Course;
 import com.company.Models.Users.CourseAdministrator;
 import de.vandermeer.asciitable.AsciiTable;
