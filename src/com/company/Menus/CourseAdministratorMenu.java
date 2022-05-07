@@ -47,7 +47,8 @@ public class CourseAdministratorMenu {
                     (1) Cancel a course\s
                     (2) Reopen a course\s
                     (3) Add a course\s
-                    (4) Delete a course""");
+                    (4) Delete a course\s
+                    (5) Rename a course""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -58,6 +59,8 @@ public class CourseAdministratorMenu {
             this.addCourse(courses);
         } else if (Objects.equals(action, "4")) {
             this.deleteCourse(courses);
+        } else if (Objects.equals(action, "5")) {
+            this.renameCourse(courses);
         }
     }
 
@@ -71,7 +74,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 > courses.size() || Integer.parseInt(action) - 1 < 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
                 Course courseToCancel = courses.get(Integer.parseInt(action) - 1);
 
                 if (!courseToCancel.getIsAvailable()) {
@@ -104,7 +107,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 > courses.size() || Integer.parseInt(action) - 1 < 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
                 Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
 
                 if (courseToReopen.getIsAvailable()) {
@@ -141,15 +144,41 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 > courses.size() || Integer.parseInt(action) - 1 < 1) {
-                Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+                Course courseToDelete = courses.get(Integer.parseInt(action) - 1);
 
-                System.out.println("Are you sure you want to PERMANENTLY delete " + courseToReopen.getName() + "? (Y/N)");
+                System.out.println("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
                 action = scanner.nextLine();
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
                     System.out.println("Deleting course...");
-                    courseAdministrator.deleteCourse(courses, courseToReopen);
+                    courseAdministrator.deleteCourse(courses, courseToDelete);
+                }
+            } else {
+                System.out.println("Course number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runCourseAdministratorMenu();
+    }
+
+    public void renameCourse(ArrayList<Course> courses) {
+        System.out.print("Enter the number of the course to rename: ");
+        String action = scanner.nextLine();
+
+        if (StringUtils.isNumeric(action)) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+                Course courseToRename = courses.get(Integer.parseInt(action) - 1);
+
+                System.out.println("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N)");
+                action = scanner.nextLine();
+
+                if (action.toLowerCase(Locale.ROOT).equals("y")) {
+                    System.out.print("Enter the course's new name: ");
+                    String newName = scanner.nextLine();
+                    courseAdministrator.renameCourse(courses, courseToRename, newName);
                 }
             } else {
                 System.out.println("Course number does not exist");
