@@ -1,5 +1,6 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.Assignment;
@@ -83,48 +84,12 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * Gets all the courses that can be enrolled onto.
-     * @return all the courses that are available in the university or college.
-     */
-    public ArrayList<Course> getAllAvailableCourses() {
-//        ArrayList<Course> allCourses = this.getAllCourses();
-        ArrayList<Course> availableCourses = new ArrayList<>();
-
-//        for (Course course: allCourses) {
-//            if (course.isAvailable()) {
-//                availableCourses.add(course);
-//            }
-//        }
-
-        return availableCourses;
-    }
-
-    /**
-     * Gets all the courses that are not currently available to be enrolled.
-     * @return all the courses that have been cancelled.
-     */
-    public ArrayList<Course> getAllCancelledCourses() throws Exception {
-        throw new Exception("Not implemented yet");
-//        ArrayList<Course> allCourses = this.getAllCourses();
-//        ArrayList<Course> cancelledCourses = new ArrayList<>();
-//
-//        for (Course course: allCourses) {
-//            if (!course.isAvailable()) {
-//                cancelledCourses.add(course);
-//            }
-//        }
-//
-//        return cancelledCourses;
-    }
-
-    /**
      * A method that retrieves all the courses that are in this class and its file.
      * @return all the courses, no matter whether they are available or cancelled.
      */
-//    public ArrayList<Course> getAllCourses() {
-//        this.courses = new CourseLoader().loadAllCourses();
-//        return this.courses;
-//    }
+    public ArrayList<Course> getAllCourses() {
+        return new CourseLoader().loadAllCourses();
+    }
 
     /**
      * Makes a course unavailable, but not permanently removed
