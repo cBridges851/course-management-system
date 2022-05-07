@@ -120,9 +120,9 @@ public class CourseAdministrator extends User {
      * @param course the course that needs to be renamed.
      * @param newName the name that the course will be changed to.
      */
-    public void renameCourse(Course course, String newName) {
-//        course.setName(newName);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void renameCourse(ArrayList<Course> courses, Course course, String newName) {
+        course.setName(newName);
+        new CourseSaver().saveAllCourses(courses);
     }
 
     /**
