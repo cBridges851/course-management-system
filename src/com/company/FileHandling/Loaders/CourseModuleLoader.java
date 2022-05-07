@@ -29,7 +29,13 @@ public class CourseModuleLoader {
         String deserialisedCourseAdministrators = this.fileHandler.loadFile(Filename.COURSEMODULES);
         Gson gson = new Gson();
         Type courseModuleListType = new TypeToken<ArrayList<CourseModule>>(){}.getType();
-        return gson.fromJson(deserialisedCourseAdministrators, courseModuleListType);
+        ArrayList<CourseModule> courseModules = gson.fromJson(deserialisedCourseAdministrators, courseModuleListType);
+
+        if (courseModules == null) {
+            return new ArrayList<CourseModule>();
+        }
+
+        return courseModules;
     }
 
     /**

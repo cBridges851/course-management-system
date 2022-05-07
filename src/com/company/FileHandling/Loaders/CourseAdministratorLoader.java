@@ -16,6 +16,13 @@ public class CourseAdministratorLoader {
         String deserialisedCourseAdministrators = this.fileHandler.loadFile(Filename.COURSEADMINISTRATORS);
         Gson gson = new Gson();
         Type courseAdminstratorListType = new TypeToken<ArrayList<CourseAdministrator>>(){}.getType();
-        return gson.fromJson(deserialisedCourseAdministrators, courseAdminstratorListType);
+        ArrayList<CourseAdministrator> courseAdministrators =
+                gson.fromJson(deserialisedCourseAdministrators, courseAdminstratorListType);
+
+        if (courseAdministrators == null) {
+            return new ArrayList<CourseAdministrator>();
+        }
+
+        return courseAdministrators;
     }
 }

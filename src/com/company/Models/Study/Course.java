@@ -1,16 +1,17 @@
 package com.company.Models.Study;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Model that represents the courses at the college or university, such as BSc Computer Science.
  */
 public class Course {
     private String name;
-    private ArrayList<String> courseModuleCodes;
+    private HashSet<String> courseModuleCodes;
     private boolean isAvailable;
 
-    public Course(String name, ArrayList<String> courseModuleCodes, boolean isAvailable) {
+    public Course(String name, HashSet<String> courseModuleCodes, boolean isAvailable) {
         this.name = name;
         this.courseModuleCodes = courseModuleCodes;
         this.isAvailable = isAvailable;
@@ -36,7 +37,7 @@ public class Course {
      * Retrieves the modules that are on the course
      * @return the modules that are on the course
      */
-    public ArrayList<String> getCourseModuleCodes() {
+    public HashSet<String> getCourseModuleCodes() {
         return courseModuleCodes;
     }
 
