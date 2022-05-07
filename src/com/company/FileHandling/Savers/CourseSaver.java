@@ -4,7 +4,6 @@ package com.company.FileHandling.Savers;
 import com.company.FileHandling.FileHandler;
 import com.company.FileHandling.Filename;
 import com.company.Models.Study.Course;
-import com.company.Models.Study.CourseModule;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package com.company.Models.Study;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**

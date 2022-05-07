@@ -1,11 +1,7 @@
 package com.company.Models.Users;
 
-import com.company.FileHandling.Savers.CourseSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
-import com.company.FileHandling.Loaders.CourseLoader;
-import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.Models.Study.Assignment;
 
 import java.util.ArrayList;

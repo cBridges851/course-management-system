@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class CourseLoader {
     private final FileHandler fileHandler = new FileHandler();
-    private final CourseModuleLoader courseModuleLoader = new CourseModuleLoader();
 
     /**
      * Loads all courses
