@@ -9,9 +9,16 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/**
+ * Retrieves and converts instructors from persistent data storage
+ */
 public class InstructorLoader {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Loads all the instructors
+     * @return all the instructors
+     */
     public ArrayList<Instructor> loadAllInstructors() {
         String deserialisedInstructorList = this.fileHandler.loadFile(Filename.INSTRUCTORS);
         Gson gson = new Gson();
