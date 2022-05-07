@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class CourseAdministratorSaver {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Saves all the course administrators to a file.
+     * @param courseAdministrators all the course administrators to save.
+     */
     public void saveAllCourseAdminstrators(ArrayList<CourseAdministrator> courseAdministrators) {
         Gson gson = new Gson();
         String serialisedCourseAdministrators = gson.toJson(courseAdministrators);

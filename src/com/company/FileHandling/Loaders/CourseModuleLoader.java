@@ -25,7 +25,7 @@ public class CourseModuleLoader {
      * Retrieves all the course modules there are in the system
      * @return all the course modules, or null if they were unable to be retrieved
      */
-    public ArrayList<CourseModule> loadAllCourseModules() throws Exception {
+    public ArrayList<CourseModule> loadAllCourseModules() {
         String deserialisedCourseAdministrators = this.fileHandler.loadFile(Filename.COURSEMODULES);
         Gson gson = new Gson();
         Type courseModuleListType = new TypeToken<ArrayList<CourseModule>>(){}.getType();
@@ -37,7 +37,7 @@ public class CourseModuleLoader {
      * @param courseModuleCode The (unique) course module code of the course module to retrieve
      * @return the course module
      */
-    public CourseModule loadCourseModule(String courseModuleCode) throws Exception {
+    public CourseModule loadCourseModule(String courseModuleCode) {
         ArrayList<CourseModule> allCourseModules = this.loadAllCourseModules();
 
         for (CourseModule courseModule: allCourseModules) {

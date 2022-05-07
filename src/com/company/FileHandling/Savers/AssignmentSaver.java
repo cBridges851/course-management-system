@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class AssignmentSaver {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Saves all the assignments in the system to a file.
+     * @param assignments all the assignments to be saved.
+     */
     public void saveAllAssignments(ArrayList<Assignment> assignments) {
         Gson gson = new Gson();
         String serialisedAssignments = gson.toJson(assignments);

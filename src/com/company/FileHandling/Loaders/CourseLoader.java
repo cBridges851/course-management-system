@@ -21,7 +21,7 @@ public class CourseLoader {
      * Loads all courses
      * @return all the courses saved in the courses.csv file
      */
-    public ArrayList<Course> loadAllCourses() throws Exception {
+    public ArrayList<Course> loadAllCourses() {
         String deserialisedCoursesList = this.fileHandler.loadFile(Filename.COURSES);
         Gson gson = new Gson();
         Type coursesListType = new TypeToken<ArrayList<Course>>(){}.getType();
