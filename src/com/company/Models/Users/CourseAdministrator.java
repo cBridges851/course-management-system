@@ -110,27 +110,9 @@ public class CourseAdministrator extends User {
      * Permanently removes a course from the list of courses in this class and its file.
      * @param courseToDelete the course to be deleted.
      */
-    public void deleteCourse(Course courseToDelete) {
-//        for (Course courseItem: courses) {
-//            System.out.println(courseItem.getName());
-//        }
-//
-//        int index = -1;
-//
-//        for (int i = 0; i < this.courses.size(); i++) {
-//            if (this.courses.get(i).getName().equals(courseToDelete.getName())) {
-//                index = i;
-//                break;
-//            }
-//        }
-//
-//        if (index == -1) {
-//            System.out.println("Course not found!");
-//            return;
-//        }
-//
-//        this.courses.remove(index);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void deleteCourse(ArrayList<Course> courses, Course courseToDelete) {
+        courses.remove(courseToDelete);
+        new CourseSaver().saveAllCourses(courses);
     }
 
     /**
