@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *  Retrieves and converts courses from the courses.csv file
@@ -26,7 +27,7 @@ public class CourseLoader {
         ArrayList<Course> courses = gson.fromJson(deserialisedCoursesList, coursesListType);
 
         if (courses == null) {
-            return new ArrayList<Course>();
+            return new ArrayList<>();
         }
 
         return courses;

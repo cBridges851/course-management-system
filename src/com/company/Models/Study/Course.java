@@ -25,6 +25,23 @@ public class Course {
     }
 
     /**
+     * Retrieves the modules that are on the course
+     * @return the modules that are on the course
+     */
+    public HashSet<String> getCourseModuleCodes() {
+        return courseModuleCodes;
+    }
+
+    /**
+     * Gets whether the course is running or not.
+     * @return whether the course is running. True will mean that it is available, false will mean that it has been
+     * cancelled, so it is unavailable.
+     */
+    public boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    /**
      * Changes the name of the course
      * @param name the name to change the course's name to
      */
@@ -32,13 +49,6 @@ public class Course {
         this.name = name;
     }
 
-    /**
-     * Retrieves the modules that are on the course
-     * @return the modules that are on the course
-     */
-    public HashSet<String> getCourseModuleCodes() {
-        return courseModuleCodes;
-    }
 
     /**
      * Adds a course module to the list
@@ -55,15 +65,6 @@ public class Course {
      */
     public void removeCourseModule(String courseModuleCode) {
         this.courseModuleCodes.remove(courseModuleCode);
-    }
-
-    /**
-     * Gets whether the course is running or not.
-     * @return whether the course is running. True will mean that it is available, false will mean that it has been
-     * cancelled, so it is unavailable.
-     */
-    public boolean isAvailable() {
-        return isAvailable;
     }
 
     /**
