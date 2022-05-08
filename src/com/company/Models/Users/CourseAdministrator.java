@@ -4,6 +4,7 @@ import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
+import com.company.FileHandling.Savers.InstructorSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.Assignment;
@@ -40,19 +41,19 @@ public class CourseAdministrator extends User {
      * @param courseModuleCode the identifier of the new module
      * @param name the name of the new module
      * @param level the level of the new module
-     * @param instructorName the name of the instructor teaching the module
+     * @param instructorNames the name of the instructor teaching the module
      * @param isMandatory indicator of whether or not the module is optional
      * @param assignmentIds the assignments that have to be completed in the module
      * @param studentNames the students enrolled in the module
      */
     public void addNewCourseModuleToCourse(ArrayList<Course> courses, Course course, String courseModuleCode, String name, int level,
-                                   String instructorName, boolean isMandatory, HashSet<String> assignmentIds,
+                                   HashSet<String> instructorNames, boolean isMandatory, HashSet<String> assignmentIds,
                                    HashSet<String> studentNames) {
         CourseModule courseModule = new CourseModule(
                 courseModuleCode,
                 name,
                 level,
-                instructorName,
+                instructorNames,
                 isMandatory,
                 assignmentIds,
                 studentNames
@@ -142,10 +143,19 @@ public class CourseAdministrator extends User {
     /**
      * @param courseModule the course module that will have the instructor assigned to it
      * @param instructor the instructor that will be added to the course module
-     * @throws Exception
      */
-    public void assignInstructorToCourseModule(CourseModule courseModule, Instructor instructor) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void assignInstructorToCourseModule(ArrayList<CourseModule> allCourseModules,
+                                               CourseModule courseModule,
+                                               ArrayList<Instructor> instructors,
+                                               Instructor instructor) {
+        boolean canBeAssigned = instructor.addCourseModule(courseModule.getCourseModuleCode());
+
+        if (canBeAssigned) {
+            courseModule.setInstructorName(instructor.getUsername());
+
+            new InstructorSaver().saveAllInstructors(instructors);
+            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        }
     }
 
     /**

@@ -10,17 +10,17 @@ public class CourseModule {
     private String courseModuleCode;
     private String name;
     private int level;
-    private String instructorName;
+    private HashSet<String> instructorNames;
     private boolean isMandatory;
     private HashSet<String> assignmentIds;
     private HashSet<String> studentNames;
 
-    public CourseModule(String courseModuleCode, String name, int level, String instructorName, boolean isMandatory,
+    public CourseModule(String courseModuleCode, String name, int level, HashSet<String> instructorNames, boolean isMandatory,
                         HashSet<String> assignmentIds, HashSet<String> studentNames) {
         this.courseModuleCode = courseModuleCode;
         this.name = name;
         this.level = level;
-        this.instructorName = instructorName;
+        this.instructorNames = instructorNames;
         this.isMandatory = isMandatory;
         this.assignmentIds = assignmentIds;
         this.studentNames = studentNames;
@@ -62,8 +62,12 @@ public class CourseModule {
      * Gets the name of the instructor who is teaching the course module
      * @return the instructor who is teaching the course module.
      */
-    public String getInstructorName() {
-        return this.instructorName;
+    public HashSet<String> getInstructorNames() {
+        return this.instructorNames;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorNames.add(instructorName);
     }
 
     /**

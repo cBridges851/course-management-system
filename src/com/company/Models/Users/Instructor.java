@@ -10,12 +10,14 @@ import java.util.Calendar;
  * Model that represents the instructor, which is a type of user who teach module content to students.
  */
 public class Instructor extends User {
-    private String[] courseModuleCodes;
+    private final String[] courseModuleCodes;
 
     public Instructor(String username, String password, String firstName, String middleName, String lastName,
                       Calendar dateOfBirth, String[] courseModuleCodes) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
-        this.courseModuleCodes = courseModuleCodes;
+        this.courseModuleCodes = new String[] {null, null, null, null};
+
+        System.arraycopy(courseModuleCodes, 0, this.courseModuleCodes, 0, courseModuleCodes.length);
     }
 
     /**
@@ -25,6 +27,17 @@ public class Instructor extends User {
         return courseModuleCodes;
     }
 
+    public boolean addCourseModule(String courseModuleCode) {
+        for (int i = 0; i < 4; i++) {
+            if (courseModuleCodes[i] == null) {
+                courseModuleCodes[i] = courseModuleCode;
+                return true;
+            }
+        }
+
+        System.out.println("Instructors cannot be assigned to more than 4 modules");
+        return false;
+    }
     /**
      * @param student the student that has achieved the mark.
      * @param assignment the work the student has done.
