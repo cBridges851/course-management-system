@@ -8,6 +8,7 @@ import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.Assignment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -155,6 +156,22 @@ public class CourseAdministrator extends User {
     public void removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule) {
         course.removeCourseModule(courseModule.getCourseModuleCode());
         new CourseSaver().saveAllCourses(courses);
+
+        boolean isInAnotherCourse = false;
+
+        for (Course courseItem : courses) {
+            if (courseItem.getCourseModuleCodes().contains(courseModule.getCourseModuleCode())) {
+                isInAnotherCourse = true;
+                break;
+            }
+        }
+
+        if (!isInAnotherCourse) {
+            ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+
+            allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
+            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        }
     }
 
     /**

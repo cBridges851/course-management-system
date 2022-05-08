@@ -369,13 +369,11 @@ public class CourseAdministratorMenu {
                 String courseModuleNumber = scanner.nextLine();
 
                 if (StringUtils.isNumeric(courseModuleNumber)) {
-                    System.out.println(courseModuleNumber);
-                    System.out.println(Integer.parseInt(courseModuleNumber) - 1);
-                    System.out.println(courseModuleCodes.size() - 1);
-                    System.out.println(Integer.parseInt(courseModuleNumber) - 1 <= courseModuleCodes.size() - 1);
+                    System.out.println(Integer.parseInt(courseModuleNumber) - 1 < courseModuleCodes.size());
+                    System.out.println(Integer.parseInt(courseModuleNumber) - 1 >= 1);
 
                     if (Integer.parseInt(courseModuleNumber) - 1 < courseModuleCodes.size() &&
-                            Integer.parseInt(courseModuleNumber) - 1 > 1) {
+                            Integer.parseInt(courseModuleNumber) - 1 >= 0) {
                         CourseModule courseModuleToRemove =
                                 new CourseModuleLoader()
                                         .loadCourseModule(courseModuleCodes.get(Integer.parseInt(courseModuleNumber) - 1));
