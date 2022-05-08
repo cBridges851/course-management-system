@@ -100,7 +100,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                     }
 
                     HashSet<String> instructorNames = new HashSet<>();
-                    // TODO: Look into why instructor not being added to module
                     String instructorName;
 
                     if (Integer.parseInt(instructorNumber) - 1 < this.courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {

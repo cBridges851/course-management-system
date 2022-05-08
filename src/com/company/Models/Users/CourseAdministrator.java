@@ -2,6 +2,7 @@ package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
 import com.company.FileHandling.Savers.InstructorSaver;
@@ -63,6 +64,21 @@ public class CourseAdministrator extends User {
         ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
         allCourseModules.add(courseModule);
         new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
+        ArrayList<Instructor> instructorsToUpdate = new ArrayList<Instructor>();
+        ArrayList<String> instructorNamesAsArray = new ArrayList<String>(instructorNames);
+
+        for (String relevantInstructor: instructorNamesAsArray) {
+            for (Instructor instructor: allInstructors) {
+                if (instructor.getUsername().equals(relevantInstructor)) {
+                    instructorsToUpdate.add(instructor);
+                }
+            }
+        }
+
+        for(Instructor instructorToUpdate: instructorsToUpdate) {
+            assignInstructorToCourseModule(allCourseModules, courseModule, allInstructors, instructorToUpdate);
+        }
     }
 
     /**
