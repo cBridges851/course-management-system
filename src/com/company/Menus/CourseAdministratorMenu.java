@@ -67,7 +67,8 @@ public class CourseAdministratorMenu {
         } else if (Objects.equals(action, "5")) {
             this.renameCourse(courses);
         } else if(Objects.equals(action, "6")) {
-            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, courses);
+            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, courses)
+                    .runCourseModuleSubMenu();
         }
     }
 

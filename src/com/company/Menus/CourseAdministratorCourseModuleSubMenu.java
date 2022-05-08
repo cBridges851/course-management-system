@@ -18,14 +18,14 @@ public class CourseAdministratorCourseModuleSubMenu {
 
     public CourseAdministratorCourseModuleSubMenu(Scanner scanner, CourseAdministrator courseAdministrator, ArrayList<Course> courses) {
         this.scanner = scanner;
+        this.courseAdministrator = courseAdministrator;
         this.courses = courses;
     }
 
     /**
      * Displays options in regards to modules.
-     * @param courses the list of courses to update.
      */
-    private void runCourseModuleSubMenu(ArrayList<Course> courses) {
+    public void runCourseModuleSubMenu() {
         System.out.println("""
                 What would you like to do?\s
                 (1) Add a course module to a course\s
@@ -34,9 +34,9 @@ public class CourseAdministratorCourseModuleSubMenu {
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
-            this.addCourseModuleToCourse(courses);
+            this.addCourseModuleToCourse();
         } else if (Objects.equals(action, "2")) {
-            this.removeCourseModuleFromCourse(courses);
+            this.removeCourseModuleFromCourse();
         } else if (Objects.equals(action, "3")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
         }
@@ -44,15 +44,14 @@ public class CourseAdministratorCourseModuleSubMenu {
 
     /**
      * Adds a new course module to an existing course.
-     * @param courses the list of courses to update.
      */
-    private void addCourseModuleToCourse(ArrayList<Course> courses) {
+    private void addCourseModuleToCourse() {
         System.out.print("Enter the number of the course to add a course module to: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToAddTo = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToAddTo = this.courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to add a module to " + courseToAddTo.getName() + "? (Y/N)");
                 action = scanner.nextLine();
@@ -67,7 +66,7 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                     if (!StringUtils.isNumeric(moduleLevel)) {
                         System.out.println("Invalid level");
-                        this.addCourseModuleToCourse(courses);
+                        this.addCourseModuleToCourse();
                         return;
                     }
 
@@ -90,13 +89,13 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                     if (!StringUtils.isNumeric(instructorNumber)) {
                         System.out.println("Invalid input");
-                        this.runCourseModuleSubMenu(courses);
+                        this.runCourseModuleSubMenu();
                         return;
                     }
 
                     String instructorName;
 
-                    if (Integer.parseInt(instructorNumber) - 1 < courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
+                    if (Integer.parseInt(instructorNumber) - 1 < this.courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
                         instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
                     } else {
                         instructorName = "";
@@ -106,7 +105,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
 
                     courseAdministrator.addNewCourseModuleToCourse(
-                            courses,
+                            this.courses,
                             courseToAddTo,
                             courseModuleCode,
                             courseModuleName,
@@ -124,20 +123,19 @@ public class CourseAdministratorCourseModuleSubMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseModuleSubMenu(courses);
+        this.runCourseModuleSubMenu();
     }
 
     /**
      * Removes a course module from a course.
-     * @param courses the lost of courses to update.
      */
-    private void removeCourseModuleFromCourse(ArrayList<Course> courses) {
+    private void removeCourseModuleFromCourse() {
         System.out.print("Enter the number of the course to remove a course module from: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToRemoveModuleFrom = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToRemoveModuleFrom = this.courses.get(Integer.parseInt(action) - 1);
 
                 AsciiTable asciiTable = new AsciiTable();
                 asciiTable.addRule();
@@ -200,7 +198,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                         action = scanner.nextLine();
 
                         if (action.toLowerCase(Locale.ROOT).equals("y")) {
-                            courseAdministrator.removeCourseModuleFromCourse(courses, courseToRemoveModuleFrom, courseModuleToRemove);
+                            courseAdministrator.removeCourseModuleFromCourse(this.courses, courseToRemoveModuleFrom, courseModuleToRemove);
                         }
                     } else {
                         System.out.println("Course number does not exist");
@@ -210,7 +208,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                 }
             }
 
-            this.runCourseModuleSubMenu(courses);
+            this.runCourseModuleSubMenu();
         }
     }
 }
