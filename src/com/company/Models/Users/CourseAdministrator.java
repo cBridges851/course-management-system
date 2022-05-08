@@ -125,9 +125,9 @@ public class CourseAdministrator extends User {
      * @param courseModule the course module that needs to be renamed.
      * @param newName the name that the course module will be changed to.
      */
-    public void renameCourseModule(CourseModule courseModule, String newName) {
-//        courseModule.setName(newName);
-//        new CourseModuleSaver().saveAllCourseModules(this.courseModules);
+    public void renameCourseModule(ArrayList<CourseModule> courseModules, CourseModule courseModule, String newName) {
+        courseModule.setName(newName);
+        new CourseModuleSaver().saveAllCourseModules(courseModules);
     }
 
     /**

@@ -30,7 +30,8 @@ public class CourseAdministratorCourseModuleSubMenu {
                 What would you like to do?\s
                 (1) Add a course module to a course\s
                 (2) Remove course module from a course\s
-                (3) Go back to main menu""");
+                (3) Rename a course module\s
+                (4) Go back to main menu""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -38,6 +39,8 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if (Objects.equals(action, "2")) {
             this.removeCourseModuleFromCourse();
         } else if (Objects.equals(action, "3")) {
+            this.renameCourseModule();
+        } else if (Objects.equals(action, "4")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
         }
     }
@@ -210,5 +213,58 @@ public class CourseAdministratorCourseModuleSubMenu {
 
             this.runCourseModuleSubMenu();
         }
+    }
+
+    private void renameCourseModule() {
+        ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
+        AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow(null, null, null, null, null, null, null, "All Course Modules");
+        asciiTable.addRule();
+        asciiTable.addRow(
+                "Number",
+                "Course Module Code",
+                "Name",
+                "Level",
+                "Instructor",
+                "Mandatory or Optional",
+                "Assignment Ids",
+                "Students");
+        for (int i = 0; i < courseModules.size(); i++) {
+            asciiTable.addRule();
+            asciiTable.addRow(
+                    i + 1,
+                    courseModules.get(i).getCourseModuleCode(),
+                    courseModules.get(i).getName(),
+                    courseModules.get(i).getLevel(),
+                    courseModules.get(i).getInstructorName(),
+                    courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
+                    courseModules.get(i).getAssignmentIds(),
+                    courseModules.get(i).getStudentNames()
+            );
+        }
+
+        asciiTable.addRule();
+        System.out.println(asciiTable.render());
+
+        System.out.print("Enter the number of the course module to rename: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < this.courses.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToRename = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+
+                System.out.print("Are you sure you want to rename " + courseModuleToRename.getName() + "? (Y/N) ");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                    System.out.print("What would you like to rename " + courseModuleToRename.getName() + " to? ");
+                    String newName = scanner.nextLine();
+                    this.courseAdministrator.renameCourseModule(courseModules, courseModuleToRename, newName);
+                }
+            }
+        }
+
+        this.runCourseModuleSubMenu();
     }
 }
