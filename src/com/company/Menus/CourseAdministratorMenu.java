@@ -1,8 +1,10 @@
 package com.company.Menus;
 
 import com.company.FileHandling.Loaders.CourseAdministratorLoader;
+import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.Models.Study.Course;
+import com.company.Models.Study.CourseModule;
 import com.company.Models.Users.CourseAdministrator;
 import com.company.Models.Users.Instructor;
 import de.vandermeer.asciitable.AsciiTable;
@@ -77,12 +79,15 @@ public class CourseAdministratorMenu {
         System.out.println("""
                 What would you like to do?\s
                 (1) Add a course module to a course\s
-                (2) Go back to main menu""");
+                (2) Remove course module from a course\s
+                (3) Go back to main menu""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
             this.addCourseModuleToCourse(courses);
         } else if (Objects.equals(action, "2")) {
+            this.removeCourseModuleFromCourse(courses);
+        } else if (Objects.equals(action, "3")) {
             this.runCourseAdministratorMenu();
         }
     }
@@ -97,7 +102,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToCancel = courses.get(Integer.parseInt(action) - 1);
 
                 if (!courseToCancel.getIsAvailable()) {
@@ -130,7 +135,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
 
                 if (courseToReopen.getIsAvailable()) {
@@ -175,7 +180,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToDelete = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
@@ -204,7 +209,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToRename = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N)");
@@ -234,7 +239,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > -1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToAddTo = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to add a module to " + courseToAddTo.getName() + "? (Y/N)");
@@ -264,6 +269,7 @@ public class CourseAdministratorMenu {
                                 + instructors.get(i).getMiddleName() + " "
                                 + instructors.get(i).getLastName());
                     }
+
                     System.out.println((instructors.size() + 1) + " Skip");
                     System.out.print("Enter the number of the instructor for this course module, or press "
                             + (instructors.size() + 1) + " to skip: ");
@@ -278,8 +284,7 @@ public class CourseAdministratorMenu {
 
                     String instructorName;
 
-                    if (Integer.parseInt(instructorNumber) - 1 < courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 > -1) {
-                        System.out.println(Integer.parseInt(instructorNumber) - 1);
+                    if (Integer.parseInt(instructorNumber) - 1 < courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
                         instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
                     } else {
                         instructorName = "";
@@ -308,5 +313,92 @@ public class CourseAdministratorMenu {
         }
 
         this.runCourseModuleSubMenu(courses);
+    }
+
+    /**
+     * Removes a course module from a course.
+     * @param courses the lost of courses to update.
+     */
+    private void removeCourseModuleFromCourse(ArrayList<Course> courses) {
+        System.out.print("Enter the number of the course to remove a course module from: ");
+        String action = scanner.nextLine();
+
+        if (StringUtils.isNumeric(action)) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToRemoveModuleFrom = courses.get(Integer.parseInt(action) - 1);
+
+                AsciiTable asciiTable = new AsciiTable();
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        "Course Modules in " + courseToRemoveModuleFrom.getName());
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        "Number",
+                        "Course Module Code",
+                        "Name",
+                        "Level",
+                        "Instructor",
+                        "Mandatory or Optional",
+                        "Assignment Ids",
+                        "Students");
+
+                ArrayList<String> courseModuleCodes = new ArrayList<>(courseToRemoveModuleFrom.getCourseModuleCodes());
+
+                for (int i = 0; i < courseToRemoveModuleFrom.getCourseModuleCodes().size(); i++) {
+                    CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCodes.get(i));
+
+                    asciiTable.addRule();
+                    asciiTable.addRow(
+                            i + 1,
+                            courseModule.getCourseModuleCode(),
+                            courseModule.getName(),
+                            courseModule.getLevel(),
+                            courseModule.getInstructorName(),
+                            courseModule.getIsMandatory() ? "Mandatory" : "Optional",
+                            courseModule.getAssignmentIds(),
+                            courseModule.getStudentNames()
+                    );
+                }
+
+                asciiTable.addRule();
+                System.out.println(asciiTable.render());
+
+                System.out.print("Enter the number of the course module to remove: ");
+                String courseModuleNumber = scanner.nextLine();
+
+                if (StringUtils.isNumeric(courseModuleNumber)) {
+                    if (Integer.parseInt(courseModuleNumber) - 1 < courseModuleCodes.size() &&
+                            Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                        CourseModule courseModuleToRemove =
+                                new CourseModuleLoader()
+                                        .loadCourseModule(courseModuleCodes.get(Integer.parseInt(courseModuleNumber) - 1));
+                        System.out.print(
+                                "Are you sure you want to remove "
+                                        + courseModuleToRemove.getName()
+                                        + " from "
+                                        + courseToRemoveModuleFrom.getName()
+                                        + "? (Y/N)");
+                        action = scanner.nextLine();
+
+                        if (action.toLowerCase(Locale.ROOT).equals("y")) {
+                            courseAdministrator.removeCourseModuleFromCourse(courses, courseToRemoveModuleFrom, courseModuleToRemove);
+                        }
+                    } else {
+                        System.out.println("Course number does not exist");
+                    }
+                } else {
+                    System.out.println("Invalid input");
+                }
+            }
+
+            this.runCourseModuleSubMenu(courses);
+        }
     }
 }
