@@ -265,7 +265,11 @@ public class CourseAdministratorCourseModuleSubMenu {
                     String newName = scanner.nextLine();
                     this.courseAdministrator.renameCourseModule(courseModules, courseModuleToRename, newName);
                 }
+            } else {
+                System.out.println("Course number does not exist");
             }
+        } else {
+            System.out.println("Invalid input");
         }
 
         this.runCourseModuleSubMenu();
