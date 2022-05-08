@@ -102,7 +102,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToCancel = courses.get(Integer.parseInt(action) - 1);
 
                 if (!courseToCancel.getIsAvailable()) {
@@ -135,7 +135,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
 
                 if (courseToReopen.getIsAvailable()) {
@@ -180,7 +180,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToDelete = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
@@ -209,7 +209,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > 1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToRename = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N)");
@@ -239,7 +239,7 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > -1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToAddTo = courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to add a module to " + courseToAddTo.getName() + "? (Y/N)");
@@ -269,6 +269,7 @@ public class CourseAdministratorMenu {
                                 + instructors.get(i).getMiddleName() + " "
                                 + instructors.get(i).getLastName());
                     }
+
                     System.out.println((instructors.size() + 1) + " Skip");
                     System.out.print("Enter the number of the instructor for this course module, or press "
                             + (instructors.size() + 1) + " to skip: ");
@@ -283,7 +284,7 @@ public class CourseAdministratorMenu {
 
                     String instructorName;
 
-                    if (Integer.parseInt(instructorNumber) - 1 < courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 > -1) {
+                    if (Integer.parseInt(instructorNumber) - 1 < courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
                         instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
                     } else {
                         instructorName = "";
@@ -314,12 +315,16 @@ public class CourseAdministratorMenu {
         this.runCourseModuleSubMenu(courses);
     }
 
+    /**
+     * Removes a course module from a course.
+     * @param courses the lost of courses to update.
+     */
     private void removeCourseModuleFromCourse(ArrayList<Course> courses) {
         System.out.print("Enter the number of the course to remove a course module from: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 > -1) {
+            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToRemoveModuleFrom = courses.get(Integer.parseInt(action) - 1);
 
                 AsciiTable asciiTable = new AsciiTable();
@@ -369,9 +374,6 @@ public class CourseAdministratorMenu {
                 String courseModuleNumber = scanner.nextLine();
 
                 if (StringUtils.isNumeric(courseModuleNumber)) {
-                    System.out.println(Integer.parseInt(courseModuleNumber) - 1 < courseModuleCodes.size());
-                    System.out.println(Integer.parseInt(courseModuleNumber) - 1 >= 1);
-
                     if (Integer.parseInt(courseModuleNumber) - 1 < courseModuleCodes.size() &&
                             Integer.parseInt(courseModuleNumber) - 1 >= 0) {
                         CourseModule courseModuleToRemove =
