@@ -152,9 +152,9 @@ public class CourseAdministrator extends User {
      * @param course the course to remove the module from
      * @param courseModule the course module that needs to be removed
      */
-    public void removeCourseModuleFromCourse(Course course, CourseModule courseModule) {
-//        course.removeCourseModule(courseModule);
-//        new CourseSaver().saveAllCourses(this.courses);
+    public void removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule) {
+        course.removeCourseModule(courseModule.getCourseModuleCode());
+        new CourseSaver().saveAllCourses(courses);
     }
 
     /**
