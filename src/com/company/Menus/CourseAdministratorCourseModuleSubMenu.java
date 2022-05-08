@@ -215,6 +215,9 @@ public class CourseAdministratorCourseModuleSubMenu {
         }
     }
 
+    /**
+     * Renames a course module (which could be in one or multiple courses)
+     */
     private void renameCourseModule() {
         ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
         AsciiTable asciiTable = new AsciiTable();
