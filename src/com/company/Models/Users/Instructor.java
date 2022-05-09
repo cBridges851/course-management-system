@@ -21,12 +21,18 @@ public class Instructor extends User {
     }
 
     /**
-     * @return the modules that the instructor teaches on.
+     * Retrieves the course modules the instructor teaches on.
+     * @return the course modules that the instructor teaches on.
      */
     public String[] getCourseModules() {
         return courseModuleCodes;
     }
 
+    /**
+     * Adds a course module code to the course modules that the instructor teaches on, but they can only have up to 4.
+     * @param courseModuleCode the identifier of the course module code to add
+     * @return whether the instructor was able to be assigned to the course module
+     */
     public boolean addCourseModule(String courseModuleCode) {
         for (int i = 0; i < 4; i++) {
             if (courseModuleCodes[i] == null) {

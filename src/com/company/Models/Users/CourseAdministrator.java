@@ -8,13 +8,10 @@ import com.company.FileHandling.Savers.CourseSaver;
 import com.company.FileHandling.Savers.InstructorSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
-import com.company.Models.Study.Assignment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Locale;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
@@ -167,7 +164,7 @@ public class CourseAdministrator extends User {
         boolean canBeAssigned = instructor.addCourseModule(courseModule.getCourseModuleCode());
 
         if (canBeAssigned) {
-            courseModule.setInstructorName(instructor.getUsername());
+            courseModule.addInstructorName(instructor.getUsername());
 
             new InstructorSaver().saveAllInstructors(instructors);
             new CourseModuleSaver().saveAllCourseModules(allCourseModules);

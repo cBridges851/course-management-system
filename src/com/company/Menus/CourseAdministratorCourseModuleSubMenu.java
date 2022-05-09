@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 public class CourseAdministratorCourseModuleSubMenu {
-    private CourseAdministrator courseAdministrator;
+    private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private final ArrayList<Course> courses;
 
@@ -42,7 +42,7 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if (Objects.equals(action, "3")) {
             this.renameCourseModule();
         } else if (Objects.equals(action, "4")) {
-            this.addInstructorToModule();
+            this.addInstructorToCourseModule();
         } else if (Objects.equals(action, "5")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
         }
@@ -297,7 +297,10 @@ public class CourseAdministratorCourseModuleSubMenu {
         this.runCourseModuleSubMenu();
     }
 
-    private void addInstructorToModule() {
+    /**
+     * Adds an instructor onto a selected course module
+     */
+    private void addInstructorToCourseModule() {
         ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
         AsciiTable asciiTable = new AsciiTable();
         asciiTable.addRule();

@@ -1,6 +1,5 @@
 package com.company.Models.Study;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -66,7 +65,11 @@ public class CourseModule {
         return this.instructorNames;
     }
 
-    public void setInstructorName(String instructorName) {
+    /**
+     * Adds an instructor to the module
+     * @param instructorName the name of the instructor to add to the course module.
+     */
+    public void addInstructorName(String instructorName) {
         this.instructorNames.add(instructorName);
     }
 
