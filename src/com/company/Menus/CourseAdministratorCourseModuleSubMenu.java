@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 public class CourseAdministratorCourseModuleSubMenu {
-    private CourseAdministrator courseAdministrator;
+    private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private final ArrayList<Course> courses;
 
@@ -31,7 +31,8 @@ public class CourseAdministratorCourseModuleSubMenu {
                 (1) Add a course module to a course\s
                 (2) Remove course module from a course\s
                 (3) Rename a course module\s
-                (4) Go back to main menu""");
+                (4) Add instructor to module
+                (5) Go back to main menu""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -41,6 +42,8 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if (Objects.equals(action, "3")) {
             this.renameCourseModule();
         } else if (Objects.equals(action, "4")) {
+            this.addInstructorToCourseModule();
+        } else if (Objects.equals(action, "5")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
         }
     }
@@ -77,32 +80,51 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                     ArrayList<Instructor> instructors = new InstructorLoader().loadAllInstructors();
 
-                    for (int i = 0; i < instructors.size(); i++) {
-                        System.out.println((i + 1) + " "
-                                + instructors.get(i).getFirstName() + " "
-                                + instructors.get(i).getMiddleName() + " "
-                                + instructors.get(i).getLastName());
+                    boolean isValidInstructor = false;
+                    HashSet<String> instructorNames = new HashSet<>();
+
+                    while (!isValidInstructor) {
+                        for (int i = 0; i < instructors.size(); i++) {
+                            System.out.println((i + 1) + " "
+                                    + instructors.get(i).getFirstName() + " "
+                                    + instructors.get(i).getMiddleName() + " "
+                                    + instructors.get(i).getLastName());
+                        }
+
+                        System.out.println((instructors.size() + 1) + " Skip");
+                        System.out.print("Enter the number of the instructor for this course module, or press "
+                                + (instructors.size() + 1) + " to skip: ");
+
+                        String instructorNumber = scanner.nextLine();
+
+                        if (!StringUtils.isNumeric(instructorNumber)) {
+                            System.out.println("Invalid input");
+                            break;
+                        }
+
+                        String instructorName;
+
+                        if (Integer.parseInt(instructorNumber) - 1 < instructors.size()
+                                && Integer.parseInt(instructorNumber) - 1 >= 0) {
+                            instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
+
+                            String[] instructorsCourseModules = instructors.get(Integer.parseInt(instructorNumber) - 1).getCourseModules();
+                            ArrayList<String> instructorsCourseModulesArrayList = new ArrayList<>(Arrays.asList(instructorsCourseModules));
+                            instructorsCourseModulesArrayList.removeAll(Collections.singleton(null));
+
+                            if (instructorsCourseModulesArrayList.size() < 4) {
+                                instructorNames.add(instructorName);
+                                isValidInstructor = true;
+                            } else {
+                                System.out.println("Instructors cannot be assigned to more than 4 modules");
+                            }
+                        } else if (Integer.parseInt(instructorNumber) == instructors.size() + 1) {
+                            isValidInstructor = true;
+                        } else {
+                            System.out.println("Instructor number does not exist");
+                        }
                     }
 
-                    System.out.println((instructors.size() + 1) + " Skip");
-                    System.out.print("Enter the number of the instructor for this course module, or press "
-                            + (instructors.size() + 1) + " to skip: ");
-
-                    String instructorNumber = scanner.nextLine();
-
-                    if (!StringUtils.isNumeric(instructorNumber)) {
-                        System.out.println("Invalid input");
-                        this.runCourseModuleSubMenu();
-                        return;
-                    }
-
-                    String instructorName;
-
-                    if (Integer.parseInt(instructorNumber) - 1 < this.courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
-                        instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
-                    } else {
-                        instructorName = "";
-                    }
 
                     System.out.print("Is this module mandatory? (Y/N) ");
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
@@ -113,7 +135,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                             courseModuleCode,
                             courseModuleName,
                             courseModuleLevelInt,
-                            instructorName,
+                            instructorNames,
                             isMandatory,
                             new HashSet<>(),
                             new HashSet<>());
@@ -173,7 +195,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                             courseModule.getCourseModuleCode(),
                             courseModule.getName(),
                             courseModule.getLevel(),
-                            courseModule.getInstructorName(),
+                            courseModule.getInstructorNames(),
                             courseModule.getIsMandatory() ? "Mandatory" : "Optional",
                             courseModule.getAssignmentIds(),
                             courseModule.getStudentNames()
@@ -240,7 +262,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                     courseModules.get(i).getCourseModuleCode(),
                     courseModules.get(i).getName(),
                     courseModules.get(i).getLevel(),
-                    courseModules.get(i).getInstructorName(),
+                    courseModules.get(i).getInstructorNames(),
                     courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
                     courseModules.get(i).getAssignmentIds(),
                     courseModules.get(i).getStudentNames()
@@ -264,6 +286,100 @@ public class CourseAdministratorCourseModuleSubMenu {
                     System.out.print("What would you like to rename " + courseModuleToRename.getName() + " to? ");
                     String newName = scanner.nextLine();
                     this.courseAdministrator.renameCourseModule(courseModules, courseModuleToRename, newName);
+                }
+            } else {
+                System.out.println("Course number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runCourseModuleSubMenu();
+    }
+
+    /**
+     * Adds an instructor onto a selected course module
+     */
+    private void addInstructorToCourseModule() {
+        ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
+        AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow(null, null, null, null, null, null, null, "All Course Modules");
+        asciiTable.addRule();
+        asciiTable.addRow(
+                "Number",
+                "Course Module Code",
+                "Name",
+                "Level",
+                "Instructor",
+                "Mandatory or Optional",
+                "Assignment Ids",
+                "Students");
+        for (int i = 0; i < courseModules.size(); i++) {
+            asciiTable.addRule();
+            asciiTable.addRow(
+                    i + 1,
+                    courseModules.get(i).getCourseModuleCode(),
+                    courseModules.get(i).getName(),
+                    courseModules.get(i).getLevel(),
+                    courseModules.get(i).getInstructorNames(),
+                    courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
+                    courseModules.get(i).getAssignmentIds(),
+                    courseModules.get(i).getStudentNames()
+            );
+        }
+
+        asciiTable.addRule();
+        System.out.println(asciiTable.render());
+
+        System.out.print("Enter the number of the course module to add an instructor to: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToAddInstructor = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+
+                System.out.print("Are you sure you want to add an instructor to " + courseModuleToAddInstructor.getName() + "? (Y/N) ");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                    ArrayList<Instructor> instructors = new InstructorLoader().loadAllInstructors();
+
+                    for (int i = 0; i < instructors.size(); i++) {
+                        System.out.println(
+                                i + 1
+                                + " " + instructors.get(i).getFirstName()
+                                + " " + instructors.get(i).getMiddleName()
+                                + " " + instructors.get(i).getLastName());
+                    }
+
+                    System.out.print("Enter the number of the instructor to assign to this course module: ");
+                    String instructorNumber = scanner.nextLine();
+
+                    if (StringUtils.isNumeric(instructorNumber)) {
+                        if (Integer.parseInt(instructorNumber) - 1 < instructors.size() && Integer.parseInt(instructorNumber) - 1 >= 0) {
+                            Instructor instructor = instructors.get(Integer.parseInt(instructorNumber) - 1);
+                            System.out.print("Assign "
+                                    + instructor.getFirstName()
+                                    + " " + instructor.getMiddleName()
+                                    + " " + instructor.getLastName()
+                                    + " to " + courseModuleToAddInstructor.getName() + "? (Y/N)");
+
+                            action = scanner.nextLine();
+
+                            if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                                this.courseAdministrator.assignInstructorToCourseModule(
+                                        courseModules,
+                                        courseModuleToAddInstructor,
+                                        instructors,
+                                        instructor);
+                            }
+                        } else {
+                            System.out.println("Instructor number does not exist");
+                        }
+                    } else {
+                        System.out.println("Invalid input");
+                    }
                 }
             } else {
                 System.out.println("Course number does not exist");
