@@ -76,7 +76,7 @@ public class CourseAdministrator extends User {
             }
         }
 
-        for(Instructor instructorToUpdate: instructorsToUpdate) {
+        for (Instructor instructorToUpdate: instructorsToUpdate) {
             assignInstructorToCourseModule(allCourseModules, courseModule, allInstructors, instructorToUpdate);
         }
     }

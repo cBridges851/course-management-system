@@ -80,32 +80,51 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                     ArrayList<Instructor> instructors = new InstructorLoader().loadAllInstructors();
 
-                    for (int i = 0; i < instructors.size(); i++) {
-                        System.out.println((i + 1) + " "
-                                + instructors.get(i).getFirstName() + " "
-                                + instructors.get(i).getMiddleName() + " "
-                                + instructors.get(i).getLastName());
-                    }
-
-                    System.out.println((instructors.size() + 1) + " Skip");
-                    System.out.print("Enter the number of the instructor for this course module, or press "
-                            + (instructors.size() + 1) + " to skip: ");
-
-                    String instructorNumber = scanner.nextLine();
-
-                    if (!StringUtils.isNumeric(instructorNumber)) {
-                        System.out.println("Invalid input");
-                        this.runCourseModuleSubMenu();
-                        return;
-                    }
-
+                    boolean isValidInstructor = false;
                     HashSet<String> instructorNames = new HashSet<>();
-                    String instructorName;
 
-                    if (Integer.parseInt(instructorNumber) - 1 < this.courses.size() - 1 && Integer.parseInt(instructorNumber) - 1 >= 0) {
-                        instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
-                        instructorNames.add(instructorName);
+                    while (!isValidInstructor) {
+                        for (int i = 0; i < instructors.size(); i++) {
+                            System.out.println((i + 1) + " "
+                                    + instructors.get(i).getFirstName() + " "
+                                    + instructors.get(i).getMiddleName() + " "
+                                    + instructors.get(i).getLastName());
+                        }
+
+                        System.out.println((instructors.size() + 1) + " Skip");
+                        System.out.print("Enter the number of the instructor for this course module, or press "
+                                + (instructors.size() + 1) + " to skip: ");
+
+                        String instructorNumber = scanner.nextLine();
+
+                        if (!StringUtils.isNumeric(instructorNumber)) {
+                            System.out.println("Invalid input");
+                            break;
+                        }
+
+                        String instructorName;
+
+                        if (Integer.parseInt(instructorNumber) - 1 < instructors.size()
+                                && Integer.parseInt(instructorNumber) - 1 >= 0) {
+                            instructorName = instructors.get(Integer.parseInt(instructorNumber) - 1).getUsername();
+
+                            String[] instructorsCourseModules = instructors.get(Integer.parseInt(instructorNumber) - 1).getCourseModules();
+                            ArrayList<String> instructorsCourseModulesArrayList = new ArrayList<>(Arrays.asList(instructorsCourseModules));
+                            instructorsCourseModulesArrayList.removeAll(Collections.singleton(null));
+
+                            if (instructorsCourseModulesArrayList.size() < 4) {
+                                instructorNames.add(instructorName);
+                                isValidInstructor = true;
+                            } else {
+                                System.out.println("Instructors cannot be assigned to more than 4 modules");
+                            }
+                        } else if (Integer.parseInt(instructorNumber) == instructors.size() + 1) {
+                            isValidInstructor = true;
+                        } else {
+                            System.out.println("Instructor number does not exist");
+                        }
                     }
+
 
                     System.out.print("Is this module mandatory? (Y/N) ");
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
