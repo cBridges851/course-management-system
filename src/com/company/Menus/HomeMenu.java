@@ -24,8 +24,8 @@ public class HomeMenu {
         if (Objects.equals(action, "1")) {
             new CourseAdministratorMenu(scanner).runCourseAdministratorMenu();
         } else if (Objects.equals(action, "2")) {
-            System.out.println("Logging in as instructor");
-        } else if (Objects.equals(action, "")) {
+            new InstructorMenu(scanner).runInstructorMenu();
+        } else if (Objects.equals(action, "3")) {
             System.out.println("Logging in as student");
         } else {
             System.out.println("User type not recognised");

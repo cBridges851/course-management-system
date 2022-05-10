@@ -6,13 +6,13 @@ import java.util.HashSet;
  * Model that represents a module that could be on a course. For example, 5CS019 - Object-Oriented Programming
  */
 public class CourseModule {
-    private String courseModuleCode;
+    private final String courseModuleCode;
     private String name;
-    private int level;
-    private HashSet<String> instructorNames;
-    private boolean isMandatory;
-    private HashSet<String> assignmentIds;
-    private HashSet<String> studentNames;
+    private final int level;
+    private final HashSet<String> instructorNames;
+    private final boolean isMandatory;
+    private final HashSet<String> assignmentIds;
+    private final HashSet<String> studentNames;
 
     public CourseModule(String courseModuleCode, String name, int level, HashSet<String> instructorNames, boolean isMandatory,
                         HashSet<String> assignmentIds, HashSet<String> studentNames) {
