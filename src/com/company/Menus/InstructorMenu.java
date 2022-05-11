@@ -37,46 +37,53 @@ public class InstructorMenu {
         ArrayList<CourseModule> courseModules = new ArrayList<>();
 
         for (String courseModuleCode: courseModuleCodes) {
-            courseModules.add(new CourseModuleLoader().loadCourseModule(courseModuleCode));
+            if (courseModuleCode != null) {
+                courseModules.add(new CourseModuleLoader().loadCourseModule(courseModuleCode));
+            }
         }
 
-        AsciiTable asciiTable = new AsciiTable();
-        asciiTable.addRule();
-        asciiTable.addRow(null, null, null, null, null, null, "My Course Modules");
-        asciiTable.addRule();
-        asciiTable.addRow(
-                "Number",
-                "Course Module Code",
-                "Name",
-                "Level",
-                "Mandatory or Optional",
-                "Assignment IDs",
-                "Enrolled Students");
-        asciiTable.addRule();
-
-        for (int i = 0; i < courseModules.size(); i++) {
-            asciiTable.addRow(
-                i + 1,
-                courseModules.get(i).getCourseModuleCode(),
-                courseModules.get(i).getName(),
-                courseModules.get(i).getLevel(),
-                courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
-                courseModules.get(i).getAssignmentIds(),
-                courseModules.get(i).getStudentNames()
-            );
+        if (courseModules.size() > 0) {
+            AsciiTable asciiTable = new AsciiTable();
             asciiTable.addRule();
-        }
+            asciiTable.addRow(null, null, null, null, null, null, "My Course Modules");
+            asciiTable.addRule();
+            asciiTable.addRow(
+                    "Number",
+                    "Course Module Code",
+                    "Name",
+                    "Level",
+                    "Mandatory or Optional",
+                    "Assignment IDs",
+                    "Enrolled Students");
+            asciiTable.addRule();
 
-        System.out.println(asciiTable.render());
+            for (int i = 0; i < courseModules.size(); i++) {
+                asciiTable.addRow(
+                        i + 1,
+                        courseModules.get(i).getCourseModuleCode(),
+                        courseModules.get(i).getName(),
+                        courseModules.get(i).getLevel(),
+                        courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
+                        courseModules.get(i).getAssignmentIds(),
+                        courseModules.get(i).getStudentNames()
+                );
+                asciiTable.addRule();
+            }
 
-        System.out.println("""
+            System.out.println(asciiTable.render());
+
+            System.out.println("""
                     What would you like to do?\s
                     (1) View students in a course module""");
-        String action = scanner.nextLine();
+            String action = scanner.nextLine();
 
-        if (Objects.equals(action, "1")) {
-            this.viewCourseModule(courseModules);
+            if (Objects.equals(action, "1")) {
+                this.viewCourseModule(courseModules);
+            }
+        } else {
+            System.out.println("You have not been assigned any course modules");
         }
+
     }
 
     private void viewCourseModule(ArrayList<CourseModule> courseModules) {
@@ -159,6 +166,7 @@ public class InstructorMenu {
         } else {
             System.out.println("Invalid input");
         }
+
         this.runInstructorMenu();
     }
 }

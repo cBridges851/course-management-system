@@ -12,6 +12,7 @@ import com.company.Models.Study.CourseModule;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
@@ -40,7 +41,7 @@ public class CourseAdministrator extends User {
      * @param name the name of the new module
      * @param level the level of the new module
      * @param instructorNames the name of the instructor teaching the module
-     * @param isMandatory indicator of whether or not the module is optional
+     * @param isMandatory indicator of whether the module is optional
      * @param assignmentIds the assignments that have to be completed in the module
      * @param studentNames the students enrolled in the module
      */
@@ -62,8 +63,8 @@ public class CourseAdministrator extends User {
         allCourseModules.add(courseModule);
         new CourseModuleSaver().saveAllCourseModules(allCourseModules);
         ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
-        ArrayList<Instructor> instructorsToUpdate = new ArrayList<Instructor>();
-        ArrayList<String> instructorNamesAsArray = new ArrayList<String>(instructorNames);
+        ArrayList<Instructor> instructorsToUpdate = new ArrayList<>();
+        ArrayList<String> instructorNamesAsArray = new ArrayList<>(instructorNames);
 
         for (String relevantInstructor: instructorNamesAsArray) {
             for (Instructor instructor: allInstructors) {
@@ -194,14 +195,37 @@ public class CourseAdministrator extends User {
 
             allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
             new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+            ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
+
+            for (Instructor instructor: allInstructors) {
+                for (String courseModuleCode : instructor.getCourseModules()) {
+                    if (Objects.equals(courseModuleCode, courseModule.getCourseModuleCode())) {
+                        instructor.removeCourseModule(courseModuleCode);
+                    }
+                }
+            }
+
+            new InstructorSaver().saveAllInstructors(allInstructors);
         }
     }
 
     /**
      * @param courseModule the course module that will have the instructor removed from it.
-     * @throws Exception
      */
-    public void removeInstructorFromCourseModule(CourseModule courseModule) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void removeInstructorFromCourseModule(ArrayList<CourseModule> allCourseModules,
+                                                 CourseModule courseModule,
+                                                 ArrayList<Instructor> allInstructors,
+                                                 Instructor instructor) {
+        courseModule.removeInstructorName(instructor.getUsername());
+        instructor.removeCourseModule(courseModule.getCourseModuleCode());
+
+        for (int i = 0; i < allInstructors.size(); i++) {
+            if (Objects.equals(allInstructors.get(i).getUsername(), instructor.getUsername())) {
+                allInstructors.set(i, instructor);
+            }
+        }
+
+        new InstructorSaver().saveAllInstructors(allInstructors);
+        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
     }
 }

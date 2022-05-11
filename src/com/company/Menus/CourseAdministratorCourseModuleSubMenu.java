@@ -11,6 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
+/**
+ * Menu that handles tasks specifically about course modules.
+ */
 public class CourseAdministratorCourseModuleSubMenu {
     private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
@@ -31,8 +34,9 @@ public class CourseAdministratorCourseModuleSubMenu {
                 (1) Add a course module to a course\s
                 (2) Remove course module from a course\s
                 (3) Rename a course module\s
-                (4) Add instructor to module
-                (5) Go back to main menu""");
+                (4) Add instructor to course module\s
+                (5) Remove instructor from course module\s
+                (6) Go back to main menu""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -44,6 +48,8 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if (Objects.equals(action, "4")) {
             this.addInstructorToCourseModule();
         } else if (Objects.equals(action, "5")) {
+            this.removeInstructorFromCourseModule();
+        } else if(Objects.equals(action, "6")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
         }
     }
@@ -242,35 +248,7 @@ public class CourseAdministratorCourseModuleSubMenu {
      */
     private void renameCourseModule() {
         ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
-        AsciiTable asciiTable = new AsciiTable();
-        asciiTable.addRule();
-        asciiTable.addRow(null, null, null, null, null, null, null, "All Course Modules");
-        asciiTable.addRule();
-        asciiTable.addRow(
-                "Number",
-                "Course Module Code",
-                "Name",
-                "Level",
-                "Instructor",
-                "Mandatory or Optional",
-                "Assignment Ids",
-                "Students");
-        for (int i = 0; i < courseModules.size(); i++) {
-            asciiTable.addRule();
-            asciiTable.addRow(
-                    i + 1,
-                    courseModules.get(i).getCourseModuleCode(),
-                    courseModules.get(i).getName(),
-                    courseModules.get(i).getLevel(),
-                    courseModules.get(i).getInstructorNames(),
-                    courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
-                    courseModules.get(i).getAssignmentIds(),
-                    courseModules.get(i).getStudentNames()
-            );
-        }
-
-        asciiTable.addRule();
-        System.out.println(asciiTable.render());
+        this.displayCourseModuleTable(courseModules);
 
         System.out.print("Enter the number of the course module to rename: ");
         String courseModuleNumber = scanner.nextLine();
@@ -302,35 +280,7 @@ public class CourseAdministratorCourseModuleSubMenu {
      */
     private void addInstructorToCourseModule() {
         ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
-        AsciiTable asciiTable = new AsciiTable();
-        asciiTable.addRule();
-        asciiTable.addRow(null, null, null, null, null, null, null, "All Course Modules");
-        asciiTable.addRule();
-        asciiTable.addRow(
-                "Number",
-                "Course Module Code",
-                "Name",
-                "Level",
-                "Instructor",
-                "Mandatory or Optional",
-                "Assignment Ids",
-                "Students");
-        for (int i = 0; i < courseModules.size(); i++) {
-            asciiTable.addRule();
-            asciiTable.addRow(
-                    i + 1,
-                    courseModules.get(i).getCourseModuleCode(),
-                    courseModules.get(i).getName(),
-                    courseModules.get(i).getLevel(),
-                    courseModules.get(i).getInstructorNames(),
-                    courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
-                    courseModules.get(i).getAssignmentIds(),
-                    courseModules.get(i).getStudentNames()
-            );
-        }
-
-        asciiTable.addRule();
-        System.out.println(asciiTable.render());
+        this.displayCourseModuleTable(courseModules);
 
         System.out.print("Enter the number of the course module to add an instructor to: ");
         String courseModuleNumber = scanner.nextLine();
@@ -389,5 +339,124 @@ public class CourseAdministratorCourseModuleSubMenu {
         }
 
         this.runCourseModuleSubMenu();
+    }
+
+    /**
+     * Removes an instructor from a selected course module.
+     */
+    private void removeInstructorFromCourseModule() {
+        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+        this.displayCourseModuleTable(allCourseModules);
+
+        System.out.print("Enter the number of the course module to remove an instructor from: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < allCourseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToRemoveInstructor = allCourseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+
+                System.out.print("Are you sure you want to remove an instructor from " + courseModuleToRemoveInstructor.getName() + "? (Y/N) ");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                    HashSet<String> allInstructorNamesOnCourseModule = courseModuleToRemoveInstructor.getInstructorNames();
+                    ArrayList<Instructor> instructors = new ArrayList<>();
+
+                    for (String instructorOnCourseModule: allInstructorNamesOnCourseModule) {
+                        Instructor instructor = new InstructorLoader().loadInstructor(instructorOnCourseModule);
+                        instructors.add(instructor);
+                    }
+
+                    if (instructors.size() == 0) {
+                        System.out.println("There are no instructors on this course module");
+                        runCourseModuleSubMenu();
+                        return;
+                    }
+
+                    for (int i = 0; i < instructors.size(); i++) {
+                        System.out.println(
+                                i + 1
+                                + " " + instructors.get(i).getFirstName()
+                                + " " + instructors.get(i).getMiddleName()
+                                + " " + instructors.get(i).getLastName()
+                        );
+                    }
+
+                    System.out.print("Enter the number of the instructor to remove: ");
+                    String instructorNumber = scanner.nextLine();
+
+                    if (StringUtils.isNumeric(instructorNumber)) {
+                        if (Integer.parseInt(instructorNumber) - 1 < instructors.size()
+                                && Integer.parseInt(instructorNumber) - 1 >= 0) {
+                            Instructor instructorToRemove = instructors.get(Integer.parseInt(instructorNumber) - 1);
+                            System.out.println(
+                                    "Are you sure you want to remove "
+                                            + instructorToRemove.getFirstName()
+                                            + " " + instructorToRemove.getMiddleName()
+                                            + " " + instructorToRemove.getLastName()
+                                            + " from " + courseModuleToRemoveInstructor.getName() + "? (Y/N)"
+                            );
+
+                            action = scanner.nextLine();
+
+                            if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                                courseAdministrator.removeInstructorFromCourseModule(
+                                        allCourseModules,
+                                        courseModuleToRemoveInstructor,
+                                        new InstructorLoader().loadAllInstructors(),
+                                        instructorToRemove);
+                            }
+                        } else {
+                            System.out.println("Instructor number does not exist");
+                        }
+                    } else {
+                        System.out.println("Invalid input");
+                    }
+                }
+            } else {
+                System.out.println("Course module number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runCourseModuleSubMenu();
+    }
+
+    /**
+     * Displays all the course modules in the system in a table
+     * @param allCourseModules the course modules to display in the table
+     */
+    private void displayCourseModuleTable(ArrayList<CourseModule> allCourseModules) {
+        AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow(null, null, null, null, null, null, null, "All Course Modules");
+        asciiTable.addRule();
+        asciiTable.addRow(
+                "Number",
+                "Course Module Code",
+                "Name",
+                "Level",
+                "Instructor",
+                "Mandatory or Optional",
+                "Assignment Ids",
+                "Students");
+        
+        for (int i = 0; i < allCourseModules.size(); i++) {
+            asciiTable.addRule();
+            asciiTable.addRow(
+                    i + 1,
+                    allCourseModules.get(i).getCourseModuleCode(),
+                    allCourseModules.get(i).getName(),
+                    allCourseModules.get(i).getLevel(),
+                    allCourseModules.get(i).getInstructorNames(),
+                    allCourseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
+                    allCourseModules.get(i).getAssignmentIds(),
+                    allCourseModules.get(i).getStudentNames()
+            );
+        }
+
+        asciiTable.addRule();
+        System.out.println(asciiTable.render());
     }
 }
