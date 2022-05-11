@@ -73,6 +73,10 @@ public class CourseModule {
         this.instructorNames.add(instructorName);
     }
 
+    public void removeInstructorName(String instructorName) {
+        this.instructorNames.remove(instructorName);
+    }
+
     /**
      * Gets whether or not students must undertake this module.
      * @return whether or not students must do this module. True indicates that it must be completed,

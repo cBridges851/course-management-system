@@ -31,4 +31,16 @@ public class InstructorLoader {
 
         return instructors;
     }
+
+    public Instructor loadInstructor(String username) {
+        ArrayList<Instructor> allInstructors = this.loadAllInstructors();
+
+        for (Instructor instructor: allInstructors) {
+            if (instructor.getUsername().equals(username)) {
+                return instructor;
+            }
+        }
+
+        return null;
+    }
 }

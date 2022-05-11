@@ -12,6 +12,7 @@ import com.company.Models.Study.CourseModule;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
@@ -199,9 +200,21 @@ public class CourseAdministrator extends User {
 
     /**
      * @param courseModule the course module that will have the instructor removed from it.
-     * @throws Exception
      */
-    public void removeInstructorFromCourseModule(CourseModule courseModule) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void removeInstructorFromCourseModule(ArrayList<CourseModule> allCourseModules,
+                                                 CourseModule courseModule,
+                                                 ArrayList<Instructor> allInstructors,
+                                                 Instructor instructor) {
+        courseModule.removeInstructorName(instructor.getUsername());
+        instructor.removeCourseModule(courseModule.getCourseModuleCode());
+
+        for (int i = 0; i < allInstructors.size(); i++) {
+            if (Objects.equals(allInstructors.get(i).getUsername(), instructor.getUsername())) {
+                allInstructors.set(i, instructor);
+            }
+        }
+
+        new InstructorSaver().saveAllInstructors(allInstructors);
+        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
     }
 }

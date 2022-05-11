@@ -5,6 +5,7 @@ import com.company.Models.Study.CourseModule;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Model that represents the instructor, which is a type of user who teach module content to students.
@@ -44,6 +45,15 @@ public class Instructor extends User {
         System.out.println("Instructors cannot be assigned to more than 4 modules");
         return false;
     }
+
+    public void removeCourseModule(String courseModuleCode) {
+        for (int i = 0; i < 4; i++) {
+            if (Objects.equals(courseModuleCodes[i], courseModuleCode)) {
+                courseModuleCodes[i] = null;
+            }
+        }
+    }
+
     /**
      * @param student the student that has achieved the mark.
      * @param assignment the work the student has done.
