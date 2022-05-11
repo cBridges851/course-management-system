@@ -32,6 +32,10 @@ public class InstructorLoader {
         return instructors;
     }
 
+    /**
+     * @param username the username (identifier) of an instructor.
+     * @return all the instructor data for that instructor.
+     */
     public Instructor loadInstructor(String username) {
         ArrayList<Instructor> allInstructors = this.loadAllInstructors();
 

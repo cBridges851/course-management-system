@@ -41,7 +41,7 @@ public class CourseAdministrator extends User {
      * @param name the name of the new module
      * @param level the level of the new module
      * @param instructorNames the name of the instructor teaching the module
-     * @param isMandatory indicator of whether or not the module is optional
+     * @param isMandatory indicator of whether the module is optional
      * @param assignmentIds the assignments that have to be completed in the module
      * @param studentNames the students enrolled in the module
      */
@@ -63,8 +63,8 @@ public class CourseAdministrator extends User {
         allCourseModules.add(courseModule);
         new CourseModuleSaver().saveAllCourseModules(allCourseModules);
         ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
-        ArrayList<Instructor> instructorsToUpdate = new ArrayList<Instructor>();
-        ArrayList<String> instructorNamesAsArray = new ArrayList<String>(instructorNames);
+        ArrayList<Instructor> instructorsToUpdate = new ArrayList<>();
+        ArrayList<String> instructorNamesAsArray = new ArrayList<>(instructorNames);
 
         for (String relevantInstructor: instructorNamesAsArray) {
             for (Instructor instructor: allInstructors) {
