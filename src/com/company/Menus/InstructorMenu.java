@@ -2,11 +2,16 @@ package com.company.Menus;
 
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.InstructorLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Users.Instructor;
+import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -63,5 +68,97 @@ public class InstructorMenu {
         }
 
         System.out.println(asciiTable.render());
+
+        System.out.println("""
+                    What would you like to do?\s
+                    (1) View students in a course module""");
+        String action = scanner.nextLine();
+
+        if (Objects.equals(action, "1")) {
+            this.viewCourseModule(courseModules);
+        }
+    }
+
+    private void viewCourseModule(ArrayList<CourseModule> courseModules) {
+        System.out.print("Please enter the number of the course module you would like to view: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size()
+                    && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule selectedCourseModule = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+
+                HashSet<String> studentNames = selectedCourseModule.getStudentNames();
+
+                if (studentNames.size() == 0) {
+                    System.out.println("There are no students enrolled on this course module.");
+                    this.runInstructorMenu();
+                    return;
+                }
+
+                AsciiTable asciiTable = new AsciiTable();
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        "Students in " + selectedCourseModule.getName());
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        "Username",
+                        "First Name",
+                        "Middle Name",
+                        "Last Name",
+                        "Year",
+                        "Level",
+                        "Course",
+                        "Completed Course Modules",
+                        "Current Course Modules"
+                );
+                asciiTable.addRule();
+
+                for (String studentName: studentNames) {
+                    Student currentStudent = new StudentLoader().loadStudent(studentName);
+
+                    if (currentStudent == null) {
+                        System.out.println("Student not found");
+                        break;
+                    }
+
+                    StringBuilder currentCourseModules = new StringBuilder();
+                    for (String courseModule: currentStudent.getCurrentCourseModules()) {
+                        currentCourseModules.append(courseModule);
+                    }
+
+                    asciiTable.addRow(
+                            currentStudent.getUsername(),
+                            currentStudent.getFirstName(),
+                            currentStudent.getMiddleName(),
+                            currentStudent.getLastName(),
+                            currentStudent.getYear(),
+                            currentStudent.getLevel(),
+                            currentStudent.getCourseName(),
+                            currentStudent.getCompletedCourseModules(),
+                            currentCourseModules
+                    );
+                    asciiTable.addRule();
+                }
+
+
+                System.out.println(asciiTable.render());
+                System.out.print("Press a key to continue: ");
+                scanner.nextLine();
+            } else {
+                System.out.println("Course module number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+        this.runInstructorMenu();
     }
 }
