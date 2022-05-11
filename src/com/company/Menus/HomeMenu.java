@@ -26,7 +26,7 @@ public class HomeMenu {
         } else if (Objects.equals(action, "2")) {
             new InstructorMenu(scanner).runInstructorMenu();
         } else if (Objects.equals(action, "3")) {
-            System.out.println("Logging in as student");
+            new StudentMenu(scanner).runStudentMenu();
         } else {
             System.out.println("User type not recognised");
         }

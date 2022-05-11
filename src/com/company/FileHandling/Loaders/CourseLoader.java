@@ -32,4 +32,21 @@ public class CourseLoader {
 
         return courses;
     }
+
+    /**
+     * Just loads the courses that are available, so can be enrolled on.
+     * @return the courses that are available.
+     */
+    public ArrayList<Course> loadAllAvailableCourses() {
+        ArrayList<Course> allCourses = this.loadAllCourses();
+        ArrayList<Course> allAvailableCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (course.getIsAvailable()) {
+                allAvailableCourses.add(course);
+            }
+        }
+
+        return allAvailableCourses;
+    }
 }

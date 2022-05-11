@@ -1,11 +1,13 @@
 package com.company.Models.Users;
 
-import com.company.Models.Study.Course;
+import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.ModuleResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Model that represents the student, which is a type of user who partakes in the modules in courses.
@@ -64,11 +66,18 @@ public class Student extends User {
         return this.currentCourseModules;
     }
 
-    /**
-     * @throws Exception
-     */
-    public void registerForCourse() throws Exception {
-        throw new Exception("Not implemented yet");
+    public void registerForCourse(String courseName) {
+        this.courseName = courseName;
+
+        ArrayList<Student> students = new StudentLoader().loadAllStudents();
+
+        for (int i = 0; i < students.size(); i++) {
+            if (Objects.equals(students.get(i).getUsername(), this.getUsername())) {
+                students.set(i, this);
+            }
+        }
+
+        new StudentSaver().saveAllStudents(students);
     }
 
     /**
