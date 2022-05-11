@@ -13,18 +13,18 @@ import java.util.Calendar;
 public class Student extends User {
     private int year;
     private int level;
-    private Course course;
-    private ArrayList<CourseModule> completedCourseModules;
-    private CourseModule[] currentCourseModules = new CourseModule[8];
+    private String courseName;
+    private ArrayList<String> completedCourseModules;
+    private String[] currentCourseModules = new String[8];
     private ArrayList<ModuleResult> moduleResults;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
-                   Calendar dateOfBirth, int year, int level, Course course, ArrayList<CourseModule> completedCourseModules,
-                   CourseModule[] currentCourseModules) {
+                   Calendar dateOfBirth, int year, int level, String courseName, ArrayList<String> completedCourseModules,
+                   String[] currentCourseModules) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.year = year;
         this.level = level;
-        this.course = course;
+        this.courseName = courseName;
         this.completedCourseModules = completedCourseModules;
         this.currentCourseModules = currentCourseModules;
     }
@@ -46,21 +46,21 @@ public class Student extends User {
     /**
      * @return the course that the student is enrolled in.
      */
-    public Course getCourse() {
-        return this.course;
+    public String getCourseName() {
+        return this.courseName;
     }
 
     /**
      * @return the course modules that the student has passed and completed.
      */
-    public ArrayList<CourseModule> getCompletedCourseModules() {
+    public ArrayList<String> getCompletedCourseModules() {
         return this.completedCourseModules;
     }
 
     /**
      * @return the course modules that the student is currently studying.
      */
-    public CourseModule[] getCurrentCourseModules() {
+    public String[] getCurrentCourseModules() {
         return this.currentCourseModules;
     }
 
