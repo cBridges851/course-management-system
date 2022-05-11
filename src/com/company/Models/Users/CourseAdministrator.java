@@ -195,6 +195,17 @@ public class CourseAdministrator extends User {
 
             allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
             new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+            ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
+
+            for (Instructor instructor: allInstructors) {
+                for (String courseModuleCode : instructor.getCourseModules()) {
+                    if (Objects.equals(courseModuleCode, courseModule.getCourseModuleCode())) {
+                        instructor.removeCourseModule(courseModuleCode);
+                    }
+                }
+            }
+
+            new InstructorSaver().saveAllInstructors(allInstructors);
         }
     }
 
