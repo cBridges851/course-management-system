@@ -9,9 +9,16 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/**
+ * Retrieves and converts students from persistent data storage.
+ */
 public class StudentLoader {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Loads all the students.
+     * @return all the students.
+     */
     public ArrayList<Student> loadAllStudents() {
         String deserialisedStudentList = this.fileHandler.loadFile(Filename.STUDENTS);
         Gson gson = new Gson();
@@ -25,6 +32,10 @@ public class StudentLoader {
         return students;
     }
 
+    /**
+     * @param username the username (identifier) of a student.
+     * @return all the student data for that student.
+     */
     public Student loadStudent(String username) {
         ArrayList<Student> allStudents = this.loadAllStudents();
 
