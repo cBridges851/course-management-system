@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  *  Retrieves and converts courses from the courses.csv file
@@ -31,5 +30,22 @@ public class CourseLoader {
         }
 
         return courses;
+    }
+
+    /**
+     * Just loads the courses that are available, so can be enrolled on.
+     * @return the courses that are available.
+     */
+    public ArrayList<Course> loadAllAvailableCourses() {
+        ArrayList<Course> allCourses = this.loadAllCourses();
+        ArrayList<Course> allAvailableCourses = new ArrayList<>();
+
+        for (Course course: allCourses) {
+            if (course.getIsAvailable()) {
+                allAvailableCourses.add(course);
+            }
+        }
+
+        return allAvailableCourses;
     }
 }

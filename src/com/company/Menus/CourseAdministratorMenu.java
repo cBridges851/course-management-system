@@ -1,16 +1,15 @@
 package com.company.Menus;
 
 import com.company.FileHandling.Loaders.CourseAdministratorLoader;
-import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.Models.Study.Course;
-import com.company.Models.Study.CourseModule;
 import com.company.Models.Users.CourseAdministrator;
-import com.company.Models.Users.Instructor;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Class that handles the interactions for the course administrator.
