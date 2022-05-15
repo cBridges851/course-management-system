@@ -29,15 +29,20 @@ public class StudentMenu {
         System.out.println("Logging in as student");
         this.student = new StudentLoader().loadAllStudents().get(0);
         System.out.println(("My Course: "
-                + (!Objects.equals(this.student.getCourseName(), "") ? this.student.getCourseName() : "Not Enrolled")));
+                + (!Objects.equals(this.student.getCourseName(), "") &&
+                (!Objects.equals(this.student.getCourseName(), null))
+                ? this.student.getCourseName() : "Not Enrolled")));
 
-        System.out.println("""
-                What would you like to do?\s
-                (1) Enrol on a course""");
-        String action = scanner.nextLine();
+        if (Objects.equals(this.student.getCourseName(), "") || Objects.equals(this.student.getCourseName(), null)) {
+            System.out.println("""
+                    What would you like to do?\s
+                    (1) Enrol on a course""");
 
-        if (Objects.equals(action, "1")) {
-            this.registerForCourse();
+            String action = scanner.nextLine();
+
+            if (Objects.equals(action, "1")) {
+                this.registerForCourse();
+            }
         }
     }
 

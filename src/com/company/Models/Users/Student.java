@@ -13,10 +13,10 @@ import java.util.Objects;
  * Model that represents the student, which is a type of user who partakes in the modules in courses.
  */
 public class Student extends User {
-    private int year;
-    private int level;
+    private final int year;
+    private final int level;
     private String courseName;
-    private ArrayList<String> completedCourseModules;
+    private final ArrayList<String> completedCourseModules;
     private String[] currentCourseModules = new String[8];
     private ArrayList<ModuleResult> moduleResults;
 
