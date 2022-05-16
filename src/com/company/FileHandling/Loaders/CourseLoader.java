@@ -50,6 +50,11 @@ public class CourseLoader {
         return allAvailableCourses;
     }
 
+    /**
+     * Loads a specific course
+     * @param name the name of the course to load
+     * @return the course the user requested, or null if it is not found
+     */
     public Course loadCourse(String name) {
         ArrayList<Course> allCourses = this.loadAllCourses();
 

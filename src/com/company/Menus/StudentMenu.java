@@ -69,6 +69,7 @@ public class StudentMenu {
 
     /**
      * Allows the student to register onto a course.
+     * @param students all the students in the system, ready for saving
      */
     private void registerForCourse(ArrayList<Student> students) {
         ArrayList<Course> allCourses = new CourseLoader().loadAllAvailableCourses();
@@ -120,8 +121,12 @@ public class StudentMenu {
         this.runStudentMenu();
     }
 
+    /**
+     * Allows a student to enrol onto a course module on the course they are enrolled on, unless they already have
+     * 4 course modules
+     * @param students all the students in the system, ready for saving
+     */
     private void enrolOntoCourseModule(ArrayList<Student> students) {
-        // Get uncompleted modules for the level
         Course course = new CourseLoader().loadCourse(this.student.getCourseName());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
@@ -132,7 +137,6 @@ public class StudentMenu {
         for (String courseModuleCode: courseModulesCodesInCourse) {
             CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
 
-            // Make sure student is not currently enrolled in it either
             if (!completedCourseModules.contains(courseModuleCode)
                     && !currentCourseModules.contains(courseModuleCode)
                     && courseModule.getLevel() == this.student.getLevel()) {
@@ -161,8 +165,6 @@ public class StudentMenu {
         }
 
         System.out.println(asciiTable.render());
-
-        // They select which to enrol in, bearing in mind level 6 can have two optional
         System.out.print("Enter the number of the course module you would like to enrol on: ");
         String courseModuleNumber = scanner.nextLine();
 
@@ -223,6 +225,7 @@ public class StudentMenu {
         } else {
             System.out.println("Invalid input");
         }
+
         this.runStudentMenu();
     }
 }
