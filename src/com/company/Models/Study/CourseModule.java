@@ -101,4 +101,8 @@ public class CourseModule {
     public HashSet<String> getStudentNames() {
         return this.studentNames;
     }
+
+    public void addStudentName(String studentName) {
+        this.studentNames.add(studentName);
+    }
 }

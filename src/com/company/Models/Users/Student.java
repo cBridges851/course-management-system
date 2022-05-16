@@ -1,5 +1,6 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.CourseModule;
@@ -17,7 +18,7 @@ public class Student extends User {
     private final int level;
     private String courseName;
     private final ArrayList<String> completedCourseModules;
-    private String[] currentCourseModules = new String[8];
+    private String[] currentCourseModules = new String[4];
     private ArrayList<ModuleResult> moduleResults;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
@@ -68,23 +69,20 @@ public class Student extends User {
 
     public void registerForCourse(String courseName) {
         this.courseName = courseName;
-
-        ArrayList<Student> students = new StudentLoader().loadAllStudents();
-
-        for (int i = 0; i < students.size(); i++) {
-            if (Objects.equals(students.get(i).getUsername(), this.getUsername())) {
-                students.set(i, this);
-            }
-        }
-
-        new StudentSaver().saveAllStudents(students);
     }
 
     /**
-     * @throws Exception
+     *
      */
-    public void enrolForModule() throws Exception {
-        throw new Exception("Not implemented yet");
+    public void enrolForCourseModule(String courseModuleCode) {
+        for (int i = 0; i < 4; i++) {
+            if (currentCourseModules[i] == null) {
+                currentCourseModules[i] = courseModuleCode;
+                return;
+            }
+        }
+
+        System.out.println("Students can only have 4 course modules per semester");
     }
 
     /**

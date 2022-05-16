@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *  Retrieves and converts courses from the courses.csv file
@@ -47,5 +48,17 @@ public class CourseLoader {
         }
 
         return allAvailableCourses;
+    }
+
+    public Course loadCourse(String name) {
+        ArrayList<Course> allCourses = this.loadAllCourses();
+
+        for (Course course: allCourses) {
+            if (Objects.equals(course.getName(), name)) {
+                return course;
+            }
+        }
+
+        return null;
     }
 }
