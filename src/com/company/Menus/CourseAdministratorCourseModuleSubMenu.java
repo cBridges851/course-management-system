@@ -131,7 +131,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                         }
                     }
 
-
                     System.out.print("Is this module mandatory? (Y/N) ");
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
 

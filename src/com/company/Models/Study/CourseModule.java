@@ -73,6 +73,10 @@ public class CourseModule {
         this.instructorNames.add(instructorName);
     }
 
+    /**
+     * Removes an instructor from the course module
+     * @param instructorName the name of the instructor to remove
+     */
     public void removeInstructorName(String instructorName) {
         this.instructorNames.remove(instructorName);
     }
@@ -100,5 +104,13 @@ public class CourseModule {
      */
     public HashSet<String> getStudentNames() {
         return this.studentNames;
+    }
+
+    /**
+     * Adds a student to the course module (when they enrol)
+     * @param studentName the name of the student to enrol
+     */
+    public void addStudentName(String studentName) {
+        this.studentNames.add(studentName);
     }
 }

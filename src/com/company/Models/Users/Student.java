@@ -1,13 +1,10 @@
 package com.company.Models.Users;
 
-import com.company.FileHandling.Loaders.StudentLoader;
-import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.ModuleResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * Model that represents the student, which is a type of user who partakes in the modules in courses.
@@ -17,7 +14,7 @@ public class Student extends User {
     private final int level;
     private String courseName;
     private final ArrayList<String> completedCourseModules;
-    private String[] currentCourseModules = new String[8];
+    private String[] currentCourseModules;
     private ArrayList<ModuleResult> moduleResults;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
@@ -66,25 +63,27 @@ public class Student extends User {
         return this.currentCourseModules;
     }
 
+    /**
+     * Allows the student to register for a course
+     * @param courseName the name of the course the student would like to enrol on
+     */
     public void registerForCourse(String courseName) {
         this.courseName = courseName;
-
-        ArrayList<Student> students = new StudentLoader().loadAllStudents();
-
-        for (int i = 0; i < students.size(); i++) {
-            if (Objects.equals(students.get(i).getUsername(), this.getUsername())) {
-                students.set(i, this);
-            }
-        }
-
-        new StudentSaver().saveAllStudents(students);
     }
 
     /**
-     * @throws Exception
+     * Allows the student to enrol for a course module
+     * @param courseModuleCode the course module code of the course module the student wants to enrol on
      */
-    public void enrolForModule() throws Exception {
-        throw new Exception("Not implemented yet");
+    public void enrolForCourseModule(String courseModuleCode) {
+        for (int i = 0; i < 4; i++) {
+            if (currentCourseModules[i] == null) {
+                currentCourseModules[i] = courseModuleCode;
+                return;
+            }
+        }
+
+        System.out.println("Students can only have 4 course modules per semester");
     }
 
     /**
