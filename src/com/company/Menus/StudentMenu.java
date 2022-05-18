@@ -1,12 +1,12 @@
 package com.company.Menus;
 
-import com.company.FileHandling.Loaders.CourseLoader;
-import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.FileHandling.Loaders.*;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.StudentSaver;
+import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Users.Instructor;
 import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
@@ -52,18 +52,25 @@ public class StudentMenu {
         } else if (currentCourseModules.size() < 4) {
             System.out.println("""
                     What would you like to do?\s
-                    (1) Enrol on a course module""");
+                    (1) Enrol on a course module\s
+                    (2) View current course modules""");
 
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 this.enrolOntoCourseModule(students);
+            } else if (Objects.equals(action, "2")) {
+                this.viewCurrentCourseModules(students);
             }
         } else {
             System.out.println("""
                     What would you like to do?
-                    (1) Nuffin""");
+                    (1) View current course modules""");
             String action = scanner.nextLine();
+
+            if (Objects.equals(action, "1")) {
+                this.viewCurrentCourseModules(students);
+            }
         }
     }
 
@@ -226,6 +233,58 @@ public class StudentMenu {
             System.out.println("Invalid input");
         }
 
+        this.runStudentMenu();
+    }
+
+    private void viewCurrentCourseModules(ArrayList<Student> students) {
+        ArrayList<String> currentCourseModuleCodes = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        currentCourseModuleCodes.removeAll(Collections.singleton(null));
+        ArrayList<CourseModule> currentCourseModules = new ArrayList<>();
+
+        for (String currentCourseModule: currentCourseModuleCodes) {
+            currentCourseModules.add(new CourseModuleLoader().loadCourseModule(currentCourseModule));
+        }
+
+        AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow("Course Module Code", "Name", "Level", "Mandatory or Optional", "Instructors", "Assignments");
+        asciiTable.addRule();
+
+        for (CourseModule currentCourseModule: currentCourseModules) {
+            StringBuilder instructorNames = new StringBuilder();
+            StringBuilder assignmentNames = new StringBuilder();
+
+            for (String instructorName: currentCourseModule.getInstructorNames()) {
+                Instructor instructor = new InstructorLoader().loadInstructor(instructorName);
+                instructorNames.append(
+                        instructor.getFirstName())
+                        .append(" ")
+                        .append(instructor.getLastName())
+                        .append(" (")
+                        .append(instructor.getUsername())
+                        .append(")\n");
+            }
+
+            for (String assignmentId: currentCourseModule.getAssignmentIds()) {
+                Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+                assignmentNames.append(assignment.getAssignmentName()).append("\n");
+            }
+
+            asciiTable.addRow(
+                    currentCourseModule.getCourseModuleCode(),
+                    currentCourseModule.getName(),
+                    currentCourseModule.getLevel(),
+                    currentCourseModule.getIsMandatory() ? "Mandatory" : "Optional",
+                    instructorNames,
+                    assignmentNames
+            );
+
+            asciiTable.addRule();
+        }
+
+        System.out.println(asciiTable.render());
+        System.out.print("Press a key to continue: ");
+        scanner.nextLine();
         this.runStudentMenu();
     }
 }
