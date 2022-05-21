@@ -6,6 +6,7 @@ import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Study.CourseModuleResult;
 import com.company.Models.Users.Instructor;
 import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
@@ -158,8 +159,8 @@ public class InstructorMenu {
                     }
 
                     StringBuilder currentCourseModules = new StringBuilder();
-                    for (String courseModule: currentStudent.getCurrentCourseModules()) {
-                        currentCourseModules.append(courseModule);
+                    for (CourseModuleResult courseModule: currentStudent.getCurrentCourseModules()) {
+                        currentCourseModules.append(courseModule.getCourseModuleCode());
                     }
 
                     asciiTable.addRow(

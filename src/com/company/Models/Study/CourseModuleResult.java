@@ -5,13 +5,13 @@ import java.util.HashMap;
 /**
  * A class that represents the results achieved by a student on a module
  */
-public class ModuleResult {
-    private CourseModule courseModule;
+public class CourseModuleResult {
+    private String courseModuleCode;
     private HashMap<String, Integer> assignmentResults;
     private int totalMark;
 
-    public ModuleResult(CourseModule courseModule, HashMap<String, Integer> assignmentResults, int totalMark) {
-        this.courseModule = courseModule;
+    public CourseModuleResult(String courseModule, HashMap<String, Integer> assignmentResults, int totalMark) {
+        this.courseModuleCode = courseModule;
         this.assignmentResults = assignmentResults;
         this.totalMark = totalMark;
     }
@@ -19,8 +19,8 @@ public class ModuleResult {
     /**
      * @return the course module that the results were achieved on.
      */
-    public CourseModule getCourseModule() {
-        return courseModule;
+    public String getCourseModuleCode() {
+        return courseModuleCode;
     }
 
     /**

@@ -6,6 +6,7 @@ import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Study.CourseModuleResult;
 import com.company.Models.Users.Instructor;
 import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
@@ -32,7 +33,7 @@ public class StudentMenu {
         System.out.println("Logging in as student");
         ArrayList<Student> students = new StudentLoader().loadAllStudents();
         this.student = students.get(0);
-        ArrayList<String> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
         System.out.println(("My Course: "
                 + (!Objects.equals(this.student.getCourseName(), "") &&
@@ -137,16 +138,30 @@ public class StudentMenu {
         Course course = new CourseLoader().loadCourse(this.student.getCourseName());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
-        ArrayList<String> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
-        ArrayList<String> completedCourseModules = this.student.getCompletedCourseModules();
+        ArrayList<CourseModuleResult> completedCourseModules = this.student.getCompletedCourseModules();
 
         for (String courseModuleCode: courseModulesCodesInCourse) {
             CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
 
-            if (!completedCourseModules.contains(courseModuleCode)
-                    && !currentCourseModules.contains(courseModuleCode)
-                    && courseModule.getLevel() == this.student.getLevel()) {
+            boolean isAlreadyEnrolledOrCompleted = false;
+
+            for (CourseModuleResult completedCourseModule: completedCourseModules) {
+                if (Objects.equals(completedCourseModule.getCourseModuleCode(), courseModuleCode)) {
+                    isAlreadyEnrolledOrCompleted = true;
+                    break;
+                }
+            }
+
+            for (CourseModuleResult currentCourseModule: currentCourseModules) {
+                if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModuleCode)) {
+                    isAlreadyEnrolledOrCompleted = true;
+                    break;
+                }
+            }
+
+            if (!isAlreadyEnrolledOrCompleted && courseModule.getLevel() == this.student.getLevel()) {
                 availableCourseModules.add(courseModule);
             }
         }
@@ -183,8 +198,8 @@ public class StudentMenu {
                     int numberOfMandatory = 0;
                     int numberOfOptional = 0;
 
-                    for (String courseModuleCode: currentCourseModules) {
-                        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+                    for (CourseModuleResult courseModuleCode: currentCourseModules) {
+                        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode.getCourseModuleCode());
 
                         if (courseModule.getIsMandatory()) {
                             numberOfMandatory++;
@@ -237,12 +252,12 @@ public class StudentMenu {
     }
 
     private void viewCurrentCourseModules(ArrayList<Student> students) {
-        ArrayList<String> currentCourseModuleCodes = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        ArrayList<CourseModuleResult> currentCourseModuleCodes = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModuleCodes.removeAll(Collections.singleton(null));
         ArrayList<CourseModule> currentCourseModules = new ArrayList<>();
 
-        for (String currentCourseModule: currentCourseModuleCodes) {
-            currentCourseModules.add(new CourseModuleLoader().loadCourseModule(currentCourseModule));
+        for (CourseModuleResult currentCourseModule: currentCourseModuleCodes) {
+            currentCourseModules.add(new CourseModuleLoader().loadCourseModule(currentCourseModule.getCourseModuleCode()));
         }
 
         AsciiTable asciiTable = new AsciiTable();
