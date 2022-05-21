@@ -83,22 +83,26 @@ public class InstructorMenu {
 
             System.out.println("""
                     What would you like to do?\s
-                    (1) View students in a course module
-                    (2) Create an assignment""");
+                    (1) View students in a course module\s
+                    (2) Create an assignment\s
+                    (3) View assignments in a course module""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.viewCourseModule(courseModules);
+                this.viewStudentsInCourseModule(courseModules);
             } else if (Objects.equals(action, "2")) {
                 this.createAssignment(courseModules);
+            } else if (Objects.equals(action, "3")) {
+                this.viewAssignmentsInCourseModule(courseModules);
             }
+
+            this.runInstructorMenu();
         } else {
             System.out.println("You have not been assigned any course modules");
         }
-
     }
 
-    private void viewCourseModule(ArrayList<CourseModule> courseModules) {
+    private void viewStudentsInCourseModule(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module you would like to view: ");
         String courseModuleNumber = scanner.nextLine();
 
@@ -212,6 +216,49 @@ public class InstructorMenu {
                 }
             } else {
                 System.out.println("Course module does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runInstructorMenu();
+    }
+
+    private void viewAssignmentsInCourseModule(ArrayList<CourseModule> courseModules) {
+        System.out.print("Please enter the number of the course module you would like to view: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size()
+                    && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule selectedCourseModule = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+                HashSet<String> assignmentIds = selectedCourseModule.getAssignmentIds();
+
+                if (assignmentIds.size() == 0) {
+                    System.out.println("There are no assignments on this course module.");
+                    this.runInstructorMenu();
+                    return;
+                }
+
+                AsciiTable asciiTable = new AsciiTable();
+
+                asciiTable.addRule();
+                asciiTable.addRow(null, "Assignments in " + selectedCourseModule.getName());
+                asciiTable.addRule();
+                asciiTable.addRow("Name", "Total Marks");
+                asciiTable.addRule();
+
+                for (String assignmentId: assignmentIds) {
+                    Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+                    asciiTable.addRow(assignment.getAssignmentName(), assignment.getTotalPossibleMarks());
+                    asciiTable.addRule();
+                }
+
+                System.out.println(asciiTable.render());
+                System.out.print("Press a key to continue: ");
+                scanner.nextLine();
+            } else {
+                System.out.println("Course module number not found");
             }
         } else {
             System.out.println("Invalid input");
