@@ -1,8 +1,10 @@
 package com.company.Menus;
 
+import com.company.FileHandling.Loaders.AssignmentLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Users.Instructor;
 import com.company.Models.Users.Student;
@@ -53,18 +55,25 @@ public class InstructorMenu {
                     "Name",
                     "Level",
                     "Mandatory or Optional",
-                    "Assignment IDs",
+                    "Assignments",
                     "Enrolled Students");
             asciiTable.addRule();
 
             for (int i = 0; i < courseModules.size(); i++) {
+                StringBuilder assignmentNames = new StringBuilder();
+
+                for (String assignmentId: courseModules.get(i).getAssignmentIds()) {
+                    Assignment currentAssignment = new AssignmentLoader().loadAssignment(assignmentId);
+                    assignmentNames.append(currentAssignment.getAssignmentName());
+                }
+
                 asciiTable.addRow(
                         i + 1,
                         courseModules.get(i).getCourseModuleCode(),
                         courseModules.get(i).getName(),
                         courseModules.get(i).getLevel(),
                         courseModules.get(i).getIsMandatory() ? "Mandatory" : "Optional",
-                        courseModules.get(i).getAssignmentIds(),
+                        assignmentNames,
                         courseModules.get(i).getStudentNames()
                 );
                 asciiTable.addRule();
@@ -74,11 +83,14 @@ public class InstructorMenu {
 
             System.out.println("""
                     What would you like to do?\s
-                    (1) View students in a course module""");
+                    (1) View students in a course module
+                    (2) Create an assignment""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 this.viewCourseModule(courseModules);
+            } else if (Objects.equals(action, "2")) {
+                this.createAssignment(courseModules);
             }
         } else {
             System.out.println("You have not been assigned any course modules");
@@ -162,6 +174,44 @@ public class InstructorMenu {
                 scanner.nextLine();
             } else {
                 System.out.println("Course module number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runInstructorMenu();
+    }
+
+    private void createAssignment(ArrayList<CourseModule> courseModules) {
+        System.out.print("Please enter the number of the course module you would like to add an assignment to: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size()
+                    && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                System.out.print("Are you sure you want to add an assignment to "
+                        + courseModules.get(Integer.parseInt(courseModuleNumber) - 1).getName() + "? (Y/N)");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action, "y")) {
+                    System.out.print("Enter the assignment name: ");
+                    String assignmentName = scanner.nextLine();
+                    String totalPossibleMarks = null;
+
+                    while (!StringUtils.isNumeric(totalPossibleMarks)) {
+                        System.out.print("Enter the total number of marks on this assignment: ");
+                        totalPossibleMarks = scanner.nextLine();
+                    }
+
+                    int total = Integer.parseInt(totalPossibleMarks);
+                    this.instructor.createAssignment(
+                            courseModules.get(Integer.parseInt(courseModuleNumber) - 1).getCourseModuleCode(),
+                            assignmentName,
+                            total
+                    );
+                }
+            } else {
+                System.out.println("Course module does not exist");
             }
         } else {
             System.out.println("Invalid input");

@@ -98,6 +98,10 @@ public class CourseModule {
         return this.assignmentIds;
     }
 
+    public void addAssignmentId(String assignmentId) {
+        this.assignmentIds.add(assignmentId);
+    }
+
     /**
      * A method which gets the names of the students who are undertaking the module.
      * @return the names of the students who are undertaking the module.

@@ -1,7 +1,14 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.AssignmentLoader;
+import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Savers.AssignmentSaver;
+import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.Models.Study.Assignment;
+import com.company.Models.Study.Course;
+import com.company.Models.Study.CourseModule;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -52,6 +59,21 @@ public class Instructor extends User {
         for (int i = 0; i < 4; i++) {
             if (Objects.equals(courseModuleCodes[i], courseModuleCode)) {
                 courseModuleCodes[i] = null;
+            }
+        }
+    }
+
+    public void createAssignment(String courseModuleCode, String assignmentName, int totalPossibleMarks) {
+        ArrayList<Assignment> allAssignments = new AssignmentLoader().loadAllAssignments();
+        Assignment assignment = new Assignment(null, assignmentName, totalPossibleMarks);
+        allAssignments.add(assignment);
+        new AssignmentSaver().saveAllAssignments(allAssignments);
+
+        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+        for (CourseModule courseModule: allCourseModules) {
+            if (Objects.equals(courseModule.getCourseModuleCode(), courseModuleCode)) {
+                courseModule.addAssignmentId(assignment.getAssignmentId());
+                new CourseModuleSaver().saveAllCourseModules(allCourseModules);
             }
         }
     }
