@@ -102,6 +102,10 @@ public class InstructorMenu {
         }
     }
 
+    /**
+     * Allows the instructor to view the students on a selected course module that they are teaching
+     * @param courseModules all the course modules the instructor has
+     */
     private void viewStudentsInCourseModule(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module you would like to view: ");
         String courseModuleNumber = scanner.nextLine();
@@ -186,6 +190,10 @@ public class InstructorMenu {
         this.runInstructorMenu();
     }
 
+    /**
+     * Allows the instructor to create an assignment
+     * @param courseModules the instructor's course modules that they can add an assignment to
+     */
     private void createAssignment(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module you would like to add an assignment to: ");
         String courseModuleNumber = scanner.nextLine();
@@ -224,6 +232,10 @@ public class InstructorMenu {
         this.runInstructorMenu();
     }
 
+    /**
+     * See all the assignments that are in a course module
+     * @param courseModules all the course modules the instructor teaches
+     */
     private void viewAssignmentsInCourseModule(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module you would like to view: ");
         String courseModuleNumber = scanner.nextLine();
