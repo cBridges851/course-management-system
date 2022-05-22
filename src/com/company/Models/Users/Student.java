@@ -15,7 +15,7 @@ public class Student extends User {
     private final int level;
     private String courseName;
     private final ArrayList<CourseModuleResult> completedCourseModules;
-    private CourseModuleResult[] currentCourseModules;
+    private final CourseModuleResult[] currentCourseModules;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
                    Calendar dateOfBirth, int year, int level, String courseName, ArrayList<CourseModuleResult> completedCourseModules,
@@ -101,6 +101,10 @@ public class Student extends User {
         System.out.println("Students can only have 4 course modules per semester");
     }
 
+    /**
+     * Removes a course module the student is currently enrolled on.
+     * @param courseModule the course module to remove.
+     */
     public void removeCurrentCourseModule(CourseModuleResult courseModule) {
         for (int i = 0; i < 4; i++) {
             if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {

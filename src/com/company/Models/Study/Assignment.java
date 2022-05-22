@@ -16,6 +16,7 @@ public class Assignment {
         this.assignmentName = assignmentName;
         this.totalPossibleMarks = totalPossibleMarks;
     }
+
     public Assignment(String assignmentId, String assignmentName, int totalPossibleMarks) {
         this.assignmentId = assignmentId == null ? randomUUID().toString() : assignmentId;
         this.assignmentName = assignmentName;

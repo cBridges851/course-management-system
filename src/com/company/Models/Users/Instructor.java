@@ -7,7 +7,6 @@ import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.Assignment;
-import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
@@ -66,9 +65,15 @@ public class Instructor extends User {
         }
     }
 
+    /**
+     * Creates an assignment that will be added onto a course module.
+     * @param courseModuleCode the identifier of the course module that the assignment will go onto.
+     * @param assignmentName the name of the assignment.
+     * @param totalPossibleMarks the maximum number of marks that could be achieved on the assignment.
+     */
     public void createAssignment(String courseModuleCode, String assignmentName, int totalPossibleMarks) {
         ArrayList<Assignment> allAssignments = new AssignmentLoader().loadAllAssignments();
-        Assignment assignment = new Assignment(null, assignmentName, totalPossibleMarks);
+        Assignment assignment = new Assignment(assignmentName, totalPossibleMarks);
         allAssignments.add(assignment);
         new AssignmentSaver().saveAllAssignments(allAssignments);
 
@@ -82,6 +87,7 @@ public class Instructor extends User {
     }
 
     /**
+     * Adds results a student has achieved to an assignment
      * @param student the student that has achieved the mark.
      * @param assignment the work the student has done.
      * @param mark the number of marks the student has been achieved.
@@ -109,6 +115,12 @@ public class Instructor extends User {
         }
     }
 
+    /**
+     * Marks the student as completed for the course module, thus removing them from the enrolled students and moves it
+     * to the completed list
+     * @param student the student to mark as completed
+     * @param courseModule the course module that the student has completed
+     */
     public void markStudentAsCompleted(Student student, CourseModule courseModule) {
         CourseModuleResult[] studentsCurrentCourseModules = student.getCurrentCourseModules();
 

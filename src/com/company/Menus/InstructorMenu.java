@@ -404,6 +404,10 @@ public class InstructorMenu {
         this.runInstructorMenu();
     }
 
+    /**
+     * Allows a student to be marked as completed from a course module, so they will no longer be enrolled in it
+     * @param courseModules the instructor's course modules that they can add an assignment to
+     */
     private void markStudentAsCompletedModule(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module: ");
         String courseModuleNumber = scanner.nextLine();

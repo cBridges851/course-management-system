@@ -257,6 +257,9 @@ public class StudentMenu {
         this.runStudentMenu();
     }
 
+    /**
+     * Allows the user to view the course modules they are currently enrolled in
+     */
     private void viewCurrentCourseModules() {
         CourseModuleResult[] currentCourseModuleResults = this.student.getCurrentCourseModules();
         ArrayList<CourseModuleResult> currentCourseModuleResultsAsArray = new ArrayList<>(Arrays.asList(currentCourseModuleResults));
@@ -325,6 +328,9 @@ public class StudentMenu {
         this.runStudentMenu();
     }
 
+    /**
+     * Allows the student to see all the course modules they have completed and their results
+     */
     private void viewCompletedCourseModules() {
         ArrayList<CourseModuleResult> completedCourseModuleResults = this.student.getCompletedCourseModules();
         ArrayList<CourseModule> completedCourseModules = new ArrayList<>();

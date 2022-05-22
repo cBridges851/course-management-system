@@ -1,7 +1,5 @@
 package com.company.Models.Study;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -9,8 +7,8 @@ import java.util.Set;
  * A class that represents the results achieved by a student on a module
  */
 public class CourseModuleResult {
-    private String courseModuleCode;
-    private LinkedHashMap<String, Integer> assignmentResults;
+    private final String courseModuleCode;
+    private final LinkedHashMap<String, Integer> assignmentResults;
 
     public CourseModuleResult(String courseModule, LinkedHashMap<String, Integer> assignmentResults) {
         this.courseModuleCode = courseModule;
@@ -32,7 +30,8 @@ public class CourseModuleResult {
     }
 
     /**
-     * @return the number of marks that the student achieved across all assignments on the module.
+     * Gets all the marks the student as achieved in the course module.
+     * @return the number of marks that the student achieved across all assignments on the course module.
      */
     public int getTotalMark() {
         Set<String> assignmentIds = this.assignmentResults.keySet();
@@ -46,6 +45,7 @@ public class CourseModuleResult {
     }
 
     /**
+     * Adds the results from an assignment for a course module
      * @param assignmentId the identifier of the assignment that was completed
      * @param mark the number of marks achieved on the assignment
      */

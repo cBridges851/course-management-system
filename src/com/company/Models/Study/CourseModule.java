@@ -118,6 +118,10 @@ public class CourseModule {
         this.studentNames.add(studentName);
     }
 
+    /**
+     * Removes a student from the course module
+     * @param studentName the name of the student to remove
+     */
     public void removeStudentName(String studentName) {
         this.studentNames.remove(studentName);
     }
