@@ -1,10 +1,11 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.Models.Study.CourseModule;
-import com.company.Models.Study.ModuleResult;
+import com.company.Models.Study.CourseModuleResult;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Model that represents the student, which is a type of user who partakes in the modules in courses.
@@ -13,13 +14,12 @@ public class Student extends User {
     private final int year;
     private final int level;
     private String courseName;
-    private final ArrayList<String> completedCourseModules;
-    private String[] currentCourseModules;
-    private ArrayList<ModuleResult> moduleResults;
+    private final ArrayList<CourseModuleResult> completedCourseModules;
+    private final CourseModuleResult[] currentCourseModules;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
-                   Calendar dateOfBirth, int year, int level, String courseName, ArrayList<String> completedCourseModules,
-                   String[] currentCourseModules) {
+                   Calendar dateOfBirth, int year, int level, String courseName, ArrayList<CourseModuleResult> completedCourseModules,
+                   CourseModuleResult[] currentCourseModules) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.year = year;
         this.level = level;
@@ -52,14 +52,22 @@ public class Student extends User {
     /**
      * @return the course modules that the student has passed and completed.
      */
-    public ArrayList<String> getCompletedCourseModules() {
+    public ArrayList<CourseModuleResult> getCompletedCourseModules() {
         return this.completedCourseModules;
+    }
+
+    /**
+     * Adds a completed course module to the student's list
+     * @param completedCourseModule the results of the completed course module
+     */
+    public void addCompletedCourseModule(CourseModuleResult completedCourseModule) {
+        this.completedCourseModules.add(completedCourseModule);
     }
 
     /**
      * @return the course modules that the student is currently studying.
      */
-    public String[] getCurrentCourseModules() {
+    public CourseModuleResult[] getCurrentCourseModules() {
         return this.currentCourseModules;
     }
 
@@ -78,12 +86,54 @@ public class Student extends User {
     public void enrolForCourseModule(String courseModuleCode) {
         for (int i = 0; i < 4; i++) {
             if (currentCourseModules[i] == null) {
-                currentCourseModules[i] = courseModuleCode;
+                CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+                HashSet<String> assignmentIds = courseModule.getAssignmentIds();
+                LinkedHashMap<String, Integer> defaultAssignmentResults = new LinkedHashMap<>();
+
+                for (String assignmentId: assignmentIds) {
+                    defaultAssignmentResults.put(assignmentId, 0);
+                }
+
+                CourseModuleResult courseModuleResult = new CourseModuleResult(
+                        courseModuleCode,
+                        defaultAssignmentResults);
+                currentCourseModules[i] = courseModuleResult;
                 return;
             }
         }
 
         System.out.println("Students can only have 4 course modules per semester");
+    }
+
+    /**
+     * Removes a course module the student is currently enrolled on.
+     * @param courseModule the course module to remove.
+     */
+    public void removeCurrentCourseModule(CourseModuleResult courseModule) {
+        for (int i = 0; i < 4; i++) {
+            if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                this.currentCourseModules[i] = null;
+                ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+
+                for (int j = 0; j < allStudents.size(); j++) {
+                    if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
+                        allStudents.set(j, this);
+                    }
+                }
+
+                System.out.println(courseModule.getCourseModuleCode()
+                        + " successfully removed from "
+                        + this.getFirstName()
+                        + "'s current course modules");
+                return;
+            }
+        }
+
+        System.out.println("Unable to remove "
+                + courseModule.getCourseModuleCode()
+                + " from "
+                + this.getFirstName()
+                + "'s current course modules");
     }
 
     /**

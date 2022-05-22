@@ -99,6 +99,14 @@ public class CourseModule {
     }
 
     /**
+     * Adds an assignment to the course module
+     * @param assignmentId the identifier of an assignment to add
+     */
+    public void addAssignmentId(String assignmentId) {
+        this.assignmentIds.add(assignmentId);
+    }
+
+    /**
      * A method which gets the names of the students who are undertaking the module.
      * @return the names of the students who are undertaking the module.
      */
@@ -112,5 +120,13 @@ public class CourseModule {
      */
     public void addStudentName(String studentName) {
         this.studentNames.add(studentName);
+    }
+
+    /**
+     * Removes a student from the course module
+     * @param studentName the name of the student to remove
+     */
+    public void removeStudentName(String studentName) {
+        this.studentNames.remove(studentName);
     }
 }

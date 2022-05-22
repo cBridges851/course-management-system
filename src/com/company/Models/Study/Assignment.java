@@ -8,8 +8,14 @@ import static java.util.UUID.randomUUID;
  */
 public class Assignment {
     private final String assignmentId;
-    private String assignmentName;
-    private int totalPossibleMarks;
+    private final String assignmentName;
+    private final int totalPossibleMarks;
+
+    public Assignment(String assignmentName, int totalPossibleMarks) {
+        this.assignmentId = randomUUID().toString();
+        this.assignmentName = assignmentName;
+        this.totalPossibleMarks = totalPossibleMarks;
+    }
 
     public Assignment(String assignmentId, String assignmentName, int totalPossibleMarks) {
         this.assignmentId = assignmentId == null ? randomUUID().toString() : assignmentId;

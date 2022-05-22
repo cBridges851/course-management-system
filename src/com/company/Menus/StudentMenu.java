@@ -6,6 +6,7 @@ import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Study.CourseModuleResult;
 import com.company.Models.Users.Instructor;
 import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
@@ -32,7 +33,7 @@ public class StudentMenu {
         System.out.println("Logging in as student");
         ArrayList<Student> students = new StudentLoader().loadAllStudents();
         this.student = students.get(0);
-        ArrayList<String> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
         System.out.println(("My Course: "
                 + (!Objects.equals(this.student.getCourseName(), "") &&
@@ -53,23 +54,29 @@ public class StudentMenu {
             System.out.println("""
                     What would you like to do?\s
                     (1) Enrol on a course module\s
-                    (2) View current course modules""");
+                    (2) View current course modules\s
+                    (3) View completed course modules""");
 
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 this.enrolOntoCourseModule(students);
             } else if (Objects.equals(action, "2")) {
-                this.viewCurrentCourseModules(students);
+                this.viewCurrentCourseModules();
+            } else if (Objects.equals(action, "3")) {
+                this.viewCompletedCourseModules();
             }
         } else {
             System.out.println("""
-                    What would you like to do?
-                    (1) View current course modules""");
+                    What would you like to do?\s
+                    (1) View current course modules\s
+                    (2) View completed course modules""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.viewCurrentCourseModules(students);
+                this.viewCurrentCourseModules();
+            } else if (Objects.equals(action, "2")) {
+                this.viewCompletedCourseModules();
             }
         }
     }
@@ -137,16 +144,30 @@ public class StudentMenu {
         Course course = new CourseLoader().loadCourse(this.student.getCourseName());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
-        ArrayList<String> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
-        ArrayList<String> completedCourseModules = this.student.getCompletedCourseModules();
+        ArrayList<CourseModuleResult> completedCourseModules = this.student.getCompletedCourseModules();
 
         for (String courseModuleCode: courseModulesCodesInCourse) {
             CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
 
-            if (!completedCourseModules.contains(courseModuleCode)
-                    && !currentCourseModules.contains(courseModuleCode)
-                    && courseModule.getLevel() == this.student.getLevel()) {
+            boolean isAlreadyEnrolledOrCompleted = false;
+
+            for (CourseModuleResult completedCourseModule: completedCourseModules) {
+                if (Objects.equals(completedCourseModule.getCourseModuleCode(), courseModuleCode)) {
+                    isAlreadyEnrolledOrCompleted = true;
+                    break;
+                }
+            }
+
+            for (CourseModuleResult currentCourseModule: currentCourseModules) {
+                if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModuleCode)) {
+                    isAlreadyEnrolledOrCompleted = true;
+                    break;
+                }
+            }
+
+            if (!isAlreadyEnrolledOrCompleted && courseModule.getLevel() == this.student.getLevel()) {
                 availableCourseModules.add(courseModule);
             }
         }
@@ -183,8 +204,8 @@ public class StudentMenu {
                     int numberOfMandatory = 0;
                     int numberOfOptional = 0;
 
-                    for (String courseModuleCode: currentCourseModules) {
-                        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+                    for (CourseModuleResult courseModuleCode: currentCourseModules) {
+                        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode.getCourseModuleCode());
 
                         if (courseModule.getIsMandatory()) {
                             numberOfMandatory++;
@@ -236,23 +257,29 @@ public class StudentMenu {
         this.runStudentMenu();
     }
 
-    private void viewCurrentCourseModules(ArrayList<Student> students) {
-        ArrayList<String> currentCourseModuleCodes = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
-        currentCourseModuleCodes.removeAll(Collections.singleton(null));
+    /**
+     * Allows the user to view the course modules they are currently enrolled in
+     */
+    private void viewCurrentCourseModules() {
+        CourseModuleResult[] currentCourseModuleResults = this.student.getCurrentCourseModules();
+        ArrayList<CourseModuleResult> currentCourseModuleResultsAsArray = new ArrayList<>(Arrays.asList(currentCourseModuleResults));
+        currentCourseModuleResultsAsArray.removeAll(Collections.singleton(null));
         ArrayList<CourseModule> currentCourseModules = new ArrayList<>();
 
-        for (String currentCourseModule: currentCourseModuleCodes) {
-            currentCourseModules.add(new CourseModuleLoader().loadCourseModule(currentCourseModule));
+        for (CourseModuleResult currentCourseModule: currentCourseModuleResultsAsArray) {
+            currentCourseModules.add(new CourseModuleLoader().loadCourseModule(currentCourseModule.getCourseModuleCode()));
         }
 
         AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow(null, null, null, null, null, "My Current Course Modules");
         asciiTable.addRule();
         asciiTable.addRow("Course Module Code", "Name", "Level", "Mandatory or Optional", "Instructors", "Assignments");
         asciiTable.addRule();
 
         for (CourseModule currentCourseModule: currentCourseModules) {
             StringBuilder instructorNames = new StringBuilder();
-            StringBuilder assignmentNames = new StringBuilder();
+            StringBuilder assignmentInfo = new StringBuilder();
 
             for (String instructorName: currentCourseModule.getInstructorNames()) {
                 Instructor instructor = new InstructorLoader().loadInstructor(instructorName);
@@ -266,8 +293,21 @@ public class StudentMenu {
             }
 
             for (String assignmentId: currentCourseModule.getAssignmentIds()) {
+                int result = 0;
+
+                for (CourseModuleResult courseModuleResult : currentCourseModuleResultsAsArray) {
+                    if (courseModuleResult.getAssignmentResults().containsKey(assignmentId)) {
+                        result = courseModuleResult.getAssignmentResults().get(assignmentId);
+                    }
+                }
+
                 Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
-                assignmentNames.append(assignment.getAssignmentName()).append("\n");
+                assignmentInfo.append(
+                        assignment.getAssignmentName())
+                        .append(" ")
+                        .append(result)
+                        .append("/")
+                        .append(assignment.getTotalPossibleMarks());
             }
 
             asciiTable.addRow(
@@ -276,7 +316,77 @@ public class StudentMenu {
                     currentCourseModule.getLevel(),
                     currentCourseModule.getIsMandatory() ? "Mandatory" : "Optional",
                     instructorNames,
-                    assignmentNames
+                    assignmentInfo
+            );
+
+            asciiTable.addRule();
+        }
+
+        System.out.println(asciiTable.render());
+        System.out.print("Press a key to continue: ");
+        scanner.nextLine();
+        this.runStudentMenu();
+    }
+
+    /**
+     * Allows the student to see all the course modules they have completed and their results
+     */
+    private void viewCompletedCourseModules() {
+        ArrayList<CourseModuleResult> completedCourseModuleResults = this.student.getCompletedCourseModules();
+        ArrayList<CourseModule> completedCourseModules = new ArrayList<>();
+
+        for (CourseModuleResult completedCourseModuleResult: completedCourseModuleResults) {
+            completedCourseModules.add(
+                    new CourseModuleLoader().loadCourseModule(completedCourseModuleResult.getCourseModuleCode()));
+        }
+
+        AsciiTable asciiTable = new AsciiTable();
+        asciiTable.addRule();
+        asciiTable.addRow(null, null, null, null, null, "My Completed Course Modules");
+        asciiTable.addRule();
+        asciiTable.addRow("Course Module Code", "Name", "Level", "Mandatory or Optional", "Instructors", "Assignments");
+        asciiTable.addRule();
+
+        for (CourseModule currentCourseModule: completedCourseModules) {
+            StringBuilder instructorNames = new StringBuilder();
+            StringBuilder assignmentInfo = new StringBuilder();
+
+            for (String instructorName: currentCourseModule.getInstructorNames()) {
+                Instructor instructor = new InstructorLoader().loadInstructor(instructorName);
+                instructorNames.append(
+                                instructor.getFirstName())
+                        .append(" ")
+                        .append(instructor.getLastName())
+                        .append(" (")
+                        .append(instructor.getUsername())
+                        .append(")\n");
+            }
+
+            for (String assignmentId: currentCourseModule.getAssignmentIds()) {
+                int result = 0;
+
+                for (CourseModuleResult courseModuleResult : completedCourseModuleResults) {
+                    if (courseModuleResult.getAssignmentResults().containsKey(assignmentId)) {
+                        result = courseModuleResult.getAssignmentResults().get(assignmentId);
+                    }
+                }
+
+                Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+                assignmentInfo.append(
+                                assignment.getAssignmentName())
+                        .append(" ")
+                        .append(result)
+                        .append("/")
+                        .append(assignment.getTotalPossibleMarks());
+            }
+
+            asciiTable.addRow(
+                    currentCourseModule.getCourseModuleCode(),
+                    currentCourseModule.getName(),
+                    currentCourseModule.getLevel(),
+                    currentCourseModule.getIsMandatory() ? "Mandatory" : "Optional",
+                    instructorNames,
+                    assignmentInfo
             );
 
             asciiTable.addRule();
