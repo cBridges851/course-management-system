@@ -12,10 +12,7 @@ import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class that handles the interactions for instructors.
@@ -84,13 +81,13 @@ public class InstructorMenu {
 
             System.out.println("""
                     What would you like to do?\s
-                    (1) View students in a course module\s
+                    (1) Add marks to student\s
                     (2) Create an assignment\s
-                    (3) View assignments in a course module""");
+                    (3) View assignments in a course module\s""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.viewStudentsInCourseModule(courseModules);
+                this.addMarksToStudent(courseModules);
             } else if (Objects.equals(action, "2")) {
                 this.createAssignment(courseModules);
             } else if (Objects.equals(action, "3")) {
@@ -107,7 +104,7 @@ public class InstructorMenu {
      * Allows the instructor to view the students on a selected course module that they are teaching
      * @param courseModules all the course modules the instructor has
      */
-    private void viewStudentsInCourseModule(ArrayList<CourseModule> courseModules) {
+    private void addMarksToStudent(ArrayList<CourseModule> courseModules) {
         System.out.print("Please enter the number of the course module you would like to view: ");
         String courseModuleNumber = scanner.nextLine();
 
@@ -135,9 +132,11 @@ public class InstructorMenu {
                         null,
                         null,
                         null,
+                        null,
                         "Students in " + selectedCourseModule.getName());
                 asciiTable.addRule();
                 asciiTable.addRow(
+                        "Number",
                         "Username",
                         "First Name",
                         "Middle Name",
@@ -150,8 +149,8 @@ public class InstructorMenu {
                 );
                 asciiTable.addRule();
 
-                for (String studentName: studentNames) {
-                    Student currentStudent = new StudentLoader().loadStudent(studentName);
+                for (int i = 0; i < studentNames.size(); i++) {
+                    Student currentStudent = new StudentLoader().loadStudent(new ArrayList<>(studentNames).get(i));
 
                     if (currentStudent == null) {
                         System.out.println("Student not found");
@@ -160,10 +159,13 @@ public class InstructorMenu {
 
                     StringBuilder currentCourseModules = new StringBuilder();
                     for (CourseModuleResult courseModule: currentStudent.getCurrentCourseModules()) {
-                        currentCourseModules.append(courseModule.getCourseModuleCode());
+                        if (courseModule != null) {
+                            currentCourseModules.append(courseModule.getCourseModuleCode());
+                        }
                     }
 
                     asciiTable.addRow(
+                            i + 1,
                             currentStudent.getUsername(),
                             currentStudent.getFirstName(),
                             currentStudent.getMiddleName(),
@@ -179,8 +181,122 @@ public class InstructorMenu {
 
 
                 System.out.println(asciiTable.render());
-                System.out.print("Press a key to continue: ");
-                scanner.nextLine();
+                System.out.print("Enter the number of the student you wish to add marks to: ");
+                String studentNumber = scanner.nextLine();
+
+                if (StringUtils.isNumeric(studentNumber)) {
+                    if (Integer.parseInt(studentNumber) - 1 < studentNames.size()
+                            && Integer.parseInt(studentNumber) - 1 >= 0) {
+                        Student selectedStudent = new StudentLoader().loadStudent(new ArrayList<>(studentNames)
+                                .get(Integer.parseInt(studentNumber) - 1));
+                        System.out.print("Are you sure you want to add marks for "
+                                + selectedStudent.getFirstName() + " " + selectedStudent.getLastName() + "? (Y/N) "
+                        );
+
+                        String action = scanner.nextLine();
+
+                        if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                            CourseModuleResult[] currentCourseModules = selectedStudent.getCurrentCourseModules();
+                            AsciiTable assignmentsTable = new AsciiTable();
+
+                            for (CourseModuleResult courseModuleResult : currentCourseModules) {
+                                if (Objects.equals(courseModuleResult.getCourseModuleCode(),
+                                        selectedCourseModule.getCourseModuleCode())) {
+                                    LinkedHashMap<String, Integer> assignmentResults = courseModuleResult.getAssignmentResults();
+
+                                    assignmentsTable.addRule();
+                                    assignmentsTable.addRow(
+                                            null,
+                                            null,
+                                            selectedStudent.getFirstName()
+                                                    + "'s Assignment Results in "
+                                                    + selectedCourseModule.getName());
+                                    assignmentsTable.addRule();
+                                    assignmentsTable.addRow("Number", "Assignment Name", "Mark");
+                                    assignmentsTable.addRule();
+
+                                    Set<String> assignmentIds = assignmentResults.keySet();
+                                    int index = 1;
+
+                                    for (String assignmentId : assignmentIds) {
+                                        Assignment currentAssignment = new AssignmentLoader().loadAssignment(assignmentId);
+
+                                        assignmentsTable.addRow(
+                                                index,
+                                                currentAssignment.getAssignmentName(),
+                                                assignmentResults.get(assignmentId)
+                                                        + "/" + currentAssignment.getTotalPossibleMarks());
+                                        assignmentsTable.addRule();
+                                        index++;
+                                    }
+
+                                    System.out.println(assignmentsTable.render());
+
+                                    System.out.print("Enter the number of the assignment you'd like to add marks to: ");
+                                    String assignmentNumber = scanner.nextLine();
+
+                                    if (StringUtils.isNumeric(assignmentNumber)) {
+                                        if (Integer.parseInt(assignmentNumber) - 1 < studentNames.size()
+                                                && Integer.parseInt(assignmentNumber) - 1 >= 0) {
+                                            ArrayList<String> assignmentIdsArrayList = new ArrayList<>(assignmentIds);
+                                            Assignment assignment = new AssignmentLoader().loadAssignment(
+                                                    assignmentIdsArrayList.get(Integer.parseInt(assignmentNumber) - 1)
+                                            );
+
+                                            System.out.print("Are you sure you want to add marks to "
+                                                    + assignment.getAssignmentName()
+                                                    + "? (Y/N) ");
+
+                                            action = scanner.nextLine();
+
+                                            if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                                                System.out.print("Enter the mark: ");
+                                                String mark = scanner.nextLine();
+
+                                                if (StringUtils.isNumeric(mark)) {
+                                                    if (!(Integer.parseInt(mark) > assignment.getTotalPossibleMarks())
+                                                            && !(Integer.parseInt(mark) < 0)) {
+                                                        this.instructor.addMark(
+                                                                selectedStudent,
+                                                                selectedCourseModule,
+                                                                assignment,
+                                                                Integer.parseInt(mark));
+
+                                                        System.out.println("Marks added!");
+
+                                                        System.out.print("Has "
+                                                                + selectedStudent.getFirstName()
+                                                                + " completed the course module? (Y/N)");
+
+                                                        action = scanner.nextLine();
+
+                                                        if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                                                           this.instructor.markStudentAsCompleted(selectedStudent, selectedCourseModule);
+                                                        }
+                                                    } else {
+                                                        System.out.println("Marks entered are out of range");
+                                                    }
+                                                } else {
+                                                    System.out.println("Invalid input");
+                                                }
+                                            }
+                                        } else {
+                                            System.out.println("Assignment number not found");
+                                        }
+                                    } else {
+                                        System.out.println("Invalid input");
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        System.out.println("Student number not found");
+                    }
+                } else {
+                    System.out.println("Invalid input");
+                }
             } else {
                 System.out.println("Course module number does not exist");
             }

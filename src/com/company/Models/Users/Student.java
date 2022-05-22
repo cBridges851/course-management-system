@@ -1,13 +1,11 @@
 package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Model that represents the student, which is a type of user who partakes in the modules in courses.
@@ -58,6 +56,10 @@ public class Student extends User {
         return this.completedCourseModules;
     }
 
+    public void addCompletedCourseModule(CourseModuleResult completedCourseModule) {
+        this.completedCourseModules.add(completedCourseModule);
+    }
+
     /**
      * @return the course modules that the student is currently studying.
      */
@@ -82,7 +84,7 @@ public class Student extends User {
             if (currentCourseModules[i] == null) {
                 CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
                 HashSet<String> assignmentIds = courseModule.getAssignmentIds();
-                HashMap<String, Integer> defaultAssignmentResults = new HashMap<>();
+                LinkedHashMap<String, Integer> defaultAssignmentResults = new LinkedHashMap<>();
 
                 for (String assignmentId: assignmentIds) {
                     defaultAssignmentResults.put(assignmentId, 0);
@@ -90,14 +92,40 @@ public class Student extends User {
 
                 CourseModuleResult courseModuleResult = new CourseModuleResult(
                         courseModuleCode,
-                        defaultAssignmentResults,
-                        0);
+                        defaultAssignmentResults);
                 currentCourseModules[i] = courseModuleResult;
                 return;
             }
         }
 
         System.out.println("Students can only have 4 course modules per semester");
+    }
+
+    public void removeCurrentCourseModule(CourseModuleResult courseModule) {
+        for (int i = 0; i < 4; i++) {
+            if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                this.currentCourseModules[i] = null;
+                ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+
+                for (int j = 0; j < allStudents.size(); j++) {
+                    if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
+                        allStudents.set(j, this);
+                    }
+                }
+
+                System.out.println(courseModule.getCourseModuleCode()
+                        + " successfully removed from "
+                        + this.getFirstName()
+                        + "'s current course modules");
+                return;
+            }
+        }
+
+        System.out.println("Unable to remove "
+                + courseModule.getCourseModuleCode()
+                + " from "
+                + this.getFirstName()
+                + "'s current course modules");
     }
 
     /**

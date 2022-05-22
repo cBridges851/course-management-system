@@ -1,19 +1,20 @@
 package com.company.Models.Study;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * A class that represents the results achieved by a student on a module
  */
 public class CourseModuleResult {
     private String courseModuleCode;
-    private HashMap<String, Integer> assignmentResults;
-    private int totalMark;
+    private LinkedHashMap<String, Integer> assignmentResults;
 
-    public CourseModuleResult(String courseModule, HashMap<String, Integer> assignmentResults, int totalMark) {
+    public CourseModuleResult(String courseModule, LinkedHashMap<String, Integer> assignmentResults) {
         this.courseModuleCode = courseModule;
         this.assignmentResults = assignmentResults;
-        this.totalMark = totalMark;
     }
 
     /**
@@ -26,7 +27,7 @@ public class CourseModuleResult {
     /**
      * @return all the assignment results on a module.
      */
-    public HashMap<String, Integer> getAssignmentResults() {
+    public LinkedHashMap<String, Integer> getAssignmentResults() {
         return assignmentResults;
     }
 
@@ -34,7 +35,14 @@ public class CourseModuleResult {
      * @return the number of marks that the student achieved across all assignments on the module.
      */
     public int getTotalMark() {
-        return totalMark;
+        Set<String> assignmentIds = this.assignmentResults.keySet();
+        int total = 0;
+
+        for (String assignmentId: assignmentIds) {
+            total += this.assignmentResults.get(assignmentId);
+        }
+
+        return total;
     }
 
     /**

@@ -117,4 +117,8 @@ public class CourseModule {
     public void addStudentName(String studentName) {
         this.studentNames.add(studentName);
     }
+
+    public void removeStudentName(String studentName) {
+        this.studentNames.remove(studentName);
+    }
 }

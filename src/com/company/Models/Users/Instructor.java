@@ -2,11 +2,14 @@ package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.AssignmentLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseModuleSaver;
+import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Study.CourseModuleResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,9 +85,62 @@ public class Instructor extends User {
      * @param student the student that has achieved the mark.
      * @param assignment the work the student has done.
      * @param mark the number of marks the student has been achieved.
-     * @throws Exception
      */
-    public void addMark(Student student, Assignment assignment, int mark) throws Exception {
-        throw new Exception("Not implemented yet");
+    public void addMark(Student student, CourseModule courseModule, Assignment assignment, int mark) {
+        CourseModuleResult[] studentsCurrentCourseModules = student.getCurrentCourseModules();
+
+        for (CourseModuleResult currentCourseModule: studentsCurrentCourseModules) {
+            if (currentCourseModule != null) {
+                if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                    currentCourseModule.addAssignmentResults(assignment.getAssignmentId(), mark);
+
+                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+
+                    for (int i = 0; i < allStudents.size(); i++) {
+                        if (Objects.equals(allStudents.get(i).getUsername(), student.getUsername())) {
+                            allStudents.set(i, student);
+                        }
+                    }
+
+                    new StudentSaver().saveAllStudents(allStudents);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void markStudentAsCompleted(Student student, CourseModule courseModule) {
+        CourseModuleResult[] studentsCurrentCourseModules = student.getCurrentCourseModules();
+
+        for (CourseModuleResult currentCourseModule: studentsCurrentCourseModules) {
+            if (currentCourseModule != null) {
+                if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                    student.addCompletedCourseModule(currentCourseModule);
+                    student.removeCurrentCourseModule(currentCourseModule);
+
+                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+
+                    for (int i = 0; i < allStudents.size(); i++) {
+                        if (Objects.equals(allStudents.get(i).getUsername(), student.getUsername())) {
+                            allStudents.set(i, student);
+                        }
+                    }
+
+                    courseModule.removeStudentName(student.getUsername());
+                    ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+
+                    for (int i = 0; i < allCourseModules.size(); i++) {
+                        if (Objects.equals(allCourseModules.get(i).getCourseModuleCode(),
+                                courseModule.getCourseModuleCode())) {
+                            allCourseModules.set(i, courseModule);
+                        }
+                    }
+
+                    new StudentSaver().saveAllStudents(allStudents);
+                    new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+                    break;
+                }
+            }
+        }
     }
 }
