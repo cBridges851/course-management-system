@@ -56,6 +56,10 @@ public class Student extends User {
         return this.completedCourseModules;
     }
 
+    /**
+     * Adds a completed course module to the student's list
+     * @param completedCourseModule the results of the completed course module
+     */
     public void addCompletedCourseModule(CourseModuleResult completedCourseModule) {
         this.completedCourseModules.add(completedCourseModule);
     }

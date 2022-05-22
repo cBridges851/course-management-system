@@ -98,6 +98,10 @@ public class CourseModule {
         return this.assignmentIds;
     }
 
+    /**
+     * Adds an assignment to the course module
+     * @param assignmentId the identifier of an assignment to add
+     */
     public void addAssignmentId(String assignmentId) {
         this.assignmentIds.add(assignmentId);
     }
