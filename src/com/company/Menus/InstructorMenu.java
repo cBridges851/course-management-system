@@ -83,7 +83,8 @@ public class InstructorMenu {
                     What would you like to do?\s
                     (1) Add marks to student\s
                     (2) Create an assignment\s
-                    (3) View assignments in a course module\s""");
+                    (3) View assignments in a course module\s
+                    (4) Mark a student as completed the course module""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
@@ -92,6 +93,8 @@ public class InstructorMenu {
                 this.createAssignment(courseModules);
             } else if (Objects.equals(action, "3")) {
                 this.viewAssignmentsInCourseModule(courseModules);
+            } else if (Objects.equals(action, "4")) {
+                this.markStudentAsCompletedModule(courseModules);
             }
 
             this.runInstructorMenu();
@@ -164,6 +167,11 @@ public class InstructorMenu {
                         }
                     }
 
+                    StringBuilder completedCourseModules = new StringBuilder();
+                    for (CourseModuleResult courseModuleResult: currentStudent.getCompletedCourseModules()) {
+                        completedCourseModules.append(courseModuleResult.getCourseModuleCode());
+                    }
+
                     asciiTable.addRow(
                             i + 1,
                             currentStudent.getUsername(),
@@ -173,7 +181,7 @@ public class InstructorMenu {
                             currentStudent.getYear(),
                             currentStudent.getLevel(),
                             currentStudent.getCourseName(),
-                            currentStudent.getCompletedCourseModules(),
+                            completedCourseModules,
                             currentCourseModules
                     );
                     asciiTable.addRule();
@@ -394,5 +402,113 @@ public class InstructorMenu {
         }
 
         this.runInstructorMenu();
+    }
+
+    private void markStudentAsCompletedModule(ArrayList<CourseModule> courseModules) {
+        System.out.print("Please enter the number of the course module: ");
+        String courseModuleNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(courseModuleNumber)) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size()
+                    && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule selectedCourseModule = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+
+                HashSet<String> studentNames = selectedCourseModule.getStudentNames();
+
+                if (studentNames.size() == 0) {
+                    System.out.println("There are no students enrolled on this course module.");
+                    this.runInstructorMenu();
+                    return;
+                }
+
+                AsciiTable asciiTable = new AsciiTable();
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        "Students in " + selectedCourseModule.getName());
+                asciiTable.addRule();
+                asciiTable.addRow(
+                        "Number",
+                        "Username",
+                        "First Name",
+                        "Middle Name",
+                        "Last Name",
+                        "Year",
+                        "Level",
+                        "Course",
+                        "Completed Course Modules",
+                        "Current Course Modules"
+                );
+                asciiTable.addRule();
+
+                for (int i = 0; i < studentNames.size(); i++) {
+                    Student currentStudent = new StudentLoader().loadStudent(new ArrayList<>(studentNames).get(i));
+
+                    if (currentStudent == null) {
+                        System.out.println("Student not found");
+                        break;
+                    }
+
+                    StringBuilder currentCourseModules = new StringBuilder();
+                    for (CourseModuleResult courseModuleResult: currentStudent.getCurrentCourseModules()) {
+                        if (courseModuleResult != null) {
+                            currentCourseModules.append(courseModuleResult.getCourseModuleCode());
+                        }
+                    }
+
+                    StringBuilder completedCourseModules = new StringBuilder();
+                    for (CourseModuleResult courseModuleResult: currentStudent.getCompletedCourseModules()) {
+                        completedCourseModules.append(courseModuleResult.getCourseModuleCode());
+                    }
+
+                    asciiTable.addRow(
+                            i + 1,
+                            currentStudent.getUsername(),
+                            currentStudent.getFirstName(),
+                            currentStudent.getMiddleName(),
+                            currentStudent.getLastName(),
+                            currentStudent.getYear(),
+                            currentStudent.getLevel(),
+                            currentStudent.getCourseName(),
+                            completedCourseModules,
+                            currentCourseModules
+                    );
+                    asciiTable.addRule();
+                }
+
+
+                System.out.println(asciiTable.render());
+                System.out.print("Enter the number of the student you wish to mark as completed for this course module: ");
+                String studentNumber = scanner.nextLine();
+
+                if (StringUtils.isNumeric(studentNumber)) {
+                    if (Integer.parseInt(studentNumber) - 1 < studentNames.size()
+                            && Integer.parseInt(studentNumber) - 1 >= 0) {
+                        Student selectedStudent = new StudentLoader().loadStudent(new ArrayList<>(studentNames)
+                                .get(Integer.parseInt(studentNumber) - 1));
+                        System.out.print("Are you sure you want to mark "
+                                + selectedStudent.getFirstName()
+                                + " "
+                                + selectedStudent.getLastName()
+                                + " as completed for this course module? (Y/N) "
+                        );
+
+                        String action = scanner.nextLine();
+
+                        if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                            this.instructor.markStudentAsCompleted(selectedStudent, selectedCourseModule);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
