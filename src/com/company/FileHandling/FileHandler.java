@@ -63,6 +63,24 @@ public class FileHandler {
     }
 
     /**
+     * A method that adds a line to the end of a file
+     * @param customFilename The file to append to
+     * @param contents What to save to the file
+     */
+    public void writeFile(String customFilename, String contents) {
+        try {
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(customFilename);
+            fileWriter.write(contents);
+            fileWriter.close();
+        } catch(FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+        } catch (Exception exception) {
+            System.out.println("Unable to append to file: " + exception);
+        }
+    }
+
+    /**
      * A method which loads the contents of the file
      * @param filename The file that data needs to be retrieved from.
      * @return all the lines that are in the file.

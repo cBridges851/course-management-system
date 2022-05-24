@@ -1,5 +1,7 @@
 package com.company.Models.Study;
 
+import com.company.FileHandling.Loaders.AssignmentLoader;
+
 import java.util.HashSet;
 
 /**
@@ -104,6 +106,21 @@ public class CourseModule {
      */
     public void addAssignmentId(String assignmentId) {
         this.assignmentIds.add(assignmentId);
+    }
+
+    /**
+     * Totals the marks from all the assignments to get a total number of marks that can be achieved.
+     * @return all the available marks.
+     */
+    public int getTotalAvailableMarks() {
+        int total = 0;
+
+        for (String assignmentId: assignmentIds) {
+            Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+            total += assignment.getTotalPossibleMarks();
+        }
+
+        return total;
     }
 
     /**

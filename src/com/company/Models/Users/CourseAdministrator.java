@@ -1,18 +1,19 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.AssignmentLoader;
 import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
 import com.company.FileHandling.Savers.InstructorSaver;
+import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
+import com.company.Models.Study.CourseModuleResult;
+import de.vandermeer.asciitable.AsciiTable;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Model that represents the course administrator, which is a type of user who manages the courses.
@@ -148,10 +149,98 @@ public class CourseAdministrator extends User {
     /**
      * @param student the student that the results slip will be about, which indicates the grades on each module.
      * @return a string that represents the results slip
-     * @throws Exception
      */
-    public String createResultsSlip(Student student) throws Exception {
-        throw new Exception("Not implemented yet");
+    public String createResultsSlip(Student student) {
+        StringBuilder resultsSlip = new StringBuilder();
+        resultsSlip
+                .append("Name: ")
+                .append(student.getFirstName())
+                .append(" ");
+        if (student.getMiddleName() != null) {
+            resultsSlip
+                .append(student.getMiddleName())
+                .append(" ");
+        }
+
+        resultsSlip.append(student.getLastName())
+                .append("     ")
+                .append("Level: ")
+                .append(student.getLevel())
+                .append("     ")
+                .append("Year: ")
+                .append(student.getYear())
+                .append("\n\n");
+
+        AsciiTable currentLevelTable = new AsciiTable();
+        currentLevelTable.addRule();
+        currentLevelTable.addRow(null, "Results for Level " + student.getLevel());
+        currentLevelTable.addRule();
+        ArrayList<CourseModuleResult> courseModulesForLevel = new ArrayList<>();
+        CourseModuleResult[] currentCourseModuleResults = student.getCurrentCourseModules();
+        ArrayList<CourseModuleResult> currentCourseModuleResultsAsArray = new ArrayList<>(Arrays.asList(currentCourseModuleResults));
+        currentCourseModuleResultsAsArray.removeAll(Collections.singleton(null));
+
+        for (CourseModuleResult currentCourseModuleResult: currentCourseModuleResultsAsArray) {
+            CourseModule currentCourseModule =
+                    new CourseModuleLoader().loadCourseModule(currentCourseModuleResult.getCourseModuleCode());
+            if (currentCourseModule.getLevel() == student.getLevel()) {
+                courseModulesForLevel.add(currentCourseModuleResult);
+            }
+        }
+
+        ArrayList<CourseModuleResult> completedCourseModuleResults = student.getCompletedCourseModules();
+
+        for (CourseModuleResult completedCourseModuleResult: completedCourseModuleResults) {
+            CourseModule completedCourseModule =
+                    new CourseModuleLoader().loadCourseModule(completedCourseModuleResult.getCourseModuleCode());
+
+            if (completedCourseModule.getLevel() == student.getLevel()) {
+                courseModulesForLevel.add(completedCourseModuleResult);
+            }
+        }
+
+        for (CourseModuleResult courseModuleResult: courseModulesForLevel) {
+            CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleResult.getCourseModuleCode());
+            currentLevelTable.addRow(null, courseModule.getName() + " (" + courseModuleResult.getCourseModuleCode() + ")");
+            currentLevelTable.addRule();
+
+            for (String assignmentId: courseModuleResult.getAssignmentResults().keySet()) {
+                Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+
+                currentLevelTable.addRow(
+                        assignment.getAssignmentName(),
+                        courseModuleResult.getAssignmentResults().get(assignmentId) + "/" + assignment.getTotalPossibleMarks()
+                );
+                currentLevelTable.addRule();
+            }
+
+            currentLevelTable.addRow(
+                    "",
+                    "Total: "
+                            + courseModuleResult.getTotalMark()
+                            + "/"
+                            + courseModule.getTotalAvailableMarks()
+            );
+            currentLevelTable.addRule();
+
+            String passOrFail =
+                    ((double) courseModuleResult.getTotalMark() / (double) courseModule.getTotalAvailableMarks() * 100) > 40 ? "Pass" : "Fail";
+            String status = completedCourseModuleResults.contains(courseModuleResult) ? passOrFail : "In Progress";
+            currentLevelTable.addRow(
+                    "",
+                    "Pass/Fail/In Progress: "
+                            + status
+            );
+            currentLevelTable.addRule();
+        }
+
+        resultsSlip.append(currentLevelTable.render());
+
+        //TODO: Can student progress onto the next level of study?
+        boolean canProgressToNextLevel = student.canProgressToNextLevel();
+        resultsSlip.append("\nCan progress to next level? ")
+                .append(canProgressToNextLevel ? "Yes" : "No");
+        return resultsSlip.toString();
     }
 
     /**

@@ -205,9 +205,12 @@ public class InstructorMenu {
 
                         if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                             CourseModuleResult[] currentCourseModules = selectedStudent.getCurrentCourseModules();
+                            ArrayList<CourseModuleResult> currentCourseModulesAsArrayList =
+                                    new ArrayList<>(Arrays.asList(currentCourseModules));
+                            currentCourseModulesAsArrayList.removeAll(Collections.singleton(null));
                             AsciiTable assignmentsTable = new AsciiTable();
 
-                            for (CourseModuleResult courseModuleResult : currentCourseModules) {
+                            for (CourseModuleResult courseModuleResult : currentCourseModulesAsArrayList) {
                                 if (Objects.equals(courseModuleResult.getCourseModuleCode(),
                                         selectedCourseModule.getCourseModuleCode())) {
                                     LinkedHashMap<String, Integer> assignmentResults = courseModuleResult.getAssignmentResults();

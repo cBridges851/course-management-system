@@ -1,7 +1,9 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
@@ -111,21 +113,23 @@ public class Student extends User {
      */
     public void removeCurrentCourseModule(CourseModuleResult courseModule) {
         for (int i = 0; i < 4; i++) {
-            if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
-                this.currentCourseModules[i] = null;
-                ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+            if (this.currentCourseModules[i] != null) {
+                if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                    this.currentCourseModules[i] = null;
+                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
 
-                for (int j = 0; j < allStudents.size(); j++) {
-                    if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
-                        allStudents.set(j, this);
+                    for (int j = 0; j < allStudents.size(); j++) {
+                        if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
+                            allStudents.set(j, this);
+                        }
                     }
-                }
 
-                System.out.println(courseModule.getCourseModuleCode()
-                        + " successfully removed from "
-                        + this.getFirstName()
-                        + "'s current course modules");
-                return;
+                    System.out.println(courseModule.getCourseModuleCode()
+                            + " successfully removed from "
+                            + this.getFirstName()
+                            + "'s current course modules");
+                    return;
+                }
             }
         }
 
@@ -136,12 +140,26 @@ public class Student extends User {
                 + "'s current course modules");
     }
 
-    /**
-     * @param courseModule the course module to retrieve the instructor from.
-     * @return the instructor on the course module.
-     * @throws Exception
-     */
-    public Instructor getInstructorOnCourseModule(CourseModule courseModule) throws Exception {
-        throw new Exception("Not implemented yet");
+    public boolean canProgressToNextLevel() {
+        Course course = new CourseLoader().loadCourse(this.courseName);
+        int numberOfCourseModulesOnLevel = 0;
+        int numberOfPassedCourseModules = 0;
+
+        for (String courseModuleCode: course.getCourseModuleCodes()) {
+            CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+            if (courseModule.getLevel() == this.level) {
+                numberOfCourseModulesOnLevel++;
+            }
+        }
+
+        for (CourseModuleResult completedCourseModuleResult: this.completedCourseModules) {
+            CourseModule currentCourseModule = new CourseModuleLoader()
+                    .loadCourseModule(completedCourseModuleResult.getCourseModuleCode());
+            if ((double) completedCourseModuleResult.getTotalMark() / (double) currentCourseModule.getTotalAvailableMarks() * 100 > 40) {
+                numberOfPassedCourseModules++;
+            }
+        }
+
+        return (double) numberOfPassedCourseModules / (double) numberOfCourseModulesOnLevel * 100 >= 50;
     }
 }
