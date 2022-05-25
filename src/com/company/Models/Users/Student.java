@@ -1,7 +1,9 @@
 package com.company.Models.Users;
 
+import com.company.FileHandling.Loaders.CourseLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
@@ -29,6 +31,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the year the student is currently in
      * @return the year that the student is in. E.g. 1 would be retrieved for a user in their first year.
      */
     public int getYear() {
@@ -36,6 +39,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the student's level
      * @return the level that the student is studying. E.g. level 4, 5 or 6.
      */
     public int getLevel() {
@@ -43,6 +47,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the name of the course the student is enrolled in
      * @return the course that the student is enrolled in.
      */
     public String getCourseName() {
@@ -50,7 +55,8 @@ public class Student extends User {
     }
 
     /**
-     * @return the course modules that the student has passed and completed.
+     * Gets all the course modules that the student has completed (could be passed or failed)
+     * @return the course modules that the student has completed.
      */
     public ArrayList<CourseModuleResult> getCompletedCourseModules() {
         return this.completedCourseModules;
@@ -111,21 +117,23 @@ public class Student extends User {
      */
     public void removeCurrentCourseModule(CourseModuleResult courseModule) {
         for (int i = 0; i < 4; i++) {
-            if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
-                this.currentCourseModules[i] = null;
-                ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+            if (this.currentCourseModules[i] != null) {
+                if (Objects.equals(this.currentCourseModules[i].getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                    this.currentCourseModules[i] = null;
+                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
 
-                for (int j = 0; j < allStudents.size(); j++) {
-                    if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
-                        allStudents.set(j, this);
+                    for (int j = 0; j < allStudents.size(); j++) {
+                        if (Objects.equals(allStudents.get(j).getUsername(), this.getUsername())) {
+                            allStudents.set(j, this);
+                        }
                     }
-                }
 
-                System.out.println(courseModule.getCourseModuleCode()
-                        + " successfully removed from "
-                        + this.getFirstName()
-                        + "'s current course modules");
-                return;
+                    System.out.println(courseModule.getCourseModuleCode()
+                            + " successfully removed from "
+                            + this.getFirstName()
+                            + "'s current course modules");
+                    return;
+                }
             }
         }
 
@@ -137,11 +145,32 @@ public class Student extends User {
     }
 
     /**
-     * @param courseModule the course module to retrieve the instructor from.
-     * @return the instructor on the course module.
-     * @throws Exception
+     * Looks at the course modules the student has completed and the marks, looking to see if the student is able to
+     * progress to the next level of study yet (half of the course modules have to have been passed)
+     * @return boolean that indicates whether the student can progress to the next level - true if they can,
+     *          false otherwise
      */
-    public Instructor getInstructorOnCourseModule(CourseModule courseModule) throws Exception {
-        throw new Exception("Not implemented yet");
+    public boolean canProgressToNextLevel() {
+        Course course = new CourseLoader().loadCourse(this.courseName);
+        int numberOfCourseModulesOnLevel = 0;
+        int numberOfPassedCourseModules = 0;
+
+        for (String courseModuleCode: course.getCourseModuleCodes()) {
+            CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+
+            if (courseModule.getLevel() == this.level) {
+                numberOfCourseModulesOnLevel++;
+            }
+        }
+
+        for (CourseModuleResult completedCourseModuleResult: this.completedCourseModules) {
+            CourseModule currentCourseModule = new CourseModuleLoader()
+                    .loadCourseModule(completedCourseModuleResult.getCourseModuleCode());
+            if ((double) completedCourseModuleResult.getTotalMark() / (double) currentCourseModule.getTotalAvailableMarks() * 100 > 40) {
+                numberOfPassedCourseModules++;
+            }
+        }
+
+        return (double) numberOfPassedCourseModules / (double) numberOfCourseModulesOnLevel * 100 >= 50;
     }
 }

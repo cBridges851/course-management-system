@@ -144,8 +144,8 @@ public class StudentMenu {
         Course course = new CourseLoader().loadCourse(this.student.getCourseName());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
-        ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
-        currentCourseModules.removeAll(Collections.singleton(null));
+        ArrayList<CourseModuleResult> currentCourseModulesAsArrayList = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
+        currentCourseModulesAsArrayList.removeAll(Collections.singleton(null));
         ArrayList<CourseModuleResult> completedCourseModules = this.student.getCompletedCourseModules();
 
         for (String courseModuleCode: courseModulesCodesInCourse) {
@@ -160,7 +160,7 @@ public class StudentMenu {
                 }
             }
 
-            for (CourseModuleResult currentCourseModule: currentCourseModules) {
+            for (CourseModuleResult currentCourseModule: currentCourseModulesAsArrayList) {
                 if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModuleCode)) {
                     isAlreadyEnrolledOrCompleted = true;
                     break;
@@ -204,7 +204,7 @@ public class StudentMenu {
                     int numberOfMandatory = 0;
                     int numberOfOptional = 0;
 
-                    for (CourseModuleResult courseModuleCode: currentCourseModules) {
+                    for (CourseModuleResult courseModuleCode: currentCourseModulesAsArrayList) {
                         CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode.getCourseModuleCode());
 
                         if (courseModule.getIsMandatory()) {
@@ -249,7 +249,6 @@ public class StudentMenu {
             } else {
                 System.out.println("Course module does not exist");
             }
-
         } else {
             System.out.println("Invalid input");
         }

@@ -1,8 +1,11 @@
 package com.company.Menus;
 
 import com.company.FileHandling.Loaders.CourseAdministratorLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.FileHandling.Savers.ResultsSlipSaver;
 import com.company.Models.Study.Course;
 import com.company.Models.Users.CourseAdministrator;
+import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,7 +55,8 @@ public class CourseAdministratorMenu {
                     (3) Add a course\s
                     (4) Delete a course\s
                     (5) Rename a course
-                    (6) Manage course modules""");
+                    (6) Manage course modules\s
+                    (7) Generate results slip""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -68,6 +72,8 @@ public class CourseAdministratorMenu {
         } else if(Objects.equals(action, "6")) {
             new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, courses)
                     .runCourseModuleSubMenu();
+        } else if (Objects.equals(action, "7")) {
+            this.generateResultsSlip();
         }
     }
 
@@ -201,6 +207,67 @@ public class CourseAdministratorMenu {
                 }
             } else {
                 System.out.println("Course number does not exist");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runCourseAdministratorMenu();
+    }
+
+    /**
+     * Creates a results slip for a specified student and outputs it, with the option to save it to a file.
+     */
+    private void generateResultsSlip() {
+        ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
+        AsciiTable studentTable = new AsciiTable();
+        studentTable.addRule();
+        studentTable.addRow(null, "All Students");
+        studentTable.addRule();
+        studentTable.addRow("Number", "Name");
+        studentTable.addRule();
+
+        for (int i = 0; i < allStudents.size(); i++) {
+            studentTable.addRow(
+                    i + 1,
+                    allStudents.get(i).getFirstName() + " " + allStudents.get(i).getLastName() + " (" + allStudents.get(i).getUsername() + ")");
+            studentTable.addRule();
+        }
+
+        System.out.println(studentTable.render());
+        System.out.print("Enter the number of the student you wish to generate a results slip for: ");
+        String studentNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(studentNumber)) {
+            if (Integer.parseInt(studentNumber) - 1 < allStudents.size() && Integer.parseInt(studentNumber) - 1 >= 0) {
+                Student selectedStudent = allStudents.get(Integer.parseInt(studentNumber) - 1);
+                System.out.print("Generate a results slip for "
+                        + selectedStudent.getFirstName()
+                        + " "
+                        + selectedStudent.getLastName()
+                        + " ("
+                        + selectedStudent.getUsername()
+                        + ")? (Y/N) ");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
+                    String resultsSlip = this.courseAdministrator.createResultsSlip(selectedStudent);
+                    System.out.println(resultsSlip);
+                    System.out.print("Would you like to save this results slip to a file? (Y/N) ");
+                    action = scanner.nextLine();
+
+                    if (Objects.equals(action, "y")) {
+                        new ResultsSlipSaver().saveResultsSlip(
+                                selectedStudent.getLastName()
+                                        + "-"
+                                        + selectedStudent.getFirstName()
+                                        + "-lvl" + selectedStudent.getLevel()
+                                        + ".txt",
+                                resultsSlip);
+                    }
+                }
+            } else {
+                System.out.println("Student number not found");
             }
         } else {
             System.out.println("Invalid input");

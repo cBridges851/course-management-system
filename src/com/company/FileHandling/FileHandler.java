@@ -46,13 +46,31 @@ public class FileHandler {
     }
 
     /**
-     * A method that adds a line to the end of a file
-     * @param filename The file to append to
+     * A method that writes to a pre-defined file
+     * @param filename The file to write to
      * @param contents What to save to the file
      */
     public void writeFile(Filename filename, String contents) {
         try {
             FileWriter fileWriter = new FileWriter(this.filenames.get(filename));
+            fileWriter.write(contents);
+            fileWriter.close();
+        } catch(FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+        } catch (Exception exception) {
+            System.out.println("Unable to append to file: " + exception);
+        }
+    }
+
+    /**
+     * A method that writes to a custom file
+     * @param customFilename The file to write to
+     * @param contents What to save to the file
+     */
+    public void writeFile(String customFilename, String contents) {
+        try {
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(customFilename);
             fileWriter.write(contents);
             fileWriter.close();
         } catch(FileNotFoundException fileNotFoundException) {
