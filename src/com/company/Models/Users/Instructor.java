@@ -72,10 +72,8 @@ public class Instructor extends User {
      * @param totalPossibleMarks the maximum number of marks that could be achieved on the assignment.
      */
     public void createAssignment(String courseModuleCode, String assignmentName, int totalPossibleMarks) {
-        ArrayList<Assignment> allAssignments = new AssignmentLoader().loadAllAssignments();
         Assignment assignment = new Assignment(assignmentName, totalPossibleMarks);
-        allAssignments.add(assignment);
-        new AssignmentSaver().saveAllAssignments(allAssignments);
+        new AssignmentSaver().saveAssignment(assignment);
 
         ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
         for (CourseModule courseModule: allCourseModules) {
