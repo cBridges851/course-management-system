@@ -2,6 +2,8 @@ package com.company.FileHandling.Savers;
 
 import com.company.FileHandling.FileHandler;
 import com.company.FileHandling.Filename;
+import com.company.FileHandling.Loaders.CourseAdministratorLoader;
+import com.company.Models.Study.Course;
 import com.company.Models.Users.CourseAdministrator;
 import com.google.gson.Gson;
 
@@ -22,5 +24,11 @@ public class CourseAdministratorSaver {
         String serialisedCourseAdministrators = gson.toJson(courseAdministrators);
         fileHandler.writeFile(Filename.COURSEADMINISTRATORS, serialisedCourseAdministrators);
         System.out.println("Course Administrators Updated!");
+    }
+
+    public void saveCourseAdministrator(CourseAdministrator courseAdministrator) {
+        ArrayList<CourseAdministrator> allCourseAdministrators = new CourseAdministratorLoader().loadAllCourseAdministrators();
+        allCourseAdministrators.add(courseAdministrator);
+        this.saveAllCourseAdminstrators(allCourseAdministrators);
     }
 }
