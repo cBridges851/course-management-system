@@ -164,6 +164,9 @@ public class CourseAdministrator extends User {
 
         resultsSlip.append(student.getLastName())
                 .append("     ")
+                .append("Course: ")
+                .append(student.getCourseName())
+                .append("     ")
                 .append("Level: ")
                 .append(student.getLevel())
                 .append("     ")
@@ -236,7 +239,6 @@ public class CourseAdministrator extends User {
 
         resultsSlip.append(currentLevelTable.render());
 
-        //TODO: Can student progress onto the next level of study?
         boolean canProgressToNextLevel = student.canProgressToNextLevel();
         resultsSlip.append("\nCan progress to next level? ")
                 .append(canProgressToNextLevel ? "Yes" : "No");

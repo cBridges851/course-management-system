@@ -31,6 +31,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the year the student is currently in
      * @return the year that the student is in. E.g. 1 would be retrieved for a user in their first year.
      */
     public int getYear() {
@@ -38,6 +39,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the student's level
      * @return the level that the student is studying. E.g. level 4, 5 or 6.
      */
     public int getLevel() {
@@ -45,6 +47,7 @@ public class Student extends User {
     }
 
     /**
+     * Gets the name of the course the student is enrolled in
      * @return the course that the student is enrolled in.
      */
     public String getCourseName() {
@@ -52,7 +55,8 @@ public class Student extends User {
     }
 
     /**
-     * @return the course modules that the student has passed and completed.
+     * Gets all the course modules that the student has completed (could be passed or failed)
+     * @return the course modules that the student has completed.
      */
     public ArrayList<CourseModuleResult> getCompletedCourseModules() {
         return this.completedCourseModules;
@@ -140,6 +144,12 @@ public class Student extends User {
                 + "'s current course modules");
     }
 
+    /**
+     * Looks at the course modules the student has completed and the marks, looking to see if the student is able to
+     * progress to the next level of study yet (half of the course modules have to have been passed)
+     * @return boolean that indicates whether the student can progress to the next level - true if they can,
+     *          false otherwise
+     */
     public boolean canProgressToNextLevel() {
         Course course = new CourseLoader().loadCourse(this.courseName);
         int numberOfCourseModulesOnLevel = 0;
@@ -147,6 +157,7 @@ public class Student extends User {
 
         for (String courseModuleCode: course.getCourseModuleCodes()) {
             CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+
             if (courseModule.getLevel() == this.level) {
                 numberOfCourseModulesOnLevel++;
             }

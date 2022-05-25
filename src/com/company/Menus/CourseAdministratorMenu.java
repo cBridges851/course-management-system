@@ -9,7 +9,6 @@ import com.company.Models.Users.Student;
 import de.vandermeer.asciitable.AsciiTable;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.management.ObjectName;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
@@ -216,6 +215,9 @@ public class CourseAdministratorMenu {
         this.runCourseAdministratorMenu();
     }
 
+    /**
+     * Creates a results slip for a specified student and outputs it, with the option to save it to a file.
+     */
     private void generateResultsSlip() {
         ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
         AsciiTable studentTable = new AsciiTable();
@@ -239,7 +241,7 @@ public class CourseAdministratorMenu {
         if (StringUtils.isNumeric(studentNumber)) {
             if (Integer.parseInt(studentNumber) - 1 < allStudents.size() && Integer.parseInt(studentNumber) - 1 >= 0) {
                 Student selectedStudent = allStudents.get(Integer.parseInt(studentNumber) - 1);
-                System.out.println("Generate a results slip for "
+                System.out.print("Generate a results slip for "
                         + selectedStudent.getFirstName()
                         + " "
                         + selectedStudent.getLastName()
@@ -248,10 +250,10 @@ public class CourseAdministratorMenu {
                         + ")? (Y/N) ");
                 String action = scanner.nextLine();
 
-                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")); {
+                if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                     String resultsSlip = this.courseAdministrator.createResultsSlip(selectedStudent);
                     System.out.println(resultsSlip);
-                    System.out.print("Would you like to save this results slip to a file? (Y/N)");
+                    System.out.print("Would you like to save this results slip to a file? (Y/N) ");
                     action = scanner.nextLine();
 
                     if (Objects.equals(action, "y")) {
@@ -264,13 +266,13 @@ public class CourseAdministratorMenu {
                                 resultsSlip);
                     }
                 }
+            } else {
+                System.out.println("Student number not found");
             }
         } else {
             System.out.println("Invalid input");
         }
 
-//        Student student = new StudentLoader().loadAllStudents().get(0);
-//        System.out.println(resultsSlip);
-        // TODO: Fill this in more: ask the name of the student to retrieve, ask if results slip should be saved to file.
+        this.runCourseAdministratorMenu();
     }
 }

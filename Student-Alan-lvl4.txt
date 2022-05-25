@@ -1,4 +1,4 @@
-Name: Alan Sugar Student     Level: 4     Year: 3
+Name: Alan Sugar Student     Course: BSc Digital and Technology Solutions     Level: 4     Year: 3
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │Results for Level 4                                                           │

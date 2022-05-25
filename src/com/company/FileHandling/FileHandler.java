@@ -46,8 +46,8 @@ public class FileHandler {
     }
 
     /**
-     * A method that adds a line to the end of a file
-     * @param filename The file to append to
+     * A method that writes to a pre-defined file
+     * @param filename The file to write to
      * @param contents What to save to the file
      */
     public void writeFile(Filename filename, String contents) {
@@ -63,8 +63,8 @@ public class FileHandler {
     }
 
     /**
-     * A method that adds a line to the end of a file
-     * @param customFilename The file to append to
+     * A method that writes to a custom file
+     * @param customFilename The file to write to
      * @param contents What to save to the file
      */
     public void writeFile(String customFilename, String contents) {
