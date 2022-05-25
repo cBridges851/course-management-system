@@ -32,7 +32,7 @@ public class CourseAdministratorMenu {
     public void runCourseAdministratorMenu() {
         System.out.println("Logging in as course administrator");
 
-        this.courseAdministrator = new CourseAdministratorLoader().loadAllCourseAdmistrators().get(0);
+        this.courseAdministrator = new CourseAdministratorLoader().loadAllCourseAdministrators().get(0);
 
         ArrayList<Course> courses = courseAdministrator.getAllCourses();
 

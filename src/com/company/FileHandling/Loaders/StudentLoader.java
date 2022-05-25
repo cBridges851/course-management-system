@@ -33,6 +33,7 @@ public class StudentLoader {
     }
 
     /**
+     * Loads a specific student.
      * @param username the username (identifier) of a student.
      * @return all the student data for that student.
      */

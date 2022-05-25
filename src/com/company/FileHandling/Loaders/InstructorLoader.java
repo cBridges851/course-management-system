@@ -33,6 +33,7 @@ public class InstructorLoader {
     }
 
     /**
+     * Loads a specific instructor
      * @param username the username (identifier) of an instructor.
      * @return all the instructor data for that instructor.
      */

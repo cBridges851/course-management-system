@@ -15,6 +15,10 @@ import java.util.ArrayList;
 public class AssignmentLoader {
     private final FileHandler fileHandler = new FileHandler();
 
+    /**
+     * Loads all the assignments that are in the system
+     * @return all the assignments in the system
+     */
     public ArrayList<Assignment> loadAllAssignments() {
         String deserialisedAssignmentList = this.fileHandler.loadFile(Filename.ASSIGNMENTS);
         Gson gson = new Gson();
@@ -22,7 +26,7 @@ public class AssignmentLoader {
         ArrayList<Assignment> assignments = gson.fromJson(deserialisedAssignmentList, assignmentListType);
 
         if (assignments == null) {
-            return new ArrayList<Assignment>();
+            return new ArrayList<>();
         }
 
         return assignments;

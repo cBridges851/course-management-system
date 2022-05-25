@@ -6,12 +6,12 @@ import java.util.Calendar;
  * The class that all types of users inherit from.
  */
 public abstract class User {
-    private String username;
-    private String password;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private Calendar dateOfBirth;
+    private final String username;
+    private final String password;
+    private final String firstName;
+    private final String middleName;
+    private final String lastName;
+    private final Calendar dateOfBirth;
 
     public User(String username, String password, String firstName, String middleName, String lastName,
                 Calendar dateOfBirth) {

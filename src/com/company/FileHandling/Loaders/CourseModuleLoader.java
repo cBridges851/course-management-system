@@ -26,7 +26,7 @@ public class CourseModuleLoader {
         ArrayList<CourseModule> courseModules = gson.fromJson(deserialisedCourseAdministrators, courseModuleListType);
 
         if (courseModules == null) {
-            return new ArrayList<CourseModule>();
+            return new ArrayList<>();
         }
 
         return courseModules;

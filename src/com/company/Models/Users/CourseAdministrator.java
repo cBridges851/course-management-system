@@ -128,16 +128,6 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * Gets all the course modules that are in the system.
-     * @return all the course modules in the system.
-     */
-    public ArrayList<CourseModule> getAllCourseModules() throws Exception {
-        throw new Exception("Not implemented yet");
-//        this.courseModules = new CourseModuleLoader().loadAllCourseModules();
-//        return this.courseModules;
-    }
-
-    /**
      * @param courseModule the course module that needs to be renamed.
      * @param newName the name that the course module will be changed to.
      */

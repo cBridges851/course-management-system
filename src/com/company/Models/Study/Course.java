@@ -7,7 +7,7 @@ import java.util.HashSet;
  */
 public class Course {
     private String name;
-    private HashSet<String> courseModuleCodes;
+    private final HashSet<String> courseModuleCodes;
     private boolean isAvailable;
 
     public Course(String name, HashSet<String> courseModuleCodes, boolean isAvailable) {

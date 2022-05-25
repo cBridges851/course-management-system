@@ -8,21 +8,26 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * Retrieves and converts course administrators from persistent data storage
+ */
 public class CourseAdministratorLoader {
-    private FileHandler fileHandler = new FileHandler();
+    private final FileHandler fileHandler = new FileHandler();
 
-    public ArrayList<CourseAdministrator> loadAllCourseAdmistrators() {
+    /**
+     * Loads all the course administrators that are in the system
+     * @return all the course administrators in the system
+     */
+    public ArrayList<CourseAdministrator> loadAllCourseAdministrators() {
         String deserialisedCourseAdministrators = this.fileHandler.loadFile(Filename.COURSEADMINISTRATORS);
         Gson gson = new Gson();
-        Type courseAdminstratorListType = new TypeToken<ArrayList<CourseAdministrator>>(){}.getType();
+        Type courseAdministratorListType = new TypeToken<ArrayList<CourseAdministrator>>(){}.getType();
         ArrayList<CourseAdministrator> courseAdministrators =
-                gson.fromJson(deserialisedCourseAdministrators, courseAdminstratorListType);
+                gson.fromJson(deserialisedCourseAdministrators, courseAdministratorListType);
 
-        if (courseAdministrators == null) {
-            return new ArrayList<CourseAdministrator>();
-        }
+        return Objects.requireNonNullElseGet(courseAdministrators, ArrayList::new);
 
-        return courseAdministrators;
     }
 }

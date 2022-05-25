@@ -253,7 +253,7 @@ public class CourseAdministratorCourseModuleSubMenu {
         String courseModuleNumber = scanner.nextLine();
 
         if (StringUtils.isNumeric(courseModuleNumber)) {
-            if (Integer.parseInt(courseModuleNumber) - 1 < this.courses.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
                 CourseModule courseModuleToRename = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
 
                 System.out.print("Are you sure you want to rename " + courseModuleToRename.getName() + "? (Y/N) ");
