@@ -1,4 +1,4 @@
-//www.plantuml.com/plantuml/png/dLXDRoCf4xxdLt2B8oMtz_0gYgpnUfA9fTWU-UEqcWCn5GzQ6hn0EnkDzhzlOt0Nf6dI6LyIgfxwgAAgWFvYBDMshiJ59PaAQWmOea5Go-MUM4MChTdR1Mb-EySbKrLh0-JN1Ga_IIku9Mkh6u6Mk3kXvehL0imjcMXDtvwuiNVJY34cBPwRoSxoOwFeMIa1L9uu_ruaXb4oCb-T25F5q8cSPsXAm174BU7IedLfhAvtLkb5BXXkvbGosh3VKl_SZnh3zx82QPCu9orvt49TAXk2iv5WlRbnDsHKGdvb3CvOwch2p4PYbQNYksf0pmBcLFzbC169PP_c5PXQeErqMs-J7SbuuAKR2u_K_9pJGuZpcioaXJteSUgMSwVZpINP6j3cz3zzDbRJdGqkEaRasgLRknqdt91Qyhzhm3sl7I-Na4EZwLLfrYsJ5wuD9Z5XLPmn0NcUe7rIZ5fOllp1jVtPf8uAa8ngqatzsbT95DeRK8sPIMkOf7lJxaf4hWu2BB3fe9P4kLfhaFQTLBByy_y_MlZTtL5nDXuJ3Vj6AUW7fJruvFy4_www4Y2r4YSuwXx5YwJiOWMpjcyRDNkmk5xAONeo4sR2AYwvAxL6JwVsCvaRTqEYZ2tWjHn_5enUeyWr6PICZbi-9nCX9aVA1NqMu1bcD4niIkKEX03sIR44dKIwEsaSc1ODwW1o89Y1g_71cYMjik3hSzTAU7LTN10UKAj5TPxZagA1MWZ3SYtuONIU0E6yo3ZXXooM-qODTGXbebCl6sQbZe3e1wsgpxSKcaixgJ1J_lSZso7kT7YVcEluWCHpv_eq5wj6e5EmTq53gDQmCksqS89SClZdAZs47gba0iXtqCODDxc34mDaNP47Baub4GKuMQzdtnRp-yLctTAco-rgVJzVVjq-tR-dudfrlzu-TQGcN-UpnMozMKqsonKoPuk6j9qcjFLc-xMrcso5yzF74Uq5vlXLSmiECse3Ul7_O1dlbBGkNrSbyJEsDbPL3vzG8HHbUGVItNXgSA1DzfxaUKbysJjPC3SH0edfo49wm28XX9ZSn8OT9zwzl7SPUEHcXcj6lKQBQV2GZcuClmml7oUU5i1-SKvNkfFPUttPRmIctYFPj88n5Ntn1ApHY3PLh3p0YhuXBF8CYMcEa1wmI0YUjHVMgzxxOT6TW8by2PJKaK0CgB0gkd2vfiU-tdEix6Wn3UDTfsMRCdvB3UkdiicUhYct7DbbP3uesm5kO8cEUYewgSPUYyDiPQoSzPjYaPUrfoMThNwyLMIp5brpYgOYt0S7YaPaVxCKRSNTqMqXOW8lxOCvoDgKYpEfaFhPIUHSqBNC84VvXqACF5_wHhtNjnZjBd1-FUXEcpVVU-CSU8FyI8PnSn3qBOdIdJI3Xe5FMp756NpvbL9eeyABPR0WPdQmLFxDCrmGj_lpWdkGeDF7IkuEygWgwAjseVPSdeL8VWWLEYK51JsvjuBPgD31m-TjgYaypF1y-cr5HmwlgCRCadx_RQtkWHD2d9Zf-IlFvvNcvcLX1n21wIz-_kdxuhEKjZ13C7FJp8UeNcpsOrTIe_wxuTtDpJdMb9YP4oa0Az2hYvzLDpSgkO3d0NYCP_dEKbOSsVt2ApWeRR-11E_w5v2ihiH_
+//www.plantuml.com/plantuml/png/hHbFR-AuzzvFuLj1elUVgWeDFzfEaGgj29n6Ut39AnEDOxEsGxSQxNVVk0wnJLwSXDsSoFl_Ftxccz9KwY9dLzTapgXIe8W4HdN6zqGBedIHVbwHyjaPB9cBGYeWlqkGVJZDuPOaMfOCDN3tHRKKQS50tPAPbFJpELFwRkuXfgIcpzHifxDZAUXD20QKVs7-ll8LEqvVVVu5c8lK6O5PvbGnE0Ax9HdNJZjNMXOxBUGASoPJIyfJMg8_VVliGvNAzZm7hWC_PpLuMfEQK9O0eoEWjUgcJPUT4F8RKRX8dQaD9Eg95fgoLr4IlJ5OKlbBkK04ccsOrw0APdHZQRqDCe9OOBbB3KzK_LpIG-NdX2ouXZt8QMYMCQTXpJNPAf3gwpTzKrhIdQvCD0ZFj6lpRZ9ECaKAdlrPWCjvON1OG0vKgGyXqsQPl6TIUK7qKNcMfWnm7ADjN2dLyFB-_qpgdsNeA0EUKacQeKzibNYkVGALBZ9X3PEptApmRimF33IaywwsT5cVEkv2Ik3wZBV9yUD_VzGyTtTHsTCfeMawnymQZJqXHv6b9Qs4VIa8vAEGbdHa7VHyHhY0Iy4iYvCUC2xhsO4gpSKHvatdHqs70dc-h6fQbE9sbBzAiPUWr4Qiu2_zR79elCK7tIpDCvwPYjV2rRcppmHm1HzLFCwZFQqiKXE2XmgNvPpOY6x95b2zJmWUMeSm3JWnDMlBTt95kXypEXAeHsGugOqDLO3z6JrfSFaZKrsarn_TuqYLcyhUWvunPjyLKiwc57R0MkDB3JCMOhH8nG7uVo8g1TEB0xE-4VU63JVD93mYpvL9Qorn-70LYqjtRObF74IJU_LnKQqMOt8dWUggwrN2iiFeDA-h4a5ijUMtg4jt8xhjTidhPxeJulJuxL9oEuG7RnryZlfHYdoegLTaq1FnRAYaxa0CbJWiRhud9d836ogIv9wfkh2sqAXSdZT4uENfC-OkBizWTnxzxwzFXvzyrUc0zSC_y9n0zWiGH7Sqdg1d0fgc_-vmSXcpdM5kkHXrVRd3hS9-mtCgV-4d2NEGFv-AqTdbBF4qHRKOSALXfkfZv02but39UA8yBIbUGIfpqEGx-480BtBoc37phV5tpbcIBBwlbW-hJLB3vY_RTVAmVBdVFZ-SGztx-Y7PFZUuPlVBnMgHRDQppSlQ8HUh4hIT1x1aixqtUfjbQ-oqVg37nG-PQJ0qezgXT_l3FxfnRHRPSOpzH5ieBVB70IAOe2bkG9YDvv8Ef4BtO8iB_4DtxahTZ3473CzY3bxHDll1FpRsEwTRyt3h47BFJ0IhsfU3Q1WiIKEsSx-3V7Qa6QDl330-2wk8msNCpoH-RzDXjoFqpV71gcRqeOQoro2D3lkeROxCiym1mnWvU4Nh09LbzON46D__kogzel5igI218JMPfQhUeYPS9_JOrdi6XOuMLIBEEWrjIl-kh5y_TQb4koRUScI7y7IKRRSPZbRrsaDQDVRKfTeFbD4YxvBkbtJNIHhJv2r6KLKUNSS7HJhAzcQ9wlAxezb2H5Mui0-Mm0iLBywWGeetmu6P80kEK8xminDw1JDmr-YrBEFgMtVKuRi7ofDcwi3eP-2b-TBq6WOsR94Ge_I3hrzS6-6NBLsCU6Ixk2w-aBdqvWLZt0C7UNQzWJJTayYXhTgPs6Vyn4Jm8HJfb91erBvWg8seEhZllErUWouLTCpWmubH2pxyMghtZZDSA3Ol8ndmAFfTnRVTlBzm7PaXBdB83RjgfKN_o0XgrFulT7TpS_8r129p8YHm5MZ5-MlLpOq83k0uWVkCetYZ2MLtw7RcDHo4rD-1WpNz6_2qoDa_
 
 @startuml
 ' Classes relating to study
@@ -44,35 +44,48 @@
     class Student {
         year: int
         level: int 
-        course: Course
-        completedCourseModules: ArrayList<CourseModule>
-        currentCourseModules: CourseModules[8]
-        <<void>> registerForCourse(Course course)
-        <<void>> enrolForCourseModule(CourseModule courseModule)
-        <<Instructor>> getInstructorOnModule(CourseModule courseModule)
+        courseName: String
+        completedCourseModules: ArrayList<CourseModuleResult>
+        currentCourseModules: CourseModuleResult[8]
+        <<ArrayList<CourseModuleResult>>> addCompletedCourseModule()
+        <<void>> registerForCourse(String courseName)
+        <<void>> enrolForCourseModule(String courseModuleCode)
+        <<void>> removeCurrentCourseModule(CourseModuleResult courseModule)
+        <<boolean>> canProgressToNextLevel()
     }
 
     class CourseAdministrator {
-        courses: ArrayList<Course>
-        <<void>> addNewCourse(Course course)
-        <<void>> addNewCourseModule(Course course, CourseModule courseModule)
-        <<ArrayList<Course>>> getAllAvailableCourses()
-        <<ArrayList<Course>>> getAllCancelledCourses()
+        <<void>> addNewCourse(ArrayList<Course> courses, String courseName)
+        <<void>> addNewCourseModuleToCourse(ArrayList<Course> courses, Course course, String courseModuleCode, String name, int level,
+                                   HashSet<String> instructorNames, boolean isMandatory, HashSet<String> assignmentIds,
+                                   HashSet<String> studentNames)
         <<ArrayList<Course>>> getAllCourses()
-        <<void>> cancelCourse(Course course)
-        <<void>> reopenCourse(Course course)
-        <<void>> deleteCourse(Course course)
-        <<void>> renameCourse(Course course, String newName)
-        <<void>> renameCourseModule(CourseModule courseModule, String newName)
+        <<void>> cancelCourse(ArrayList<Course> allCourses, Course course)
+        <<void>> reopenCourse(ArrayList<Course> allCourses, Course course)
+        <<void>> deleteCourse(ArrayList<Course> courses, Course courseToDelete)
+        <<void>> renameCourse(ArrayList<Course> courseModules, Course course, String newName)
+        <<void>> renameCourseModule(ArrayList<CourseModule> courseModules, CourseModule courseModule, String newName)
         <<String>> createResultsSlip(Student student)
-        <<void>> assignInstructorToCourseModule(CourseModule courseModule, Instructor instructor)
-        <<void>> removeInstructorFromModule(CourseModule courseModule)
+        <<void>> assignInstructorToCourseModule(ArrayList<CourseModule> allCourseModules, CourseModule courseModule, ArrayList<Instructor> instructors, Instructor instructor)
+        <<void>> removeInstructorFromModule(ArrayList<CourseModule> allCourseModules,
+                                               CourseModule courseModule,
+                                               ArrayList<Instructor> instructors,
+                                               Instructor instructor)
+        <<void>> removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule)
+        <<void>> removeInstructorFromCourseModule(ArrayList<CourseModule> allCourseModules, 
+                                                     CourseModule courseModule, 
+                                                     ArrayList<Instructor> allInstructors,
+                                                     Instructor instructor)
     }
 
     class Instructor {
-        courseModules: CourseModules[4]
-        <<void>> addMark(Student student, Assignment assignment, int mark)
-        <<Array<Student>>> getStudentsOnModule(int index)
+        courseModules: String[]
+        <<String[]>> getCourseModules(),
+        <<boolean>> addCourseModule(String courseModuleCode)
+        <<void>> removeCourseModule(String courseModuleCode)
+        <<void>> createAssignment(String courseModuleCode, String assignmentName, int mark)
+        <<void>> addMark(Student student, CourseModule courseModule, Assignment assignment, int mark)
+        <<void>> markStudentAsCompleted(Student student, CourseModule courseModule)
     }
 
     ' Handle Persistence
