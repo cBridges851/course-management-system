@@ -24,7 +24,13 @@ public class CourseLoader {
         String deserialisedCoursesList = this.fileHandler.loadFile(Filename.COURSES);
         Gson gson = new Gson();
         Type coursesListType = new TypeToken<ArrayList<Course>>(){}.getType();
-        ArrayList<Course> courses = gson.fromJson(deserialisedCoursesList, coursesListType);
+        ArrayList<Course> courses = null;
+
+        try {
+            courses = gson.fromJson(deserialisedCoursesList, coursesListType);
+        } catch (Exception exception) {
+            System.out.println("Invalid JSON");
+        }
 
         if (courses == null) {
             return new ArrayList<>();

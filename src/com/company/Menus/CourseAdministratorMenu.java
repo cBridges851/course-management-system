@@ -56,7 +56,8 @@ public class CourseAdministratorMenu {
                     (4) Delete a course\s
                     (5) Rename a course
                     (6) Manage course modules\s
-                    (7) Generate results slip""");
+                    (7) Generate results slip\s
+                    (8) Promote student to their next level""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -74,6 +75,8 @@ public class CourseAdministratorMenu {
                     .runCourseModuleSubMenu();
         } else if (Objects.equals(action, "7")) {
             this.generateResultsSlip();
+        } else if (Objects.equals(action, "8")) {
+            this.promoteStudent();
         } else {
             this.runCourseAdministratorMenu();
         }
@@ -262,6 +265,74 @@ public class CourseAdministratorMenu {
                                         + ".txt",
                                 resultsSlip);
                     }
+                }
+            } else {
+                System.out.println("Student number not found");
+            }
+        } else {
+            System.out.println("Invalid input");
+        }
+
+        this.runCourseAdministratorMenu();
+    }
+
+    /**
+     * Promotes a student to their next level of academic study.
+     */
+    private void promoteStudent() {
+        ArrayList<Student> students = new StudentLoader().loadAllStudents();
+
+        AsciiTable studentTable = new AsciiTable();
+        studentTable.addRule();
+        studentTable.addRow(null, "All Students");
+        studentTable.addRule();
+        studentTable.addRow("Number", "Name");
+        studentTable.addRule();
+
+        for (int i = 0; i < students.size(); i++) {
+            studentTable.addRow(
+                    i + 1,
+                    students.get(i).getFirstName()
+                            + " "
+                            + students.get(i).getLastName()
+                            + " ("
+                            + students.get(i).getUsername()
+                            + ")");
+            studentTable.addRule();
+        }
+
+        System.out.println(studentTable.render());
+        System.out.print("Enter the number of the student you wish to promote: ");
+        String studentNumber = scanner.nextLine();
+
+        if (StringUtils.isNumeric(studentNumber)) {
+            if (Integer.parseInt(studentNumber) - 1 < students.size() && Integer.parseInt(studentNumber) - 1 >= 0) {
+                Student selectedStudent = students.get(Integer.parseInt(studentNumber) - 1);
+                System.out.print("Promote "
+                        + selectedStudent.getFirstName()
+                        + " "
+                        + selectedStudent.getLastName()
+                        + " ("
+                        + selectedStudent.getUsername()
+                        + ")? (Y/N) ");
+                String action = scanner.nextLine();
+
+                if (Objects.equals(action, "y")) {
+                    if (!selectedStudent.canProgressToNextLevel()) {
+                        System.out.println(selectedStudent.getFirstName()
+                                + " cannot be promoted yet - they have not passed at least half of the course modules"
+                                + " for their current level.");
+                        System.out.print("Press a key to continue: ");
+                        scanner.nextLine();
+                        this.runCourseAdministratorMenu();
+                        return;
+                    }
+
+                    this.courseAdministrator.promoteStudent(selectedStudent);
+                    System.out.println("Promoted "
+                            + selectedStudent.getFirstName()
+                            + " to level "
+                            + selectedStudent.getLevel());
                 }
             } else {
                 System.out.println("Student number not found");

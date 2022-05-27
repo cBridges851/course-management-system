@@ -116,6 +116,14 @@ public class InstructorMenu {
                     && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
                 CourseModule selectedCourseModule = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
 
+                if (selectedCourseModule.getAssignmentIds().size() == 0) {
+                    System.out.println("There are no assignments on this course module");
+                    System.out.print("Press a key to continue: ");
+                    scanner.nextLine();
+                    this.runInstructorMenu();
+                    return;
+                }
+
                 HashSet<String> studentNames = selectedCourseModule.getStudentNames();
 
                 if (studentNames.size() == 0) {
@@ -210,6 +218,7 @@ public class InstructorMenu {
                             ArrayList<CourseModuleResult> currentCourseModulesAsArrayList =
                                     new ArrayList<>(Arrays.asList(currentCourseModules));
                             currentCourseModulesAsArrayList.removeAll(Collections.singleton(null));
+
                             AsciiTable assignmentsTable = new AsciiTable();
 
                             for (CourseModuleResult courseModuleResult : currentCourseModulesAsArrayList) {
@@ -249,7 +258,7 @@ public class InstructorMenu {
                                     String assignmentNumber = scanner.nextLine();
 
                                     if (StringUtils.isNumeric(assignmentNumber)) {
-                                        if (Integer.parseInt(assignmentNumber) - 1 < studentNames.size()
+                                        if (Integer.parseInt(assignmentNumber) - 1 < assignmentIds.size()
                                                 && Integer.parseInt(assignmentNumber) - 1 >= 0) {
                                             ArrayList<String> assignmentIdsArrayList = new ArrayList<>(assignmentIds);
                                             Assignment assignment = new AssignmentLoader().loadAssignment(
