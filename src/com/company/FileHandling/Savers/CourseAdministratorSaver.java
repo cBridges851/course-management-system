@@ -26,6 +26,10 @@ public class CourseAdministratorSaver {
         System.out.println("Course Administrators Updated!");
     }
 
+    /**
+     * Saves a specific course administrator to the list of course administrators.
+     * @param courseAdministrator the course administrator to save.
+     */
     public void saveCourseAdministrator(CourseAdministrator courseAdministrator) {
         ArrayList<CourseAdministrator> allCourseAdministrators = new CourseAdministratorLoader().loadAllCourseAdministrators();
         allCourseAdministrators.add(courseAdministrator);

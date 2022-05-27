@@ -60,9 +60,7 @@ public class CourseAdministrator extends User {
         );
         course.addCourseModule(courseModule.getCourseModuleCode());
         new CourseSaver().saveAllCourses(courses);
-        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-        allCourseModules.add(courseModule);
-        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        new CourseModuleSaver().saveCourseModule(courseModule);
         ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
         ArrayList<Instructor> instructorsToUpdate = new ArrayList<>();
         ArrayList<String> instructorNamesAsArray = new ArrayList<>(instructorNames);
@@ -76,7 +74,7 @@ public class CourseAdministrator extends User {
         }
 
         for (Instructor instructorToUpdate: instructorsToUpdate) {
-            assignInstructorToCourseModule(allCourseModules, courseModule, allInstructors, instructorToUpdate);
+            assignInstructorToCourseModule(courseModule, allInstructors, instructorToUpdate);
         }
     }
 
@@ -131,9 +129,9 @@ public class CourseAdministrator extends User {
      * @param courseModule the course module that needs to be renamed.
      * @param newName the name that the course module will be changed to.
      */
-    public void renameCourseModule(ArrayList<CourseModule> courseModules, CourseModule courseModule, String newName) {
+    public void renameCourseModule(CourseModule courseModule, String newName) {
         courseModule.setName(newName);
-        new CourseModuleSaver().saveAllCourseModules(courseModules);
+        new CourseModuleSaver().saveCourseModule(courseModule);
     }
 
     /**
@@ -239,8 +237,7 @@ public class CourseAdministrator extends User {
      * @param courseModule the course module that will have the instructor assigned to it
      * @param instructor the instructor that will be added to the course module
      */
-    public void assignInstructorToCourseModule(ArrayList<CourseModule> allCourseModules,
-                                               CourseModule courseModule,
+    public void assignInstructorToCourseModule(CourseModule courseModule,
                                                ArrayList<Instructor> instructors,
                                                Instructor instructor) {
         boolean canBeAssigned = instructor.addCourseModule(courseModule.getCourseModuleCode());
@@ -249,7 +246,7 @@ public class CourseAdministrator extends User {
             courseModule.addInstructorName(instructor.getUsername());
 
             new InstructorSaver().saveAllInstructors(instructors);
-            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+            new CourseModuleSaver().saveCourseModule(courseModule);
         }
     }
 
@@ -272,10 +269,7 @@ public class CourseAdministrator extends User {
         }
 
         if (!isInAnotherCourse) {
-            ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-
-            allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
-            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+            new CourseModuleSaver().removeCourseModuleAndSave(courseModule);
             ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
 
             for (Instructor instructor: allInstructors) {
@@ -293,8 +287,7 @@ public class CourseAdministrator extends User {
     /**
      * @param courseModule the course module that will have the instructor removed from it.
      */
-    public void removeInstructorFromCourseModule(ArrayList<CourseModule> allCourseModules,
-                                                 CourseModule courseModule,
+    public void removeInstructorFromCourseModule(CourseModule courseModule,
                                                  ArrayList<Instructor> allInstructors,
                                                  Instructor instructor) {
         courseModule.removeInstructorName(instructor.getUsername());
@@ -307,6 +300,6 @@ public class CourseAdministrator extends User {
         }
 
         new InstructorSaver().saveAllInstructors(allInstructors);
-        new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+        new CourseModuleSaver().saveCourseModule(courseModule);
     }
 }

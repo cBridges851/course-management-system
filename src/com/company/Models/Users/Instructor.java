@@ -75,13 +75,9 @@ public class Instructor extends User {
         Assignment assignment = new Assignment(assignmentName, totalPossibleMarks);
         new AssignmentSaver().saveAssignment(assignment);
 
-        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-        for (CourseModule courseModule: allCourseModules) {
-            if (Objects.equals(courseModule.getCourseModuleCode(), courseModuleCode)) {
-                courseModule.addAssignmentId(assignment.getAssignmentId());
-                new CourseModuleSaver().saveAllCourseModules(allCourseModules);
-            }
-        }
+        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+        courseModule.addAssignmentId(assignment.getAssignmentId());
+        new CourseModuleSaver().saveCourseModule(courseModule);
     }
 
     /**
@@ -137,17 +133,9 @@ public class Instructor extends User {
                     }
 
                     courseModule.removeStudentName(student.getUsername());
-                    ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-
-                    for (int i = 0; i < allCourseModules.size(); i++) {
-                        if (Objects.equals(allCourseModules.get(i).getCourseModuleCode(),
-                                courseModule.getCourseModuleCode())) {
-                            allCourseModules.set(i, courseModule);
-                        }
-                    }
 
                     new StudentSaver().saveAllStudents(allStudents);
-                    new CourseModuleSaver().saveAllCourseModules(allCourseModules);
+                    new CourseModuleSaver().saveCourseModule(courseModule);
                     break;
                 }
             }

@@ -26,8 +26,8 @@ public class AssignmentSaver {
     }
 
     /**
-     * Saves a specific assignment to the list of assignments
-     * @param assignment the assignment to save
+     * Saves a specific assignment to the list of assignments.
+     * @param assignment the assignment to save.
      */
     public void saveAssignment(Assignment assignment) {
         ArrayList<Assignment> allAssignments = new AssignmentLoader().loadAllAssignments();

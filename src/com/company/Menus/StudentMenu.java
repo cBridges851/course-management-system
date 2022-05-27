@@ -234,17 +234,10 @@ public class StudentMenu {
                     this.student.enrolForCourseModule(selectedCourseModule.getCourseModuleCode());
                     new StudentSaver().saveAllStudents(students);
                     selectedCourseModule.addStudentName(this.student.getUsername());
-                    ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+                    new CourseModuleSaver().saveCourseModule(selectedCourseModule);
 
-                    for (CourseModule allCourseModule : allCourseModules) {
-                        if (Objects.equals(allCourseModule.getCourseModuleCode(),
-                                selectedCourseModule.getCourseModuleCode())) {
-                            allCourseModule.addStudentName(this.student.getUsername());
-                            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
-                            this.runStudentMenu();
-                            return;
-                        }
-                    }
+                    this.runStudentMenu();
+                    return;
                 }
             } else {
                 System.out.println("Course module does not exist");
