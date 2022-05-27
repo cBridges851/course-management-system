@@ -93,6 +93,8 @@ public class InstructorMenu {
                 this.viewAssignmentsInCourseModule(courseModules);
             } else if (Objects.equals(action, "4")) {
                 this.markStudentAsCompletedModule(courseModules);
+            } else {
+                this.runInstructorMenu();
             }
 
             this.runInstructorMenu();

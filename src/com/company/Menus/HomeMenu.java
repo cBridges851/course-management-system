@@ -29,6 +29,7 @@ public class HomeMenu {
             new StudentMenu(scanner).runStudentMenu();
         } else {
             System.out.println("User type not recognised");
+            this.login();
         }
     }
 }

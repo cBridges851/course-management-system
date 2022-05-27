@@ -18,6 +18,7 @@ public class CourseAdministratorCourseModuleSubMenu {
     private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private final ArrayList<Course> courses;
+    private ArrayList<CourseModule> courseModules;
 
     public CourseAdministratorCourseModuleSubMenu(Scanner scanner, CourseAdministrator courseAdministrator, ArrayList<Course> courses) {
         this.scanner = scanner;
@@ -38,6 +39,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                 (5) Remove instructor from course module\s
                 (6) Go back to main menu""");
         String action = scanner.nextLine();
+        this.courseModules = courseAdministrator.getAllCourseModules();
 
         if (Objects.equals(action, "1")) {
             this.addCourseModuleToCourse();
@@ -51,6 +53,8 @@ public class CourseAdministratorCourseModuleSubMenu {
             this.removeInstructorFromCourseModule();
         } else if(Objects.equals(action, "6")) {
             new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
+        } else {
+            this.runCourseModuleSubMenu();
         }
     }
 
@@ -142,7 +146,8 @@ public class CourseAdministratorCourseModuleSubMenu {
                             instructorNames,
                             isMandatory,
                             new HashSet<>(),
-                            new HashSet<>());
+                            new HashSet<>()
+                    );
                 }
 
             } else {
@@ -245,15 +250,14 @@ public class CourseAdministratorCourseModuleSubMenu {
      * Renames a course module (which could be in one or multiple courses)
      */
     private void renameCourseModule() {
-        ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
-        this.displayCourseModuleTable(courseModules);
+        this.displayCourseModuleTable(this.courseModules);
 
         System.out.print("Enter the number of the course module to rename: ");
         String courseModuleNumber = scanner.nextLine();
 
         if (StringUtils.isNumeric(courseModuleNumber)) {
-            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
-                CourseModule courseModuleToRename = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+            if (Integer.parseInt(courseModuleNumber) - 1 < this.courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToRename = this.courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
 
                 System.out.print("Are you sure you want to rename " + courseModuleToRename.getName() + "? (Y/N) ");
                 String action = scanner.nextLine();
@@ -277,15 +281,14 @@ public class CourseAdministratorCourseModuleSubMenu {
      * Adds an instructor onto a selected course module
      */
     private void addInstructorToCourseModule() {
-        ArrayList<CourseModule> courseModules = new CourseModuleLoader().loadAllCourseModules();
-        this.displayCourseModuleTable(courseModules);
+        this.displayCourseModuleTable(this.courseModules);
 
         System.out.print("Enter the number of the course module to add an instructor to: ");
         String courseModuleNumber = scanner.nextLine();
 
         if (StringUtils.isNumeric(courseModuleNumber)) {
-            if (Integer.parseInt(courseModuleNumber) - 1 < courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
-                CourseModule courseModuleToAddInstructor = courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+            if (Integer.parseInt(courseModuleNumber) - 1 < this.courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToAddInstructor = this.courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
 
                 System.out.print("Are you sure you want to add an instructor to " + courseModuleToAddInstructor.getName() + "? (Y/N) ");
                 String action = scanner.nextLine();
@@ -341,15 +344,14 @@ public class CourseAdministratorCourseModuleSubMenu {
      * Removes an instructor from a selected course module.
      */
     private void removeInstructorFromCourseModule() {
-        ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
-        this.displayCourseModuleTable(allCourseModules);
+        this.displayCourseModuleTable(this.courseModules);
 
         System.out.print("Enter the number of the course module to remove an instructor from: ");
         String courseModuleNumber = scanner.nextLine();
 
         if (StringUtils.isNumeric(courseModuleNumber)) {
-            if (Integer.parseInt(courseModuleNumber) - 1 < allCourseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
-                CourseModule courseModuleToRemoveInstructor = allCourseModules.get(Integer.parseInt(courseModuleNumber) - 1);
+            if (Integer.parseInt(courseModuleNumber) - 1 < this.courseModules.size() && Integer.parseInt(courseModuleNumber) - 1 >= 0) {
+                CourseModule courseModuleToRemoveInstructor = this.courseModules.get(Integer.parseInt(courseModuleNumber) - 1);
 
                 System.out.print("Are you sure you want to remove an instructor from " + courseModuleToRemoveInstructor.getName() + "? (Y/N) ");
                 String action = scanner.nextLine();

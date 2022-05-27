@@ -84,6 +84,10 @@ public class CourseAdministrator extends User {
         return new CourseLoader().loadAllCourses();
     }
 
+    public ArrayList<CourseModule> getAllCourseModules() {
+        return new CourseModuleLoader().loadAllCourseModules();
+    }
+
     /**
      * Makes a course unavailable, but not permanently removed
      * @param course the course to be cancelled.
@@ -121,6 +125,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Allows a course module inside a course to be renamed.
      * @param courseModule the course module that needs to be renamed.
      * @param newName the name that the course module will be changed to.
      */
@@ -130,6 +135,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Generate a results slip for a specific student
      * @param student the student that the results slip will be about, which indicates the grades on each module.
      * @return a string that represents the results slip
      */
@@ -231,6 +237,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Assigns an instructor to a course module
      * @param courseModule the course module that will have the instructor assigned to it
      * @param instructor the instructor that will be added to the course module
      */
@@ -280,6 +287,7 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Removes an instructor from a course module.
      * @param courseModule the course module that will have the instructor removed from it.
      */
     public void removeInstructorFromCourseModule(CourseModule courseModule,

@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class CourseAdministratorMenu {
     private CourseAdministrator courseAdministrator;
     private final Scanner scanner;
+    private ArrayList<Course> courses;
 
     public CourseAdministratorMenu(Scanner scanner) {
         this.scanner = scanner;
@@ -33,17 +34,16 @@ public class CourseAdministratorMenu {
         System.out.println("Logging in as course administrator");
 
         this.courseAdministrator = new CourseAdministratorLoader().loadAllCourseAdministrators().get(0);
-
-        ArrayList<Course> courses = courseAdministrator.getAllCourses();
+        this.courses = courseAdministrator.getAllCourses();
 
         AsciiTable asciiTable = new AsciiTable();
         asciiTable.addRule();
         asciiTable.addRow(null, null, null, "Courses");
         asciiTable.addRule();
 
-        for (int i = 0; i < courses.size(); i++) {
-            String availability = courses.get(i).getIsAvailable() ? "Available" : "Unavailable";
-            asciiTable.addRow(i + 1, courses.get(i).getName(), courses.get(i).getCourseModuleCodes(), availability);
+        for (int i = 0; i < this.courses.size(); i++) {
+            String availability = this.courses.get(i).getIsAvailable() ? "Available" : "Unavailable";
+            asciiTable.addRow(i + 1, this.courses.get(i).getName(), this.courses.get(i).getCourseModuleCodes(), availability);
             asciiTable.addRule();
         }
 
@@ -60,35 +60,36 @@ public class CourseAdministratorMenu {
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
-            this.cancelCourse(courses);
+            this.cancelCourse();
         } else if(Objects.equals(action, "2")) {
-            this.reopenCourse(courses);
+            this.reopenCourse();
         } else if (Objects.equals(action, "3")) {
             this.addCourse();
         } else if (Objects.equals(action, "4")) {
-            this.deleteCourse(courses);
+            this.deleteCourse();
         } else if (Objects.equals(action, "5")) {
-            this.renameCourse(courses);
+            this.renameCourse();
         } else if(Objects.equals(action, "6")) {
-            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, courses)
+            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, this.courses)
                     .runCourseModuleSubMenu();
         } else if (Objects.equals(action, "7")) {
             this.generateResultsSlip();
+        } else {
+            this.runCourseAdministratorMenu();
         }
     }
 
     /**
      * Retrieves the course the course administrator wants to cancel, validates it, and proceeds to cancel it.
-     * @param courses the list of courses to update
      */
-    private void cancelCourse(ArrayList<Course> courses) {
+    private void cancelCourse() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the number of the course to cancel: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToCancel = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToCancel = this.courses.get(Integer.parseInt(action) - 1);
 
                 if (!courseToCancel.getIsAvailable()) {
                     System.out.println("This course is already cancelled!");
@@ -113,15 +114,14 @@ public class CourseAdministratorMenu {
 
     /**
      * Retrieves the course the course administrator wants to reopen, validates it, and proceeds to cancel it.
-     * @param courses the list of courses to update
      */
-    private void reopenCourse(ArrayList<Course> courses) {
+    private void reopenCourse() {
         System.out.print("Enter the number of the course to reopen: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToReopen = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToReopen = this.courses.get(Integer.parseInt(action) - 1);
 
                 if (courseToReopen.getIsAvailable()) {
                     System.out.println("This course is already available");
@@ -157,15 +157,14 @@ public class CourseAdministratorMenu {
 
     /**
      * Permanently deletes a course from a system.
-     * @param courses the list of courses to update.
      */
-    private void deleteCourse(ArrayList<Course> courses) {
+    private void deleteCourse() {
         System.out.print("Enter the number of the course to delete: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToDelete = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToDelete = this.courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
                 action = scanner.nextLine();
@@ -186,15 +185,14 @@ public class CourseAdministratorMenu {
 
     /**
      * Renames an existing course in the system.
-     * @param courses the list of courses to update.
      */
-    private void renameCourse(ArrayList<Course> courses) {
+    private void renameCourse() {
         System.out.print("Enter the number of the course to rename: ");
         String action = scanner.nextLine();
 
         if (StringUtils.isNumeric(action)) {
-            if (Integer.parseInt(action) - 1 < courses.size() && Integer.parseInt(action) - 1 >= 0) {
-                Course courseToRename = courses.get(Integer.parseInt(action) - 1);
+            if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
+                Course courseToRename = this.courses.get(Integer.parseInt(action) - 1);
 
                 System.out.println("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N)");
                 action = scanner.nextLine();
