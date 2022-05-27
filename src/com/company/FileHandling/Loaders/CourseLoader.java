@@ -52,14 +52,14 @@ public class CourseLoader {
 
     /**
      * Loads a specific course
-     * @param name the name of the course to load
+     * @param courseId the id of the course to load
      * @return the course the user requested, or null if it is not found
      */
-    public Course loadCourse(String name) {
+    public Course loadCourse(String courseId) {
         ArrayList<Course> allCourses = this.loadAllCourses();
 
         for (Course course: allCourses) {
-            if (Objects.equals(course.getName(), name)) {
+            if (Objects.equals(course.getCourseId(), courseId)) {
                 return course;
             }
         }

@@ -35,12 +35,16 @@ public class StudentMenu {
         this.student = students.get(0);
         ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
-        System.out.println(("My Course: "
-                + (!Objects.equals(this.student.getCourseName(), "") &&
-                (!Objects.equals(this.student.getCourseName(), null))
-                ? this.student.getCourseName() : "Not Enrolled")));
+        Course course = null;
 
-        if (Objects.equals(this.student.getCourseName(), "") || Objects.equals(this.student.getCourseName(), null)) {
+        if (this.student.getCourseId() != null && !Objects.equals(this.student.getCourseId(), "")) {
+            course = new CourseLoader().loadCourse(this.student.getCourseId());
+        }
+
+        System.out.println("My Course: "
+                + (course != null ? course.getName() : "Not Enrolled"));
+
+        if (Objects.equals(this.student.getCourseId(), "") || Objects.equals(this.student.getCourseId(), null)) {
             System.out.println("""
                     What would you like to do?\s
                     (1) Enrol on a course""");
@@ -115,14 +119,14 @@ public class StudentMenu {
         if (StringUtils.isNumeric(courseNumber)) {
             if (Integer.parseInt(courseNumber) - 1 < allCourses.size()
                     && Integer.parseInt(courseNumber) - 1 >= 0) {
-                String courseName = allCourses.get(Integer.parseInt(courseNumber) - 1).getName();
+                Course selectedCourse = allCourses.get(Integer.parseInt(courseNumber) - 1);
                 System.out.print("Are you sure you want to enrol onto "
-                        + courseName
+                        + selectedCourse.getName()
                         + "? (Y/N)");
                 String confirmation = scanner.nextLine();
 
                 if (Objects.equals(confirmation.toLowerCase(Locale.ROOT), "y")) {
-                    student.registerForCourse(courseName);
+                    student.registerForCourse(selectedCourse.getCourseId());
                     new StudentSaver().saveAllStudents(students);
                 }
             } else {
@@ -141,7 +145,7 @@ public class StudentMenu {
      * @param students all the students in the system, ready for saving
      */
     private void enrolOntoCourseModule(ArrayList<Student> students) {
-        Course course = new CourseLoader().loadCourse(this.student.getCourseName());
+        Course course = new CourseLoader().loadCourse(this.student.getCourseId());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
         ArrayList<CourseModuleResult> currentCourseModulesAsArrayList = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));

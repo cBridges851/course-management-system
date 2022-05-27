@@ -26,13 +26,11 @@ public class CourseAdministrator extends User {
 
     /**
      * Adds a new course to the list of courses.
-     * @param courses The list of courses to update.
      * @param courseName The name of the new course.
      */
-    public void addNewCourse(ArrayList<Course> courses, String courseName) {
+    public void addNewCourse(String courseName) {
         Course newCourse = new Course(courseName, new HashSet<>(), true);
-        courses.add(newCourse);
-        new CourseSaver().saveAllCourses(courses);
+        new CourseSaver().saveCourse(newCourse);
     }
 
     /**
@@ -46,7 +44,7 @@ public class CourseAdministrator extends User {
      * @param assignmentIds the assignments that have to be completed in the module
      * @param studentNames the students enrolled in the module
      */
-    public void addNewCourseModuleToCourse(ArrayList<Course> courses, Course course, String courseModuleCode, String name, int level,
+    public void addNewCourseModuleToCourse(Course course, String courseModuleCode, String name, int level,
                                    HashSet<String> instructorNames, boolean isMandatory, HashSet<String> assignmentIds,
                                    HashSet<String> studentNames) {
         CourseModule courseModule = new CourseModule(
@@ -59,7 +57,7 @@ public class CourseAdministrator extends User {
                 studentNames
         );
         course.addCourseModule(courseModule.getCourseModuleCode());
-        new CourseSaver().saveAllCourses(courses);
+        new CourseSaver().saveCourse(course);
         new CourseModuleSaver().saveCourseModule(courseModule);
         ArrayList<Instructor> allInstructors = new InstructorLoader().loadAllInstructors();
         ArrayList<Instructor> instructorsToUpdate = new ArrayList<>();
@@ -88,31 +86,28 @@ public class CourseAdministrator extends User {
 
     /**
      * Makes a course unavailable, but not permanently removed
-     * @param allCourses the list of courses to update.
      * @param course the course to be cancelled.
      */
-    public void cancelCourse(ArrayList<Course> allCourses, Course course) {
+    public void cancelCourse(Course course) {
         course.setIsAvailable(false);
-        new CourseSaver().saveAllCourses(allCourses);
+        new CourseSaver().saveCourse(course);
     }
 
     /**
      * Make a course available
-     * @param allCourses the list of courses to update
      * @param course the course to reopen.
      */
-    public void reopenCourse(ArrayList<Course> allCourses, Course course) {
+    public void reopenCourse(Course course) {
         course.setIsAvailable(true);
-        new CourseSaver().saveAllCourses(allCourses);
+        new CourseSaver().saveCourse(course);
     }
 
     /**
      * Permanently removes a course from the list of courses in this class and its file.
      * @param courseToDelete the course to be deleted.
      */
-    public void deleteCourse(ArrayList<Course> courses, Course courseToDelete) {
-        courses.remove(courseToDelete);
-        new CourseSaver().saveAllCourses(courses);
+    public void deleteCourse(Course courseToDelete) {
+        new CourseSaver().deleteCourseAndSave(courseToDelete);
     }
 
     /**
@@ -120,9 +115,9 @@ public class CourseAdministrator extends User {
      * @param course the course that needs to be renamed.
      * @param newName the name that the course will be changed to.
      */
-    public void renameCourse(ArrayList<Course> courses, Course course, String newName) {
+    public void renameCourse(Course course, String newName) {
         course.setName(newName);
-        new CourseSaver().saveAllCourses(courses);
+        new CourseSaver().saveCourse(course);
     }
 
     /**
@@ -150,10 +145,12 @@ public class CourseAdministrator extends User {
                 .append(" ");
         }
 
+        Course course = new CourseLoader().loadCourse(student.getCourseId());
+
         resultsSlip.append(student.getLastName())
                 .append("     ")
                 .append("Course: ")
-                .append(student.getCourseName())
+                .append(course.getName())
                 .append("     ")
                 .append("Level: ")
                 .append(student.getLevel())
@@ -257,7 +254,7 @@ public class CourseAdministrator extends User {
      */
     public void removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule) {
         course.removeCourseModule(courseModule.getCourseModuleCode());
-        new CourseSaver().saveAllCourses(courses);
+        new CourseSaver().saveCourse(course);
 
         boolean isInAnotherCourse = false;
 

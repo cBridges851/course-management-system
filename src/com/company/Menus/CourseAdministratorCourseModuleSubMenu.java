@@ -135,7 +135,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
 
                     courseAdministrator.addNewCourseModuleToCourse(
-                            this.courses,
                             courseToAddTo,
                             courseModuleCode,
                             courseModuleName,

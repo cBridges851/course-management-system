@@ -64,7 +64,7 @@ public class CourseAdministratorMenu {
         } else if(Objects.equals(action, "2")) {
             this.reopenCourse(courses);
         } else if (Objects.equals(action, "3")) {
-            this.addCourse(courses);
+            this.addCourse();
         } else if (Objects.equals(action, "4")) {
             this.deleteCourse(courses);
         } else if (Objects.equals(action, "5")) {
@@ -98,7 +98,7 @@ public class CourseAdministratorMenu {
 
                     if (action.toLowerCase(Locale.ROOT).equals("y")) {
                         System.out.println("Cancelling course...");
-                        courseAdministrator.cancelCourse(courses, courseToCancel);
+                        courseAdministrator.cancelCourse(courseToCancel);
                     }
                 }
             } else {
@@ -131,7 +131,7 @@ public class CourseAdministratorMenu {
 
                     if (action.toLowerCase(Locale.ROOT).equals("y")) {
                         System.out.println("Reopening course...");
-                        courseAdministrator.reopenCourse(courses, courseToReopen);
+                        courseAdministrator.reopenCourse(courseToReopen);
                     }
                 }
             } else {
@@ -146,13 +146,12 @@ public class CourseAdministratorMenu {
 
     /**
      * Adds a new course to the system.
-     * @param courses the list of courses to update.
      */
-    private void addCourse(ArrayList<Course> courses) {
+    private void addCourse() {
         System.out.print("Enter the course name: ");
         String courseName = scanner.nextLine();
 
-        courseAdministrator.addNewCourse(courses, courseName);
+        courseAdministrator.addNewCourse(courseName);
         this.runCourseAdministratorMenu();
     }
 
@@ -173,7 +172,7 @@ public class CourseAdministratorMenu {
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
                     System.out.println("Deleting course...");
-                    courseAdministrator.deleteCourse(courses, courseToDelete);
+                    courseAdministrator.deleteCourse(courseToDelete);
                 }
             } else {
                 System.out.println("Course number does not exist");
@@ -203,7 +202,7 @@ public class CourseAdministratorMenu {
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
                     System.out.print("Enter the course's new name: ");
                     String newName = scanner.nextLine();
-                    courseAdministrator.renameCourse(courses, courseToRename, newName);
+                    courseAdministrator.renameCourse(courseToRename, newName);
                 }
             } else {
                 System.out.println("Course number does not exist");

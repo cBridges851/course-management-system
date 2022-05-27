@@ -49,9 +49,15 @@ public class CourseModuleSaver {
         this.saveAllCourseModules(allCourseModules);
     }
 
+    /**
+     * Removes a course module from the list of course modules in the system and saves
+     * @param courseModule the course module to remove
+     */
     public void removeCourseModuleAndSave(CourseModule courseModule) {
         ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
         allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
         this.saveAllCourseModules(allCourseModules);
     }
+
+
 }
