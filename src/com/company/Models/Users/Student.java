@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Student extends User {
     private final int year;
-    private final int level;
+    private int level;
     private String courseId;
     private final ArrayList<CourseModuleResult> completedCourseModules;
     private final CourseModuleResult[] currentCourseModules;
@@ -44,6 +44,14 @@ public class Student extends User {
      */
     public int getLevel() {
         return this.level;
+    }
+
+    /**
+     * Updates the level of the student.
+     * @param level the level to set the student to.
+     */
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     /**
@@ -163,11 +171,16 @@ public class Student extends User {
             }
         }
 
+        //TODO: This doesn't check for the level
         for (CourseModuleResult completedCourseModuleResult: this.completedCourseModules) {
             CourseModule currentCourseModule = new CourseModuleLoader()
                     .loadCourseModule(completedCourseModuleResult.getCourseModuleCode());
-            if ((double) completedCourseModuleResult.getTotalMark() / (double) currentCourseModule.getTotalAvailableMarks() * 100 > 40) {
-                numberOfPassedCourseModules++;
+
+            if (currentCourseModule.getLevel() == this.level) {
+                if ((double) completedCourseModuleResult.getTotalMark()
+                        / (double) currentCourseModule.getTotalAvailableMarks() * 100 > 40) {
+                    numberOfPassedCourseModules++;
+                }
             }
         }
 

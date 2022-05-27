@@ -7,6 +7,7 @@ import com.company.FileHandling.Loaders.InstructorLoader;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
 import com.company.FileHandling.Savers.InstructorSaver;
+import com.company.FileHandling.Savers.StudentSaver;
 import com.company.Models.Study.Assignment;
 import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
@@ -193,42 +194,46 @@ public class CourseAdministrator extends User {
             }
         }
 
-        for (CourseModuleResult courseModuleResult: courseModulesForLevel) {
-            CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleResult.getCourseModuleCode());
-            currentLevelTable.addRow(null, courseModule.getName() + " (" + courseModuleResult.getCourseModuleCode() + ")");
-            currentLevelTable.addRule();
+        if (courseModulesForLevel.size() != 0) {
+            for (CourseModuleResult courseModuleResult: courseModulesForLevel) {
+                CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleResult.getCourseModuleCode());
+                currentLevelTable.addRow(null, courseModule.getName() + " (" + courseModuleResult.getCourseModuleCode() + ")");
+                currentLevelTable.addRule();
 
-            for (String assignmentId: courseModuleResult.getAssignmentResults().keySet()) {
-                Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+                for (String assignmentId: courseModuleResult.getAssignmentResults().keySet()) {
+                    Assignment assignment = new AssignmentLoader().loadAssignment(assignmentId);
+
+                    currentLevelTable.addRow(
+                            assignment.getAssignmentName(),
+                            courseModuleResult.getAssignmentResults().get(assignmentId) + "/" + assignment.getTotalPossibleMarks()
+                    );
+                    currentLevelTable.addRule();
+                }
 
                 currentLevelTable.addRow(
-                        assignment.getAssignmentName(),
-                        courseModuleResult.getAssignmentResults().get(assignmentId) + "/" + assignment.getTotalPossibleMarks()
+                        "",
+                        "Total: "
+                                + courseModuleResult.getTotalMark()
+                                + "/"
+                                + courseModule.getTotalAvailableMarks()
+                );
+                currentLevelTable.addRule();
+
+                String passOrFail =
+                        ((double) courseModuleResult.getTotalMark() / (double) courseModule.getTotalAvailableMarks() * 100) > 40 ? "Pass" : "Fail";
+                String status = completedCourseModuleResults.contains(courseModuleResult) ? passOrFail : "In Progress";
+                currentLevelTable.addRow(
+                        "",
+                        "Pass/Fail/In Progress: "
+                                + status
                 );
                 currentLevelTable.addRule();
             }
 
-            currentLevelTable.addRow(
-                    "",
-                    "Total: "
-                            + courseModuleResult.getTotalMark()
-                            + "/"
-                            + courseModule.getTotalAvailableMarks()
-            );
-            currentLevelTable.addRule();
-
-            String passOrFail =
-                    ((double) courseModuleResult.getTotalMark() / (double) courseModule.getTotalAvailableMarks() * 100) > 40 ? "Pass" : "Fail";
-            String status = completedCourseModuleResults.contains(courseModuleResult) ? passOrFail : "In Progress";
-            currentLevelTable.addRow(
-                    "",
-                    "Pass/Fail/In Progress: "
-                            + status
-            );
-            currentLevelTable.addRule();
+            resultsSlip.append(currentLevelTable.render());
+        } else {
+            resultsSlip.append("No courses in progress or completed");
         }
-
-        resultsSlip.append(currentLevelTable.render());
 
         boolean canProgressToNextLevel = student.canProgressToNextLevel();
         resultsSlip.append("\nCan progress to next level? ")
@@ -297,5 +302,16 @@ public class CourseAdministrator extends User {
 
         new InstructorSaver().saveInstructor(instructor);
         new CourseModuleSaver().saveCourseModule(courseModule);
+    }
+
+    /**
+     * Promotes a student to their next level.
+     * @param student the student to promote.
+     */
+    public void promoteStudent(Student student) {
+        int newLevel = student.getLevel();
+        newLevel++;
+        student.setLevel(newLevel);
+        new StudentSaver().saveStudent(student);
     }
 }
