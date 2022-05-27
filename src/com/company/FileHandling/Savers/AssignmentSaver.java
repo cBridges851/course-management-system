@@ -7,6 +7,7 @@ import com.company.Models.Study.Assignment;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A class that handles the saving of assignments.
@@ -30,8 +31,20 @@ public class AssignmentSaver {
      * @param assignment the assignment to save.
      */
     public void saveAssignment(Assignment assignment) {
-        ArrayList<Assignment> allAssignments = new AssignmentLoader().loadAllAssignments();
-        allAssignments.add(assignment);
-        this.saveAllAssignments(allAssignments);
+        ArrayList<Assignment> assignments = new AssignmentLoader().loadAllAssignments();
+        boolean alreadyExists = false;
+
+        for (int i = 0; i < assignments.size(); i++) {
+            if (Objects.equals(assignments.get(i).getAssignmentId(), assignment.getAssignmentId())) {
+                assignments.set(i, assignment);
+                alreadyExists = true;
+            }
+        }
+
+        if (!alreadyExists) {
+            assignments.add(assignment);
+        }
+
+        this.saveAllAssignments(assignments);
     }
 }

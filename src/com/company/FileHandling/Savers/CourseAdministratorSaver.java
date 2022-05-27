@@ -8,6 +8,7 @@ import com.company.Models.Users.CourseAdministrator;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A class that handles the saving of course administrators
@@ -31,8 +32,20 @@ public class CourseAdministratorSaver {
      * @param courseAdministrator the course administrator to save.
      */
     public void saveCourseAdministrator(CourseAdministrator courseAdministrator) {
-        ArrayList<CourseAdministrator> allCourseAdministrators = new CourseAdministratorLoader().loadAllCourseAdministrators();
-        allCourseAdministrators.add(courseAdministrator);
-        this.saveAllCourseAdminstrators(allCourseAdministrators);
+        ArrayList<CourseAdministrator> courseAdministrators = new CourseAdministratorLoader().loadAllCourseAdministrators();
+        boolean alreadyExists = false;
+
+        for (int i = 0; i < courseAdministrators.size(); i++) {
+            if (Objects.equals(courseAdministrators.get(i).getUsername(), courseAdministrator.getUsername())) {
+                courseAdministrators.set(i, courseAdministrator);
+                alreadyExists = true;
+            }
+        }
+
+        if (!alreadyExists) {
+            courseAdministrators.add(courseAdministrator);
+        }
+
+        this.saveAllCourseAdminstrators(courseAdministrators);
     }
 }
