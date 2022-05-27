@@ -9,7 +9,6 @@ import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -77,11 +76,10 @@ public class Instructor extends User {
         CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
         courseModule.addAssignmentId(assignment.getAssignmentId());
         new CourseModuleSaver().saveCourseModule(courseModule);
+        this.updateExistingStudents(courseModule, assignment);
     }
 
     private void updateExistingStudents(CourseModule courseModule, Assignment assignment) {
-        ArrayList<Student> existingStudents = new ArrayList<>();
-
         for (String studentUsername: courseModule.getStudentNames()) {
             Student student = new StudentLoader().loadStudent(studentUsername);
             CourseModuleResult[] courseModuleResults = student.getCurrentCourseModules();
@@ -90,6 +88,7 @@ public class Instructor extends User {
                 if (courseModuleResult != null) {
                     if (Objects.equals(courseModuleResult.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
                         courseModuleResult.addAssignmentResults(assignment.getAssignmentId(), 0);
+                        new StudentSaver().saveStudent(student);
                     }
                 }
             }
