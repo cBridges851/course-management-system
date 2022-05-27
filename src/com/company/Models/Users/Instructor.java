@@ -1,6 +1,7 @@
 package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.StudentSaver;
@@ -75,6 +76,28 @@ public class Instructor extends User {
         CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
         courseModule.addAssignmentId(assignment.getAssignmentId());
         new CourseModuleSaver().saveCourseModule(courseModule);
+        this.updateExistingStudents(courseModule, assignment);
+    }
+
+    /**
+     * New assignments are added to students who are already on the course module, so results can be added to them later.
+     * @param courseModule the course module the assignment is on.
+     * @param assignment the new assignment.
+     */
+    private void updateExistingStudents(CourseModule courseModule, Assignment assignment) {
+        for (String studentUsername: courseModule.getStudentNames()) {
+            Student student = new StudentLoader().loadStudent(studentUsername);
+            CourseModuleResult[] courseModuleResults = student.getCurrentCourseModules();
+
+            for (CourseModuleResult courseModuleResult: courseModuleResults) {
+                if (courseModuleResult != null) {
+                    if (Objects.equals(courseModuleResult.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                        courseModuleResult.addAssignmentResults(assignment.getAssignmentId(), 0);
+                        new StudentSaver().saveStudent(student);
+                    }
+                }
+            }
+        }
     }
 
     /**
