@@ -49,6 +49,10 @@ public class CourseSaver {
         this.saveAllCourses(courses);
     }
 
+    /**
+     * Deletes a course from the list of courses in the system and saves the list.
+     * @param course the course to delete.
+     */
     public void deleteCourseAndSave(Course course) {
         ArrayList<Course> courses = new CourseLoader().loadAllCourses();
         courses.removeIf(courseItem -> Objects.equals(courseItem.getCourseId(), course.getCourseId()));

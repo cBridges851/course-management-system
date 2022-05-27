@@ -72,7 +72,7 @@ public class CourseAdministrator extends User {
         }
 
         for (Instructor instructorToUpdate: instructorsToUpdate) {
-            assignInstructorToCourseModule(courseModule, allInstructors, instructorToUpdate);
+            assignInstructorToCourseModule(courseModule, instructorToUpdate);
         }
     }
 
@@ -235,14 +235,13 @@ public class CourseAdministrator extends User {
      * @param instructor the instructor that will be added to the course module
      */
     public void assignInstructorToCourseModule(CourseModule courseModule,
-                                               ArrayList<Instructor> instructors,
                                                Instructor instructor) {
         boolean canBeAssigned = instructor.addCourseModule(courseModule.getCourseModuleCode());
 
         if (canBeAssigned) {
             courseModule.addInstructorName(instructor.getUsername());
 
-            new InstructorSaver().saveAllInstructors(instructors);
+            new InstructorSaver().saveInstructor(instructor);
             new CourseModuleSaver().saveCourseModule(courseModule);
         }
     }
@@ -273,11 +272,10 @@ public class CourseAdministrator extends User {
                 for (String courseModuleCode : instructor.getCourseModules()) {
                     if (Objects.equals(courseModuleCode, courseModule.getCourseModuleCode())) {
                         instructor.removeCourseModule(courseModuleCode);
+                        new InstructorSaver().saveInstructor(instructor);
                     }
                 }
             }
-
-            new InstructorSaver().saveAllInstructors(allInstructors);
         }
     }
 
@@ -285,18 +283,11 @@ public class CourseAdministrator extends User {
      * @param courseModule the course module that will have the instructor removed from it.
      */
     public void removeInstructorFromCourseModule(CourseModule courseModule,
-                                                 ArrayList<Instructor> allInstructors,
                                                  Instructor instructor) {
         courseModule.removeInstructorName(instructor.getUsername());
         instructor.removeCourseModule(courseModule.getCourseModuleCode());
 
-        for (int i = 0; i < allInstructors.size(); i++) {
-            if (Objects.equals(allInstructors.get(i).getUsername(), instructor.getUsername())) {
-                allInstructors.set(i, instructor);
-            }
-        }
-
-        new InstructorSaver().saveAllInstructors(allInstructors);
+        new InstructorSaver().saveInstructor(instructor);
         new CourseModuleSaver().saveCourseModule(courseModule);
     }
 }

@@ -318,7 +318,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                             if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                                 this.courseAdministrator.assignInstructorToCourseModule(
                                         courseModuleToAddInstructor,
-                                        instructors,
                                         instructor);
                             }
                         } else {
@@ -399,7 +398,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                             if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                                 courseAdministrator.removeInstructorFromCourseModule(
                                         courseModuleToRemoveInstructor,
-                                        new InstructorLoader().loadAllInstructors(),
                                         instructorToRemove);
                             }
                         } else {
