@@ -135,7 +135,6 @@ public class CourseAdministratorCourseModuleSubMenu {
                     boolean isMandatory = scanner.nextLine().toLowerCase(Locale.ROOT).equals("y");
 
                     courseAdministrator.addNewCourseModuleToCourse(
-                            this.courses,
                             courseToAddTo,
                             courseModuleCode,
                             courseModuleName,
@@ -262,7 +261,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                 if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                     System.out.print("What would you like to rename " + courseModuleToRename.getName() + " to? ");
                     String newName = scanner.nextLine();
-                    this.courseAdministrator.renameCourseModule(courseModules, courseModuleToRename, newName);
+                    this.courseAdministrator.renameCourseModule(courseModuleToRename, newName);
                 }
             } else {
                 System.out.println("Course number does not exist");
@@ -318,9 +317,7 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                             if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                                 this.courseAdministrator.assignInstructorToCourseModule(
-                                        courseModules,
                                         courseModuleToAddInstructor,
-                                        instructors,
                                         instructor);
                             }
                         } else {
@@ -400,9 +397,7 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                             if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                                 courseAdministrator.removeInstructorFromCourseModule(
-                                        allCourseModules,
                                         courseModuleToRemoveInstructor,
-                                        new InstructorLoader().loadAllInstructors(),
                                         instructorToRemove);
                             }
                         } else {

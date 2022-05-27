@@ -35,12 +35,16 @@ public class StudentMenu {
         this.student = students.get(0);
         ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
-        System.out.println(("My Course: "
-                + (!Objects.equals(this.student.getCourseName(), "") &&
-                (!Objects.equals(this.student.getCourseName(), null))
-                ? this.student.getCourseName() : "Not Enrolled")));
+        Course course = null;
 
-        if (Objects.equals(this.student.getCourseName(), "") || Objects.equals(this.student.getCourseName(), null)) {
+        if (this.student.getCourseId() != null && !Objects.equals(this.student.getCourseId(), "")) {
+            course = new CourseLoader().loadCourse(this.student.getCourseId());
+        }
+
+        System.out.println("My Course: "
+                + (course != null ? course.getName() : "Not Enrolled"));
+
+        if (Objects.equals(this.student.getCourseId(), "") || Objects.equals(this.student.getCourseId(), null)) {
             System.out.println("""
                     What would you like to do?\s
                     (1) Enrol on a course""");
@@ -48,7 +52,9 @@ public class StudentMenu {
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.registerForCourse(students);
+                this.registerForCourse();
+            } else {
+                this.runStudentMenu();
             }
         } else if (currentCourseModules.size() < 4) {
             System.out.println("""
@@ -65,6 +71,8 @@ public class StudentMenu {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "3")) {
                 this.viewCompletedCourseModules();
+            } else {
+                this.runStudentMenu();
             }
         } else {
             System.out.println("""
@@ -77,15 +85,16 @@ public class StudentMenu {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "2")) {
                 this.viewCompletedCourseModules();
+            } else {
+                this.runStudentMenu();
             }
         }
     }
 
     /**
      * Allows the student to register onto a course.
-     * @param students all the students in the system, ready for saving
      */
-    private void registerForCourse(ArrayList<Student> students) {
+    private void registerForCourse() {
         ArrayList<Course> allCourses = new CourseLoader().loadAllAvailableCourses();
         AsciiTable asciiTable = new AsciiTable();
         asciiTable.addRule();
@@ -115,15 +124,15 @@ public class StudentMenu {
         if (StringUtils.isNumeric(courseNumber)) {
             if (Integer.parseInt(courseNumber) - 1 < allCourses.size()
                     && Integer.parseInt(courseNumber) - 1 >= 0) {
-                String courseName = allCourses.get(Integer.parseInt(courseNumber) - 1).getName();
+                Course selectedCourse = allCourses.get(Integer.parseInt(courseNumber) - 1);
                 System.out.print("Are you sure you want to enrol onto "
-                        + courseName
+                        + selectedCourse.getName()
                         + "? (Y/N)");
                 String confirmation = scanner.nextLine();
 
                 if (Objects.equals(confirmation.toLowerCase(Locale.ROOT), "y")) {
-                    student.registerForCourse(courseName);
-                    new StudentSaver().saveAllStudents(students);
+                    student.registerForCourse(selectedCourse.getCourseId());
+                    new StudentSaver().saveStudent(student);
                 }
             } else {
                 System.out.println("Course number does not exist");
@@ -141,7 +150,7 @@ public class StudentMenu {
      * @param students all the students in the system, ready for saving
      */
     private void enrolOntoCourseModule(ArrayList<Student> students) {
-        Course course = new CourseLoader().loadCourse(this.student.getCourseName());
+        Course course = new CourseLoader().loadCourse(this.student.getCourseId());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
         ArrayList<CourseModuleResult> currentCourseModulesAsArrayList = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
@@ -232,19 +241,12 @@ public class StudentMenu {
 
                 if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                     this.student.enrolForCourseModule(selectedCourseModule.getCourseModuleCode());
-                    new StudentSaver().saveAllStudents(students);
+                    new StudentSaver().saveStudent(student);
                     selectedCourseModule.addStudentName(this.student.getUsername());
-                    ArrayList<CourseModule> allCourseModules = new CourseModuleLoader().loadAllCourseModules();
+                    new CourseModuleSaver().saveCourseModule(selectedCourseModule);
 
-                    for (CourseModule allCourseModule : allCourseModules) {
-                        if (Objects.equals(allCourseModule.getCourseModuleCode(),
-                                selectedCourseModule.getCourseModuleCode())) {
-                            allCourseModule.addStudentName(this.student.getUsername());
-                            new CourseModuleSaver().saveAllCourseModules(allCourseModules);
-                            this.runStudentMenu();
-                            return;
-                        }
-                    }
+                    this.runStudentMenu();
+                    return;
                 }
             } else {
                 System.out.println("Course module does not exist");

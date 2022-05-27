@@ -1,10 +1,8 @@
 package com.company.Menus;
 
-import com.company.FileHandling.Loaders.AssignmentLoader;
-import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Loaders.InstructorLoader;
-import com.company.FileHandling.Loaders.StudentLoader;
+import com.company.FileHandling.Loaders.*;
 import com.company.Models.Study.Assignment;
+import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 import com.company.Models.Users.Instructor;
@@ -172,6 +170,8 @@ public class InstructorMenu {
                         completedCourseModules.append(courseModuleResult.getCourseModuleCode());
                     }
 
+                    Course course = new CourseLoader().loadCourse(currentStudent.getCourseId());
+
                     asciiTable.addRow(
                             i + 1,
                             currentStudent.getUsername(),
@@ -180,7 +180,7 @@ public class InstructorMenu {
                             currentStudent.getLastName(),
                             currentStudent.getYear(),
                             currentStudent.getLevel(),
-                            currentStudent.getCourseName(),
+                            course.getName(),
                             completedCourseModules,
                             currentCourseModules
                     );
@@ -476,6 +476,8 @@ public class InstructorMenu {
                         completedCourseModules.append(courseModuleResult.getCourseModuleCode());
                     }
 
+                    Course course = new CourseLoader().loadCourse(currentStudent.getCourseId());
+
                     asciiTable.addRow(
                             i + 1,
                             currentStudent.getUsername(),
@@ -484,7 +486,7 @@ public class InstructorMenu {
                             currentStudent.getLastName(),
                             currentStudent.getYear(),
                             currentStudent.getLevel(),
-                            currentStudent.getCourseName(),
+                            course.getName(),
                             completedCourseModules,
                             currentCourseModules
                     );

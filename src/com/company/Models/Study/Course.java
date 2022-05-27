@@ -2,18 +2,37 @@ package com.company.Models.Study;
 
 import java.util.HashSet;
 
+import static java.util.UUID.randomUUID;
+
 /**
  * Model that represents the courses at the college or university, such as BSc Computer Science.
  */
 public class Course {
+    private final String courseId;
     private String name;
     private final HashSet<String> courseModuleCodes;
     private boolean isAvailable;
 
     public Course(String name, HashSet<String> courseModuleCodes, boolean isAvailable) {
+        this.courseId = randomUUID().toString();
         this.name = name;
         this.courseModuleCodes = courseModuleCodes;
         this.isAvailable = isAvailable;
+    }
+
+    public Course(String courseId, String name, HashSet<String> courseModuleCodes, boolean isAvailable) {
+        this.courseId = courseId == null ? randomUUID().toString() : courseId;
+        this.name = name;
+        this.courseModuleCodes = courseModuleCodes;
+        this.isAvailable = isAvailable;
+    }
+
+    /**
+     * Gets the ID of the course
+     * @return the ID that represents the course
+     */
+    public String getCourseId() {
+        return this.courseId;
     }
 
     /**

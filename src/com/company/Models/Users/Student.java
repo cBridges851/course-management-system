@@ -15,17 +15,17 @@ import java.util.*;
 public class Student extends User {
     private final int year;
     private final int level;
-    private String courseName;
+    private String courseId;
     private final ArrayList<CourseModuleResult> completedCourseModules;
     private final CourseModuleResult[] currentCourseModules;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
-                   Calendar dateOfBirth, int year, int level, String courseName, ArrayList<CourseModuleResult> completedCourseModules,
+                   Calendar dateOfBirth, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules,
                    CourseModuleResult[] currentCourseModules) {
         super(username, password, firstName, middleName, lastName, dateOfBirth);
         this.year = year;
         this.level = level;
-        this.courseName = courseName;
+        this.courseId = courseId;
         this.completedCourseModules = completedCourseModules;
         this.currentCourseModules = currentCourseModules;
     }
@@ -50,8 +50,8 @@ public class Student extends User {
      * Gets the name of the course the student is enrolled in
      * @return the course that the student is enrolled in.
      */
-    public String getCourseName() {
-        return this.courseName;
+    public String getCourseId() {
+        return this.courseId;
     }
 
     /**
@@ -79,10 +79,10 @@ public class Student extends User {
 
     /**
      * Allows the student to register for a course
-     * @param courseName the name of the course the student would like to enrol on
+     * @param courseId the id of the course the student would like to enrol on
      */
-    public void registerForCourse(String courseName) {
-        this.courseName = courseName;
+    public void registerForCourse(String courseId) {
+        this.courseId = courseId;
     }
 
     /**
@@ -151,7 +151,7 @@ public class Student extends User {
      *          false otherwise
      */
     public boolean canProgressToNextLevel() {
-        Course course = new CourseLoader().loadCourse(this.courseName);
+        Course course = new CourseLoader().loadCourse(this.courseId);
         int numberOfCourseModulesOnLevel = 0;
         int numberOfPassedCourseModules = 0;
 
