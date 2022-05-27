@@ -171,7 +171,6 @@ public class Student extends User {
             }
         }
 
-        //TODO: This doesn't check for the level
         for (CourseModuleResult completedCourseModuleResult: this.completedCourseModules) {
             CourseModule currentCourseModule = new CourseModuleLoader()
                     .loadCourseModule(completedCourseModuleResult.getCourseModuleCode());

@@ -23,7 +23,13 @@ public class AssignmentLoader {
         String deserialisedAssignmentList = this.fileHandler.loadFile(Filename.ASSIGNMENTS);
         Gson gson = new Gson();
         Type assignmentListType = new TypeToken<ArrayList<Assignment>>(){}.getType();
-        ArrayList<Assignment> assignments = gson.fromJson(deserialisedAssignmentList, assignmentListType);
+        ArrayList<Assignment> assignments = null;
+
+        try {
+            assignments = gson.fromJson(deserialisedAssignmentList, assignmentListType);
+        } catch (Exception exception) {
+            System.out.println("Invalid JSON");
+        }
 
         if (assignments == null) {
             return new ArrayList<>();
