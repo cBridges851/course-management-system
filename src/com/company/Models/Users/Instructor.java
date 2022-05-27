@@ -1,6 +1,7 @@
 package com.company.Models.Users;
 
 import com.company.FileHandling.Loaders.CourseModuleLoader;
+import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.StudentSaver;
@@ -8,6 +9,7 @@ import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -75,6 +77,23 @@ public class Instructor extends User {
         CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
         courseModule.addAssignmentId(assignment.getAssignmentId());
         new CourseModuleSaver().saveCourseModule(courseModule);
+    }
+
+    private void updateExistingStudents(CourseModule courseModule, Assignment assignment) {
+        ArrayList<Student> existingStudents = new ArrayList<>();
+
+        for (String studentUsername: courseModule.getStudentNames()) {
+            Student student = new StudentLoader().loadStudent(studentUsername);
+            CourseModuleResult[] courseModuleResults = student.getCurrentCourseModules();
+
+            for (CourseModuleResult courseModuleResult: courseModuleResults) {
+                if (courseModuleResult != null) {
+                    if (Objects.equals(courseModuleResult.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                        courseModuleResult.addAssignmentResults(assignment.getAssignmentId(), 0);
+                    }
+                }
+            }
+        }
     }
 
     /**
