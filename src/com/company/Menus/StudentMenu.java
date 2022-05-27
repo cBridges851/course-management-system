@@ -52,7 +52,9 @@ public class StudentMenu {
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.registerForCourse(students);
+                this.registerForCourse();
+            } else {
+                this.runStudentMenu();
             }
         } else if (currentCourseModules.size() < 4) {
             System.out.println("""
@@ -69,6 +71,8 @@ public class StudentMenu {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "3")) {
                 this.viewCompletedCourseModules();
+            } else {
+                this.runStudentMenu();
             }
         } else {
             System.out.println("""
@@ -81,15 +85,16 @@ public class StudentMenu {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "2")) {
                 this.viewCompletedCourseModules();
+            } else {
+                this.runStudentMenu();
             }
         }
     }
 
     /**
      * Allows the student to register onto a course.
-     * @param students all the students in the system, ready for saving
      */
-    private void registerForCourse(ArrayList<Student> students) {
+    private void registerForCourse() {
         ArrayList<Course> allCourses = new CourseLoader().loadAllAvailableCourses();
         AsciiTable asciiTable = new AsciiTable();
         asciiTable.addRule();
@@ -127,7 +132,7 @@ public class StudentMenu {
 
                 if (Objects.equals(confirmation.toLowerCase(Locale.ROOT), "y")) {
                     student.registerForCourse(selectedCourse.getCourseId());
-                    new StudentSaver().saveAllStudents(students);
+                    new StudentSaver().saveStudent(student);
                 }
             } else {
                 System.out.println("Course number does not exist");
@@ -236,7 +241,7 @@ public class StudentMenu {
 
                 if (Objects.equals(action.toLowerCase(Locale.ROOT), "y")) {
                     this.student.enrolForCourseModule(selectedCourseModule.getCourseModuleCode());
-                    new StudentSaver().saveAllStudents(students);
+                    new StudentSaver().saveStudent(student);
                     selectedCourseModule.addStudentName(this.student.getUsername());
                     new CourseModuleSaver().saveCourseModule(selectedCourseModule);
 

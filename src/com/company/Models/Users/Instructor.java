@@ -1,8 +1,6 @@
 package com.company.Models.Users;
 
-import com.company.FileHandling.Loaders.AssignmentLoader;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.AssignmentSaver;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.StudentSaver;
@@ -10,7 +8,6 @@ import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -93,16 +90,7 @@ public class Instructor extends User {
             if (currentCourseModule != null) {
                 if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
                     currentCourseModule.addAssignmentResults(assignment.getAssignmentId(), mark);
-
-                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
-
-                    for (int i = 0; i < allStudents.size(); i++) {
-                        if (Objects.equals(allStudents.get(i).getUsername(), student.getUsername())) {
-                            allStudents.set(i, student);
-                        }
-                    }
-
-                    new StudentSaver().saveAllStudents(allStudents);
+                    new StudentSaver().saveStudent(student);
                     break;
                 }
             }
@@ -123,18 +111,8 @@ public class Instructor extends User {
                 if (Objects.equals(currentCourseModule.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
                     student.addCompletedCourseModule(currentCourseModule);
                     student.removeCurrentCourseModule(currentCourseModule);
-
-                    ArrayList<Student> allStudents = new StudentLoader().loadAllStudents();
-
-                    for (int i = 0; i < allStudents.size(); i++) {
-                        if (Objects.equals(allStudents.get(i).getUsername(), student.getUsername())) {
-                            allStudents.set(i, student);
-                        }
-                    }
-
                     courseModule.removeStudentName(student.getUsername());
-
-                    new StudentSaver().saveAllStudents(allStudents);
+                    new StudentSaver().saveStudent(student);
                     new CourseModuleSaver().saveCourseModule(courseModule);
                     break;
                 }
