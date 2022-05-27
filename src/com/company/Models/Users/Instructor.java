@@ -79,6 +79,11 @@ public class Instructor extends User {
         this.updateExistingStudents(courseModule, assignment);
     }
 
+    /**
+     * New assignments are added to students who are already on the course module, so results can be added to them later.
+     * @param courseModule the course module the assignment is on.
+     * @param assignment the new assignment.
+     */
     private void updateExistingStudents(CourseModule courseModule, Assignment assignment) {
         for (String studentUsername: courseModule.getStudentNames()) {
             Student student = new StudentLoader().loadStudent(studentUsername);
