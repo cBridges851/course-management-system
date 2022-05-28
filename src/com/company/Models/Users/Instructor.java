@@ -92,6 +92,9 @@ public class Instructor extends User {
             for (CourseModuleResult courseModuleResult: courseModuleResults) {
                 if (courseModuleResult != null) {
                     if (Objects.equals(courseModuleResult.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                        if (courseModuleResult.getAssignmentResults().get(assignment.getAssignmentId()) != null) {
+                            courseModuleResult.getAssignmentResults().remove(assignment.getAssignmentId());
+                        }
                         courseModuleResult.addAssignmentResults(assignment.getAssignmentId(), 0);
                         new StudentSaver().saveStudent(student);
                     }
@@ -141,5 +144,27 @@ public class Instructor extends User {
                 }
             }
         }
+    }
+
+    /**
+     * Changes the name of an assignment
+     * @param assignment the assignment to update
+     * @param newName the name to change it to
+     */
+    public void updateAssignmentName(Assignment assignment, String newName) {
+        assignment.setAssignmentName(newName);
+        new AssignmentSaver().saveAssignment(assignment);
+    }
+
+    /**
+     * Changes the number of marks that can be achieved on an assignment.
+     * @param courseModule the course module that the assignment belongs to.
+     * @param assignment the assignment to update.
+     * @param marks the new number of marks that can be achieved.
+     */
+    public void updateAssignmentMarks(CourseModule courseModule, Assignment assignment, int marks) {
+        assignment.setTotalPossibleMarks(marks);
+        new AssignmentSaver().saveAssignment(assignment);
+        this.updateExistingStudents(courseModule, assignment);
     }
 }
