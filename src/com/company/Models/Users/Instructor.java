@@ -92,6 +92,9 @@ public class Instructor extends User {
             for (CourseModuleResult courseModuleResult: courseModuleResults) {
                 if (courseModuleResult != null) {
                     if (Objects.equals(courseModuleResult.getCourseModuleCode(), courseModule.getCourseModuleCode())) {
+                        if (courseModuleResult.getAssignmentResults().get(assignment.getAssignmentId()) != null) {
+                            courseModuleResult.getAssignmentResults().remove(assignment.getAssignmentId());
+                        }
                         courseModuleResult.addAssignmentResults(assignment.getAssignmentId(), 0);
                         new StudentSaver().saveStudent(student);
                     }
@@ -141,5 +144,16 @@ public class Instructor extends User {
                 }
             }
         }
+    }
+
+    public void updateAssignmentName(Assignment assignment, String newName) {
+        assignment.setAssignmentName(newName);
+        new AssignmentSaver().saveAssignment(assignment);
+    }
+
+    public void updateAssignmentMarks(CourseModule courseModule, Assignment assignment, int marks) {
+        assignment.setTotalPossibleMarks(marks);
+        new AssignmentSaver().saveAssignment(assignment);
+        this.updateExistingStudents(courseModule, assignment);
     }
 }

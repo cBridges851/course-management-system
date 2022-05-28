@@ -8,8 +8,8 @@ import static java.util.UUID.randomUUID;
  */
 public class Assignment {
     private final String assignmentId;
-    private final String assignmentName;
-    private final int totalPossibleMarks;
+    private String assignmentName;
+    private int totalPossibleMarks;
 
     public Assignment(String assignmentName, int totalPossibleMarks) {
         this.assignmentId = randomUUID().toString();
@@ -38,9 +38,21 @@ public class Assignment {
     }
 
     /**
+     * Gives the assignment a new name
+     * @param newName the name to change the assignment to
+     */
+    public void setAssignmentName(String newName) {
+        this.assignmentName = newName;
+    }
+
+    /**
      * @return the maximum number of marks that the student can achieve on the assignment.
      */
     public int getTotalPossibleMarks() {
         return this.totalPossibleMarks;
+    }
+
+    public void setTotalPossibleMarks(int marks) {
+        this.totalPossibleMarks = marks;
     }
 }
