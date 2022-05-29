@@ -1,0 +1,310 @@
+@startuml
+' Classes relating to study
+class Course {
+    name: String
+    courseModules: ArrayList
+    isActive: boolean
+}
+
+class CourseModule {
+    moduleCode: String
+    name: String
+    level: int
+    instructorName: String
+    isMandatory: boolean
+    assignments: ArrayList<Assignment>
+    studentNames: ArrayList<String>
+}
+
+class Assignment {
+    assignmentId: String
+    assignmentName: String
+    totalPossibleMarks: int
+}
+
+class CourseModuleResult {
+    courseModule: CourseModule
+    assignmentResults: HashMap<String, Integer>
+}
+
+' Users
+abstract class User {
+    'Username is unique
+    username: String
+    password: String
+    firstName: String
+    middleName: String
+    lastName: String
+    dateOfBirth: Calendar
+}
+
+class Student {
+    year: int
+    level: int
+    courseName: String
+    completedCourseModules: ArrayList<CourseModuleResult>
+    currentCourseModules: CourseModuleResult[8]
+    <<ArrayList<CourseModuleResult>>> addCompletedCourseModule()
+    <<void>> registerForCourse(String courseName)
+    <<void>> enrolForCourseModule(String courseModuleCode)
+    <<void>> removeCurrentCourseModule(CourseModuleResult courseModule)
+    <<boolean>> canProgressToNextLevel()
+}
+
+class CourseAdministrator {
+    <<void>> addNewCourse(ArrayList<Course> courses, String courseName)
+    <<void>> addNewCourseModuleToCourse(ArrayList<Course> courses, Course course, String courseModuleCode, String name, int level, HashSet<String> instructorNames, boolean isMandatory, HashSet<String> assignmentIds, HashSet<String> studentNames)
+    <<ArrayList<Course>>> getAllCourses()
+    <<void>> cancelCourse(ArrayList<Course> allCourses, Course course)
+    <<void>> reopenCourse(ArrayList<Course> allCourses, Course course)
+    <<void>> deleteCourse(ArrayList<Course> courses, Course courseToDelete)
+    <<void>> renameCourse(ArrayList<Course> courseModules, Course course, String newName)
+    <<void>> renameCourseModule(ArrayList<CourseModule> courseModules, CourseModule courseModule, String newName)
+    <<String>> createResultsSlip(Student student)
+    <<void>> assignInstructorToCourseModule(ArrayList<CourseModule> allCourseModules, CourseModule courseModule, ArrayList<Instructor> instructors, Instructor instructor)
+    <<void>> removeInstructorFromModule(ArrayList<CourseModule> allCourseModules, CourseModule courseModule, ArrayList<Instructor> instructors, Instructor instructor)
+    <<void>> removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule)
+    <<void>> removeInstructorFromCourseModule(ArrayList<CourseModule> allCourseModules, CourseModule courseModule, ArrayList<Instructor> allInstructors, Instructor instructor)
+}
+
+class Instructor {
+    courseModules: String[]
+    <<String[]>> getCourseModules(),
+    <<boolean>> addCourseModule(String courseModuleCode)
+    <<void>> removeCourseModule(String courseModuleCode)
+    <<void>> createAssignment(String courseModuleCode, String assignmentName, int mark)
+    <<void>> addMark(Student student, CourseModule courseModule, Assignment assignment, int mark)
+    <<void>> markStudentAsCompleted(Student student, CourseModule courseModule)
+}
+
+' Handle Persistence
+enum Filename {
+    ASSIGNMENTS
+    COURSEMODULES
+    COURSES
+    RESULTS
+    COURSEADMINISTRATORS
+    INSTRUCTORS
+    STUDENTS
+}
+
+class FileHandler {
+    <<void>> writeFile(Filename filename, String contents)
+    <<void>> writeFile(String customFilename, String contents)
+    <<void>> loadFile(Filename filename)
+}
+
+'Loaders
+class AssignmentLoader {
+    <<ArrayList<Assignment>>> loadAllAssignments()
+    <<Assignment>> loadAssignment(String assignmentId)
+}
+
+class CourseAdministratorLoader{
+    <<ArrayList<CourseAdministrator>>> loadAllCourseAdministrators()
+}
+
+class CourseLoader {
+    <<ArrayList<Course>>> loadAllCourses()
+    <<ArrayList<Course>>> loadAllAvailableCourses()
+    <<Course>> loadCourse(String name)
+}
+
+class CourseModuleLoader {
+    <<ArrayList<CourseModule>>> loadAllCourseModules
+    CourseModule loadCourseModule(String courseModuleCode)
+}
+
+class InstructorLoader {
+    <<ArrayList<Instructor>>> loadAllInstructors()
+    <<Instructor>> loadInstructor(String username)
+}
+
+class StudentLoader {
+    <<ArrayList<Student>>> loadAllStudents()
+    <<Student>> loadStudent(String username)
+}
+
+'Savers
+class AssignmentSaver {
+    <<void>> saveAllAssignments(ArrayList<Assignment> assignments)
+}
+
+class CourseAdministratorSaver {
+    <<void>> saveAllCourseAdministrators(ArrayList<CourseAdministrator> courseAdministrators)
+}
+
+class CourseModuleSaver {
+    <<void>> saveAllCourseModules(ArrayList<CourseModule> courseModules)
+}
+
+class CourseSaver {
+    <<void>> saveAllCourses(ArrayList<Course> courses)
+}
+
+class InstructorSaver {
+    <<void>> saveAllInstructors(ArrayList<Instructor> instructors)
+}
+
+class ResultsSlipSaver {
+    <<void>> saveResultsSlip(String customFilename, String resultsSlip)
+}
+
+class StudentSaver {
+    <<void>> saveAllStudents(ArrayList<Student> students)
+}
+
+'Menus
+class CourseAdministratorCourseModuleSubMenu {
+    <<void>> runCourseModuleSubMenu()
+    <<void>> addCourseModuleToCourse()
+    <<void>> removeCourseModuleFromCourse
+    <<void>> renameCourseModule()
+    <<void>> addInstructorToCourseModule()
+    <<void>> removeInstructorFromCourseModule()
+    <<void>> displayCourseModuleTable
+}
+
+class CourseAdministratorMenu {
+    <<void>> runCourseAdministratorMenu()
+    <<void>> cancelCourse(ArrayList<Course> courses)
+    <<void>> reopenCourse(ArrayList<Course> courses)
+    <<void>> addCourse(ArrayList<Course> courses)
+    <<void>> deleteCourse(ArrayList<Course> courses)
+    <<void>> renameCourse(ArrayList<Course> courses)
+    <<void>> generateResultsSlip()
+}
+
+class HomeMenu {
+    <<void>> login()
+}
+
+class InstructorMenu {
+    <<void>> runInstructorMenu()
+    <<void>> addMarksToStudent(ArrayList<CourseModule> courseModules)
+    <<void>> createAssignment(ArrayList<CourseModule> courseModules)
+    <<void>> viewAssignmentsInCourseModule(ArrayList<CourseModule> courseModules)
+    <<void>> markStudentAsCompletedModule(ArrayList<CourseModule> courseModules)
+}
+
+class StudentMenu {
+    <<void>> runStudentMenu()
+    <<void>> registerForCourse()
+    <<void>> enrolOntoCourseModule()
+    <<void>> viewCurrentCourseModules()
+    <<void>> viewCompletedCourseModules()
+}
+
+'**Relationships**
+
+' User is an abstract class, and student, instructor and course administrator are children of it to get the basic info (i.e. username, password, first name, middle name, last name, date of birth)
+User <|-- Student
+User <|-- Instructor
+User <|-- CourseAdministrator
+
+' Assignments could be across multiple course modules, so would not be destroyed if the course module was
+CourseModule o-- "0..*" Assignment
+
+' A course module could be in multiple courses, so would not be destroyed if the course was
+Course o-- "0..*" CourseModule
+
+' Instructor relationships
+Instructor o-- "0..4" CourseModule
+
+' Student relationships
+' The student has one course, or else they're not enrolled on one
+Student o-- "0..1" Course
+Student *-- "0..*" CourseModuleResult
+
+' Menus
+HomeMenu --> "1" CourseAdministratorMenu
+HomeMenu --> "1" InstructorMenu
+HomeMenu --> "1" StudentMenu
+CourseAdministratorMenu --> "1" CourseAdministratorCourseModuleSubMenu
+CourseAdministratorCourseModuleSubMenu --> "1" CourseAdministratorMenu
+
+' Handling files
+' All the loaders will have access to the FileHandler, but the FileHandler won't have access to the loader/saver
+AssignmentLoader --> "0..1" FileHandler
+CourseAdministratorLoader --> "0..1" FileHandler
+CourseLoader --> "0..1" FileHandler
+CourseModuleLoader --> "0..1" FileHandler
+InstructorLoader --> "0..1" FileHandler
+StudentLoader --> "0..1" FileHandler
+
+AssignmentSaver --> "0..1" FileHandler
+CourseAdministratorSaver --> "0..1" FileHandler
+CourseSaver --> "0..1" FileHandler
+CourseModuleSaver --> "0..1" FileHandler
+InstructorSaver --> "0..1" FileHandler
+ResultsSlipSaver --> "0..1" FileHandler
+StudentSaver --> "0..1" FileHandler
+
+FileHandler --> Filename
+
+AssignmentLoader "1" <-- AssignmentSaver
+AssignmentLoader "1" <-- InstructorMenu
+AssignmentLoader "1" <-- StudentMenu
+AssignmentLoader "1" <-- CourseModule
+AssignmentLoader "1" <-- CourseAdministrator
+
+CourseAdministratorLoader "1" <-- CourseAdministratorSaver
+CourseAdministratorLoader "1" <-- CourseAdministratorMenu
+
+CourseLoader "1" <-- CourseSaver
+CourseLoader "1" <-- InstructorMenu
+CourseLoader "1" <-- StudentMenu
+CourseLoader "1" <-- CourseAdministrator
+CourseLoader "1" <-- Student
+
+CourseModuleLoader "1" <-- CourseModuleSaver
+CourseModuleLoader "1" <-- CourseAdministratorCourseModuleSubMenu
+CourseModuleLoader "1" <-- InstructorMenu
+CourseModuleLoader "1" <-- StudentMenu
+CourseModuleLoader "1" <-- CourseAdministrator
+CourseModuleLoader "1" <-- Instructor
+CourseModuleLoader "1" <-- Student
+
+StudentLoader "1" <-- StudentSaver
+StudentLoader "1" <-- Instructor
+StudentLoader "1" <-- Student
+
+
+AssignmentSaver "1" <-- Instructor
+
+CourseModuleSaver "1" <-- CourseAdministrator
+CourseModuleSaver "1" <-- Instructor
+
+CourseSaver "1" <-- CourseAdministrator
+
+InstructorSaver "1" <-- CourseAdministrator
+
+StudentSaver "1" <-- CourseAdministrator
+StudentSaver "1" <-- Instructor
+
+' How menus interact with models
+' CourseAdministratorCourseModuleSubMenu
+CourseAdministratorCourseModuleSubMenu o-- "0..*" Course
+CourseAdministratorCourseModuleSubMenu o-- "0..*" CourseModule
+CourseAdministratorCourseModuleSubMenu o-- "0..1" CourseAdministrator
+
+' CourseAdministratorMenu
+CourseAdministratorMenu o-- "0..*" Course
+CourseAdministratorMenu o-- "0..1" CourseAdministrator
+CourseAdministratorMenu --> Student
+CourseAdministratorMenu --> ResultsSlipSaver
+CourseAdministratorMenu --> "1" StudentLoader
+
+' InstructorMenu
+InstructorMenu o-- "0..4" CourseModule
+InstructorMenu o-- "0..1" Instructor
+InstructorMenu --> "1" InstructorLoader
+InstructorMenu --> "1" StudentLoader
+
+' StudentMenu
+StudentMenu o-- "0..*" CourseModule
+StudentMenu o-- Student
+StudentMenu --> "1" StudentLoader
+StudentMenu --> "1" CourseModuleSaver
+StudentMenu --> "1" StudentSaver
+@enduml
