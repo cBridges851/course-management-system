@@ -259,6 +259,19 @@ public class CourseAdministrator extends User {
     }
 
     /**
+     * Removes an instructor from a course module.
+     * @param courseModule the course module that will have the instructor removed from it.
+     */
+    public void removeInstructorFromCourseModule(CourseModule courseModule,
+                                                 Instructor instructor) {
+        courseModule.removeInstructorName(instructor.getUsername());
+        instructor.removeCourseModule(courseModule.getCourseModuleCode());
+
+        new InstructorSaver().saveInstructor(instructor);
+        new CourseModuleSaver().saveCourseModule(courseModule);
+    }
+
+    /**
      * Removes course modules from courses
      * @param course the course to remove the module from
      * @param courseModule the course module that needs to be removed
@@ -289,19 +302,6 @@ public class CourseAdministrator extends User {
                 }
             }
         }
-    }
-
-    /**
-     * Removes an instructor from a course module.
-     * @param courseModule the course module that will have the instructor removed from it.
-     */
-    public void removeInstructorFromCourseModule(CourseModule courseModule,
-                                                 Instructor instructor) {
-        courseModule.removeInstructorName(instructor.getUsername());
-        instructor.removeCourseModule(courseModule.getCourseModuleCode());
-
-        new InstructorSaver().saveInstructor(instructor);
-        new CourseModuleSaver().saveCourseModule(courseModule);
     }
 
     /**
