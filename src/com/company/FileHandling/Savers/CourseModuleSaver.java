@@ -58,6 +58,4 @@ public class CourseModuleSaver {
         allCourseModules.removeIf(courseModuleItem -> courseModuleItem.getCourseModuleCode().equals(courseModule.getCourseModuleCode()));
         this.saveAllCourseModules(allCourseModules);
     }
-
-
 }

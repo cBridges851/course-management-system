@@ -66,7 +66,7 @@ public class StudentMenu {
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
-                this.enrolOntoCourseModule(students);
+                this.enrolOntoCourseModule();
             } else if (Objects.equals(action, "2")) {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "3")) {
@@ -147,9 +147,8 @@ public class StudentMenu {
     /**
      * Allows a student to enrol onto a course module on the course they are enrolled on, unless they already have
      * 4 course modules
-     * @param students all the students in the system, ready for saving
      */
-    private void enrolOntoCourseModule(ArrayList<Student> students) {
+    private void enrolOntoCourseModule() {
         Course course = new CourseLoader().loadCourse(this.student.getCourseId());
         HashSet<String> courseModulesCodesInCourse = course.getCourseModuleCodes();
         ArrayList<CourseModule> availableCourseModules = new ArrayList<>();
@@ -225,13 +224,13 @@ public class StudentMenu {
 
                     if (numberOfMandatory == 2 && selectedCourseModule.getIsMandatory()) {
                         System.out.println("You need to select an optional course module instead");
-                        this.enrolOntoCourseModule(students);
+                        this.enrolOntoCourseModule();
                         return;
                     }
 
                     if (numberOfOptional == 2 && !selectedCourseModule.getIsMandatory()) {
                         System.out.println("You need to select a mandatory course module instead");
-                        this.enrolOntoCourseModule(students);
+                        this.enrolOntoCourseModule();
                         return;
                     }
                 }
