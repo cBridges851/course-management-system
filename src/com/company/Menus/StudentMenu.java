@@ -47,12 +47,15 @@ public class StudentMenu {
         if (Objects.equals(course, null)) {
             System.out.println("""
                     What would you like to do?\s
-                    (1) Enrol on a course""");
+                    (1) Enrol on a course\s
+                    (2) Logout""");
 
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 this.registerForCourse();
+            } else if (Objects.equals(action, "2")) {
+                new HomeMenu().login();
             } else {
                 this.runStudentMenu();
             }
@@ -61,7 +64,8 @@ public class StudentMenu {
                     What would you like to do?\s
                     (1) Enrol on a course module\s
                     (2) View current course modules\s
-                    (3) View completed course modules""");
+                    (3) View completed course modules\s
+                    (4) Log out""");
 
             String action = scanner.nextLine();
 
@@ -71,6 +75,8 @@ public class StudentMenu {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "3")) {
                 this.viewCompletedCourseModules();
+            } else if (Objects.equals(action, "4")) {
+                new HomeMenu().login();
             } else {
                 this.runStudentMenu();
             }
@@ -78,13 +84,16 @@ public class StudentMenu {
             System.out.println("""
                     What would you like to do?\s
                     (1) View current course modules\s
-                    (2) View completed course modules""");
+                    (2) View completed course modules\s
+                    (3) Log out""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
                 this.viewCurrentCourseModules();
             } else if (Objects.equals(action, "2")) {
                 this.viewCompletedCourseModules();
+            } else if (Objects.equals(action, "3")) {
+                new HomeMenu().login();
             } else {
                 this.runStudentMenu();
             }

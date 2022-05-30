@@ -57,7 +57,8 @@ public class CourseAdministratorMenu {
                     (5) Rename a course
                     (6) Manage course modules\s
                     (7) Generate results slip\s
-                    (8) Promote student to their next level""");
+                    (8) Promote student to their next level\s
+                    (9) Log out""");
         String action = scanner.nextLine();
 
         if (Objects.equals(action, "1")) {
@@ -77,6 +78,8 @@ public class CourseAdministratorMenu {
             this.generateResultsSlip();
         } else if (Objects.equals(action, "8")) {
             this.promoteStudent();
+        } else if (Objects.equals(action, "9")) {
+            new HomeMenu().login();
         } else {
             this.runCourseAdministratorMenu();
         }

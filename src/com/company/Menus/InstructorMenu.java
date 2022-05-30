@@ -83,7 +83,8 @@ public class InstructorMenu {
                     (1) Add marks to student\s
                     (2) Create an assignment\s
                     (3) Edit assignments in a course module\s
-                    (4) Mark a student as completed the course module""");
+                    (4) Mark a student as completed the course module\s
+                    (5) Log out""");
             String action = scanner.nextLine();
 
             if (Objects.equals(action, "1")) {
@@ -94,6 +95,8 @@ public class InstructorMenu {
                 this.editAssignmentsInCourseModule();
             } else if (Objects.equals(action, "4")) {
                 this.markStudentAsCompletedModule();
+            } else if (Objects.equals(action, "5")) {
+                new HomeMenu().login();
             } else {
                 this.runInstructorMenu();
             }
