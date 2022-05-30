@@ -70,6 +70,8 @@ class Student {
     +<<void>> registerForCourse(String courseName)
     +<<void>> enrolForCourseModule(String courseModuleCode)
     +<<void>> removeCurrentCourseModule(CourseModuleResult courseModule)
+    +<<void>> removeAllCurrentCourseModules()
+    +<<void>> removeAllCompletedCourseModules()
     +<<boolean>> canProgressToNextLevel()
 }
 
@@ -90,6 +92,7 @@ class CourseAdministrator {
     +<<void>> removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule)
     +<<void>> removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule)
     +<<void>> promoteStudent(Student student)
+    +<<void>> removeStudentFromCourse(Student student)
 }
 
 class Instructor {
@@ -260,7 +263,6 @@ class StudentMenu {
     -scanner: Scanner
     +StudentMenu(Scanner scanner)
     +<<void>> runStudentMenu()
-    -<<void>> registerForCourse()
     -<<void>> enrolOntoCourseModule()
     -<<void>> viewCurrentCourseModules()
     -<<void>> viewCompletedCourseModules()

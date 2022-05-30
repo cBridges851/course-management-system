@@ -16,7 +16,7 @@ public class Student extends User {
     private final int year;
     private int level;
     private String courseId;
-    private final ArrayList<CourseModuleResult> completedCourseModules;
+    private ArrayList<CourseModuleResult> completedCourseModules;
     private final CourseModuleResult[] currentCourseModules;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
@@ -89,7 +89,7 @@ public class Student extends User {
      * Allows the student to register for a course
      * @param courseId the id of the course the student would like to enrol on
      */
-    public void registerForCourse(String courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 
@@ -150,6 +150,22 @@ public class Student extends User {
                 + " from "
                 + this.getFirstName()
                 + "'s current course modules");
+    }
+
+    /**
+     * Removes all the course modules the student is enrolled on.
+     */
+    public void removeAllCurrentCourseModules() {
+        for (int i = 0; i < 4; i++) {
+            this.currentCourseModules[i] = null;
+        }
+    }
+
+    /**
+     * Removes all course modules the student has completed
+     */
+    public void removeAllCompletedCourseModules() {
+        this.completedCourseModules = new ArrayList<>();
     }
 
     /**

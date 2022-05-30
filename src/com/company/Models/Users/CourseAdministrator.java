@@ -1,9 +1,6 @@
 package com.company.Models.Users;
 
-import com.company.FileHandling.Loaders.AssignmentLoader;
-import com.company.FileHandling.Loaders.CourseLoader;
-import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.FileHandling.Loaders.InstructorLoader;
+import com.company.FileHandling.Loaders.*;
 import com.company.FileHandling.Savers.CourseModuleSaver;
 import com.company.FileHandling.Savers.CourseSaver;
 import com.company.FileHandling.Savers.InstructorSaver;
@@ -114,10 +111,18 @@ public class CourseAdministrator extends User {
     public void deleteCourse(Course courseToDelete) {
         new CourseSaver().deleteCourseAndSave(courseToDelete);
         HashSet<String> courseModuleCodes = courseToDelete.getCourseModuleCodes();
+        ArrayList<Student> students = new StudentLoader().loadAllStudents();
 
         for (String courseModuleCode: courseModuleCodes) {
             CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
             this.removeCourseModuleFromSystem(new CourseLoader().loadAllCourses(), courseModule);
+        }
+
+        for (Student student: students) {
+            if (Objects.equals(student.getCourseId(), courseToDelete.getCourseId())) {
+                this.removeStudentFromCourse(student);
+                new StudentSaver().saveStudent(student);
+            }
         }
     }
 
@@ -327,5 +332,15 @@ public class CourseAdministrator extends User {
         newLevel++;
         student.setLevel(newLevel);
         new StudentSaver().saveStudent(student);
+    }
+
+    /**
+     * Removes a student from a course, including the course modules
+     * @param student the student to remove from a course
+     */
+    public void removeStudentFromCourse(Student student) {
+        student.setCourseId(null);
+        student.removeAllCurrentCourseModules();
+        student.removeAllCompletedCourseModules();
     }
 }

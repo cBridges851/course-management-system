@@ -32,7 +32,7 @@ public class InstructorMenu {
         System.out.println("Logging in as instructor");
         courseModules = new ArrayList<>();
 
-        this.instructor = new InstructorLoader().loadAllInstructors().get(0);
+        this.instructor = new InstructorLoader().loadAllInstructors().get(1);
         String[] courseModuleCodes = instructor.getCourseModules();
 
         for (String courseModuleCode: courseModuleCodes) {

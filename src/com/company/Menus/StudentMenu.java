@@ -32,7 +32,7 @@ public class StudentMenu {
     public void runStudentMenu() {
         System.out.println("Logging in as student");
         ArrayList<Student> students = new StudentLoader().loadAllStudents();
-        this.student = students.get(0);
+        this.student = students.get(1);
         ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
         Course course = null;
@@ -44,7 +44,7 @@ public class StudentMenu {
         System.out.println("My Course: "
                 + (course != null ? course.getName() : "Not Enrolled"));
 
-        if (Objects.equals(this.student.getCourseId(), "") || Objects.equals(this.student.getCourseId(), null)) {
+        if (Objects.equals(course, null)) {
             System.out.println("""
                     What would you like to do?\s
                     (1) Enrol on a course""");
@@ -131,7 +131,7 @@ public class StudentMenu {
                 String confirmation = scanner.nextLine();
 
                 if (Objects.equals(confirmation.toLowerCase(Locale.ROOT), "y")) {
-                    student.registerForCourse(selectedCourse.getCourseId());
+                    student.setCourseId(selectedCourse.getCourseId());
                     new StudentSaver().saveStudent(student);
                 }
             } else {
