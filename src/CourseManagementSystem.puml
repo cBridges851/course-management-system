@@ -145,7 +145,7 @@ class CourseLoader {
 
 class CourseModuleLoader {
     -fileHandler: FileHandler
-    +<<ArrayList<CourseModule>>> loadAllCourseModules
+    +<<ArrayList<CourseModule>>> loadAllCourseModules()
     +CourseModule loadCourseModule(String courseModuleCode)
 }
 
