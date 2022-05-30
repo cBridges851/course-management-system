@@ -288,6 +288,11 @@ public class CourseAdministrator extends User {
         this.removeCourseModuleFromSystem(courses, courseModule);
     }
 
+    /**
+     * Removes a course module permanently from the system
+     * @param courses the courses to check through to see if the course module is in another course
+     * @param courseModule the course module to remove
+     */
     private void removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule) {
         boolean isInAnotherCourse = false;
 
