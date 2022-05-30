@@ -214,11 +214,11 @@ class CourseAdministratorCourseModuleSubMenu {
     +CourseAdministratorCourseModuleSubMenu(Scanner scanner, CourseAdministrator courseAdministrator, ArrayList<Course> courses)
     +<<void>> runCourseModuleSubMenu()
     -<<void>> addCourseModuleToCourse()
-    -<<void>> removeCourseModuleFromCourse
+    -<<void>> removeCourseModuleFromCourse()
     -<<void>> renameCourseModule()
     -<<void>> addInstructorToCourseModule()
     -<<void>> removeInstructorFromCourseModule()
-    -<<void>> displayCourseModuleTable
+    -<<void>> displayCourseModuleTable()
 }
 
 class CourseAdministratorMenu {
