@@ -69,7 +69,9 @@ public class CourseAdministratorCourseModuleSubMenu {
             if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToAddTo = this.courses.get(Integer.parseInt(action) - 1);
 
-                System.out.println("Are you sure you want to add a module to " + courseToAddTo.getName() + "? (Y/N)");
+                System.out.print("Are you sure you want to add a course module to "
+                        + courseToAddTo.getName()
+                        + "? (Y/N) ");
                 action = scanner.nextLine();
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
@@ -387,7 +389,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                         if (Integer.parseInt(instructorNumber) - 1 < instructors.size()
                                 && Integer.parseInt(instructorNumber) - 1 >= 0) {
                             Instructor instructorToRemove = instructors.get(Integer.parseInt(instructorNumber) - 1);
-                            System.out.println(
+                            System.out.print(
                                     "Are you sure you want to remove "
                                             + instructorToRemove.getFirstName()
                                             + " " + instructorToRemove.getMiddleName()

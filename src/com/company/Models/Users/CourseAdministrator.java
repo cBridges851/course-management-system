@@ -113,6 +113,12 @@ public class CourseAdministrator extends User {
      */
     public void deleteCourse(Course courseToDelete) {
         new CourseSaver().deleteCourseAndSave(courseToDelete);
+        HashSet<String> courseModuleCodes = courseToDelete.getCourseModuleCodes();
+
+        for (String courseModuleCode: courseModuleCodes) {
+            CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+            this.removeCourseModuleFromSystem(new CourseLoader().loadAllCourses(), courseModule);
+        }
     }
 
     /**
@@ -279,7 +285,10 @@ public class CourseAdministrator extends User {
     public void removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule) {
         course.removeCourseModule(courseModule.getCourseModuleCode());
         new CourseSaver().saveCourse(course);
+        this.removeCourseModuleFromSystem(courses, courseModule);
+    }
 
+    private void removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule) {
         boolean isInAnotherCourse = false;
 
         for (Course courseItem : courses) {

@@ -129,7 +129,7 @@ public class CourseAdministratorMenu {
                 if (courseToReopen.getIsAvailable()) {
                     System.out.println("This course is already available");
                 } else {
-                    System.out.println("Are you sure you want to reopen " + courseToReopen.getName() + "? (Y/N)");
+                    System.out.print("Are you sure you want to reopen " + courseToReopen.getName() + "? (Y/N) ");
                     action = scanner.nextLine();
 
                     if (action.toLowerCase(Locale.ROOT).equals("y")) {
@@ -169,7 +169,7 @@ public class CourseAdministratorMenu {
             if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToDelete = this.courses.get(Integer.parseInt(action) - 1);
 
-                System.out.println("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
+                System.out.print("Are you sure you want to PERMANENTLY delete " + courseToDelete.getName() + "? (Y/N)");
                 action = scanner.nextLine();
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
@@ -197,7 +197,7 @@ public class CourseAdministratorMenu {
             if (Integer.parseInt(action) - 1 < this.courses.size() && Integer.parseInt(action) - 1 >= 0) {
                 Course courseToRename = this.courses.get(Integer.parseInt(action) - 1);
 
-                System.out.println("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N)");
+                System.out.print("Are you sure you want to rename " + courseToRename.getName() + "? (Y/N) ");
                 action = scanner.nextLine();
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
