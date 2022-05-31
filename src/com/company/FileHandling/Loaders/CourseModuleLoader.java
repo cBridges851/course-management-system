@@ -52,7 +52,6 @@ public class CourseModuleLoader {
             }
         }
 
-        System.out.println("Course Module " + courseModuleCode + " not found");
         return null;
     }
 }

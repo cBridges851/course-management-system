@@ -52,7 +52,6 @@ public class AssignmentLoader {
             }
         }
 
-        System.out.println("Assignment " + assignmentId + " not found");
         return null;
     }
 }

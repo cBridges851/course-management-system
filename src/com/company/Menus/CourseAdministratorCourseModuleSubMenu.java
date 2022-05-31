@@ -75,8 +75,21 @@ public class CourseAdministratorCourseModuleSubMenu {
                 action = scanner.nextLine();
 
                 if (action.toLowerCase(Locale.ROOT).equals("y")) {
-                    System.out.print("Enter the course module's module code: ");
-                    String courseModuleCode = scanner.nextLine();
+                    boolean isValidCourseModuleCode = false;
+                    String courseModuleCode = "";
+
+                    while(!isValidCourseModuleCode) {
+                        System.out.print("Enter the course module's module code: ");
+                        courseModuleCode = scanner.nextLine();
+                        CourseModule courseModule = new CourseModuleLoader().loadCourseModule(courseModuleCode);
+
+                        if (courseModule == null) {
+                            isValidCourseModuleCode = true;
+                        } else {
+                            System.out.println("Course module code taken");
+                        }
+                    }
+
                     System.out.print("Enter the course module's name: ");
                     String courseModuleName = scanner.nextLine();
                     System.out.print("Enter the course module's level: ");
