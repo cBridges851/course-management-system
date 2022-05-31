@@ -169,7 +169,6 @@ namespace FileHandling #B4F0A7 {
         ASSIGNMENTS
         COURSEMODULES
         COURSES
-        RESULTS
         COURSEADMINISTRATORS
         INSTRUCTORS
         STUDENTS
@@ -389,7 +388,7 @@ namespace Menus #FFB1B0 {
 
     ' Menus inherit the IMenu interface to utilise the run method, and then have additional of their own.
     CourseAdministratorCourseModuleSubMenu --|> IMenu
-    CourseAdministratorCourseModuleMenu --|> IMenu
+    CourseAdministratorMenu --|> IMenu
     HomeMenu --|> IMenu
     InstructorMenu --|> IMenu
     StudentMenu --|> IMenu
@@ -441,9 +440,9 @@ namespace Menus #FFB1B0 {
     AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.CourseAdministratorSaver
 
     ' Association - the account creator calls the student loader, instructor loader, and course administrator loader to check there are no duplicates.
-    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.StudentLoader
-    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.InstructorLoader
-    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.CourseAdministratorLoader
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Loaders.InstructorLoader
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Loaders.CourseAdministratorLoader
 
     ' Association - the login handler calls the student loader, instructor loader, and course administrator loader for checking if the user is authorised.
     LoginHandler -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader

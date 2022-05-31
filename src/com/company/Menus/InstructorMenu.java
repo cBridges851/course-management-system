@@ -102,6 +102,16 @@ public class InstructorMenu implements IMenu {
             this.run();
         } else {
             System.out.println("You have not been assigned any course modules");
+            System.out.println("""
+                    What would you like to do?\s
+                    (1) Logout""");
+            String action = this.scanner.nextLine();
+
+            if (Objects.equals(action, "1")) {
+                new HomeMenu().run();
+            } else {
+                this.run();
+            }
         }
     }
 

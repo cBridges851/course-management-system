@@ -52,7 +52,7 @@ public class CourseAdministratorCourseModuleSubMenu implements IMenu {
         } else if (Objects.equals(action, "5")) {
             this.removeInstructorFromCourseModule();
         } else if(Objects.equals(action, "6")) {
-            new CourseAdministratorMenu(this.courseAdministrator, this.scanner).runCourseAdministratorMenu();
+            new CourseAdministratorMenu(this.courseAdministrator, this.scanner).run();
         } else {
             this.run();
         }
@@ -124,7 +124,8 @@ public class CourseAdministratorCourseModuleSubMenu implements IMenu {
 
                         if (!StringUtils.isNumeric(instructorNumber)) {
                             System.out.println("Invalid input");
-                            break;
+                            this.addCourseModuleToCourse();
+                            return;
                         }
 
                         String instructorName;
