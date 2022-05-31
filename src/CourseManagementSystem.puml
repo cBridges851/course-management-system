@@ -64,6 +64,7 @@ class Student {
     -courseId: String
     -completedCourseModules: ArrayList<CourseModuleResult>
     -currentCourseModules: CourseModuleResult[8]
+    +Student(String username, String password, String firstName, String middleName, String lastName, int year, int level)
     +Student(String username, String password, String firstName, String middleName, String lastName, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules, CourseModuleResult[] currentCourseModules)
     +<<void>> addCompletedCourseModule(CourseModuleResult completedCourseModule)
     +<<void>> registerForCourse(String courseName)
@@ -96,6 +97,7 @@ class CourseAdministrator {
 
 class Instructor {
     -courseModules: String[]
+    +Instructor(String username, String password, String firstName, String middleName, String lastName)
     +Instructor(String username, String password, String firstName, String middleName, String lastName, String[] courseModuleCodes)
     +<<String[]>> getCourseModules()
     +<<boolean>> addCourseModule(String courseModuleCode)
@@ -137,6 +139,7 @@ class AssignmentLoader {
 class CourseAdministratorLoader {
     -fileHandler: FileHandler
     +<<ArrayList<CourseAdministrator>>> loadAllCourseAdministrators()
+    +<<CourseAdministrator>> loadCourseAdministrator()
 }
 
 class CourseLoader {
@@ -228,7 +231,7 @@ class CourseAdministratorMenu {
     -courseAdministrator: CourseAdministrator
     -scanner: Scanner
     -courses: ArrayList<Course>
-    +CourseAdministratorMenu(Scanner scanner)
+    +CourseAdministratorMenu(Scanner scanner, CourseAdministrator courseAdministrator)
     +<<void>> runCourseAdministratorMenu()
     -<<void>> cancelCourse(ArrayList<Course> courses)
     -<<void>> reopenCourse(ArrayList<Course> courses)
@@ -265,7 +268,7 @@ class InstructorMenu {
     -instructor: Instructor
     -scanner: Scanner
     -courseModules: ArrayList<CourseModule>
-    +InstructorMenu(Scanner scanner)
+    +InstructorMenu(Instructor instructor, Scanner scanner)
     +<<void>> runInstructorMenu()
     -<<void>> addMarksToStudent()
     -<<void>> createAssignment()
@@ -278,7 +281,7 @@ class InstructorMenu {
 class StudentMenu {
     -student: Student
     -scanner: Scanner
-    +StudentMenu(Scanner scanner)
+    +StudentMenu(Student student, Scanner scanner)
     +<<void>> runStudentMenu()
     -<<void>> enrolOntoCourseModule()
     -<<void>> viewCurrentCourseModules()
