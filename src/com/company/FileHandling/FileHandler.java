@@ -28,10 +28,6 @@ public class FileHandler {
                 "./src/com/company/FileHandling/Files/Study/courses.json"
         );
         filenames.put(
-                Filename.RESULTS,
-                "./src/com/company/FileHandling/Files/Study/results.json"
-        );
-        filenames.put(
                 Filename.COURSEADMINISTRATORS,
                 "./src/com/company/FileHandling/Files/Users/course-administrators.json"
         );
