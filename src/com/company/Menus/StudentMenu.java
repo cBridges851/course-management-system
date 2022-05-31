@@ -21,7 +21,8 @@ public class StudentMenu {
     private Student student;
     private final Scanner scanner;
 
-    public StudentMenu(Scanner scanner) {
+    public StudentMenu(Student student, Scanner scanner) {
+        this.student = student;
         this.scanner = scanner;
     }
 
@@ -30,9 +31,6 @@ public class StudentMenu {
      * which directs them to what they can do
      */
     public void runStudentMenu() {
-        System.out.println("Logging in as student");
-        ArrayList<Student> students = new StudentLoader().loadAllStudents();
-        this.student = students.get(1);
         ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
         Course course = null;
@@ -55,7 +53,7 @@ public class StudentMenu {
             if (Objects.equals(action, "1")) {
                 this.registerForCourse();
             } else if (Objects.equals(action, "2")) {
-                new HomeMenu().login();
+                new HomeMenu().runHomeMenu();
             } else {
                 this.runStudentMenu();
             }
@@ -76,7 +74,7 @@ public class StudentMenu {
             } else if (Objects.equals(action, "3")) {
                 this.viewCompletedCourseModules();
             } else if (Objects.equals(action, "4")) {
-                new HomeMenu().login();
+                new HomeMenu().runHomeMenu();
             } else {
                 this.runStudentMenu();
             }
@@ -93,7 +91,7 @@ public class StudentMenu {
             } else if (Objects.equals(action, "2")) {
                 this.viewCompletedCourseModules();
             } else if (Objects.equals(action, "3")) {
-                new HomeMenu().login();
+                new HomeMenu().runHomeMenu();
             } else {
                 this.runStudentMenu();
             }

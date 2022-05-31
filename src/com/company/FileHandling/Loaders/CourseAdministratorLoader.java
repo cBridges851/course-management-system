@@ -35,4 +35,21 @@ public class CourseAdministratorLoader {
         return Objects.requireNonNullElseGet(courseAdministrators, ArrayList::new);
 
     }
+
+    /**
+     * Loads a specific course administrator
+     * @param username the username (identifier) of a course administrator.
+     * @return all the course administrator data for that course administrator.
+     */
+    public CourseAdministrator loadCourseAdministrator(String username) {
+        ArrayList<CourseAdministrator> allCourseAdministrators = this.loadAllCourseAdministrators();
+
+        for (CourseAdministrator courseAdministrator: allCourseAdministrators) {
+            if (courseAdministrator.getUsername().equals(username)) {
+                return courseAdministrator;
+            }
+        }
+
+        return null;
+    }
 }

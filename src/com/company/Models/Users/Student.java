@@ -20,9 +20,19 @@ public class Student extends User {
     private final CourseModuleResult[] currentCourseModules;
 
     public Student(String username, String password, String firstName, String middleName, String lastName,
-                   Calendar dateOfBirth, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules,
+                   int year, int level) {
+        super(username, password, firstName, middleName, lastName);
+        this.year = year;
+        this.level = level;
+        this.courseId = null;
+        this.currentCourseModules = new CourseModuleResult[] {null, null, null, null};
+        this.completedCourseModules = new ArrayList<>();
+
+    }
+    public Student(String username, String password, String firstName, String middleName, String lastName,
+                   int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules,
                    CourseModuleResult[] currentCourseModules) {
-        super(username, password, firstName, middleName, lastName, dateOfBirth);
+        super(username, password, firstName, middleName, lastName);
         this.year = year;
         this.level = level;
         this.courseId = courseId;

@@ -20,7 +20,8 @@ public class InstructorMenu {
     private final Scanner scanner;
     private ArrayList<CourseModule> courseModules;
 
-    public InstructorMenu(Scanner scanner) {
+    public InstructorMenu(Instructor instructor, Scanner scanner) {
+        this.instructor = instructor;
         this.scanner = scanner;
     }
 
@@ -29,11 +30,8 @@ public class InstructorMenu {
      * which directs them to what they can do
      */
     public void runInstructorMenu() {
-        System.out.println("Logging in as instructor");
         courseModules = new ArrayList<>();
-
-        this.instructor = new InstructorLoader().loadAllInstructors().get(1);
-        String[] courseModuleCodes = instructor.getCourseModules();
+        String[] courseModuleCodes = this.instructor.getCourseModules();
 
         for (String courseModuleCode: courseModuleCodes) {
             if (courseModuleCode != null) {
@@ -96,7 +94,7 @@ public class InstructorMenu {
             } else if (Objects.equals(action, "4")) {
                 this.markStudentAsCompletedModule();
             } else if (Objects.equals(action, "5")) {
-                new HomeMenu().login();
+                new HomeMenu().runHomeMenu();
             } else {
                 this.runInstructorMenu();
             }

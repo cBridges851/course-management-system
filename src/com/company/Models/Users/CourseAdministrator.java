@@ -18,8 +18,8 @@ import java.util.*;
  */
 public class CourseAdministrator extends User {
 
-    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
-        super(username, password, firstName, middleName, lastName, dateOfBirth);
+    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName) {
+        super(username, password, firstName, middleName, lastName);
     }
 
     /**

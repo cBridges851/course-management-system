@@ -52,7 +52,7 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if (Objects.equals(action, "5")) {
             this.removeInstructorFromCourseModule();
         } else if(Objects.equals(action, "6")) {
-            new CourseAdministratorMenu(this.scanner).runCourseAdministratorMenu();
+            new CourseAdministratorMenu(this.courseAdministrator, this.scanner).runCourseAdministratorMenu();
         } else {
             this.runCourseModuleSubMenu();
         }

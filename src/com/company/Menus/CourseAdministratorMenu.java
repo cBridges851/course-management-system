@@ -22,7 +22,8 @@ public class CourseAdministratorMenu {
     private final Scanner scanner;
     private ArrayList<Course> courses;
 
-    public CourseAdministratorMenu(Scanner scanner) {
+    public CourseAdministratorMenu(CourseAdministrator courseAdministrator, Scanner scanner) {
+        this.courseAdministrator = courseAdministrator;
         this.scanner = scanner;
     }
 
@@ -79,7 +80,7 @@ public class CourseAdministratorMenu {
         } else if (Objects.equals(action, "8")) {
             this.promoteStudent();
         } else if (Objects.equals(action, "9")) {
-            new HomeMenu().login();
+            new HomeMenu().runHomeMenu();
         } else {
             this.runCourseAdministratorMenu();
         }
