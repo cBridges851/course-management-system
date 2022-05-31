@@ -14,6 +14,9 @@ import com.company.Models.Users.Student;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * A class that is responsible for allowing users to login.
+ */
 public class LoginHandler {
     private final Scanner scanner;
 
@@ -21,6 +24,9 @@ public class LoginHandler {
         this.scanner = scanner;
     }
 
+    /**
+     * The initial login menu where the user selects their user type.
+     */
     public void login() {
         String userType = "";
         boolean isValidUserType = false;
@@ -50,6 +56,9 @@ public class LoginHandler {
         }
     }
 
+    /**
+     * Allows students to login
+     */
     private void studentLogin() {
         System.out.println("Student Login");
         System.out.print("Username: ");
@@ -74,6 +83,9 @@ public class LoginHandler {
         new StudentMenu(student, this.scanner).runStudentMenu();
     }
 
+    /**
+     * Allows instructors to login
+     */
     private void instructorLogin() {
         System.out.println("Instructor Login");
         System.out.print("Username: ");
@@ -98,6 +110,9 @@ public class LoginHandler {
         new InstructorMenu(instructor, this.scanner).runInstructorMenu();
     }
 
+    /**
+     * Allows course administrators to login.
+     */
     private void courseAdministratorLogin() {
         System.out.println("Course Administrator Login");
         System.out.print("Username: ");

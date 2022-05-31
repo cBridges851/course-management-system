@@ -15,6 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * A class that is responsible for creating accounts.
+ */
 public class AccountCreator {
     private final Scanner scanner;
 
@@ -22,6 +25,9 @@ public class AccountCreator {
         this.scanner = scanner;
     }
 
+    /**
+     * Gets the details from users to create their account.
+     */
     public void createAccount() {
         boolean isValidUsername = false;
         String username = "";
@@ -97,14 +103,40 @@ public class AccountCreator {
         new HomeMenu().runHomeMenu();
     }
 
+    /**
+     * Creates a new student account.
+     * @param username the given identifier of a student.
+     * @param password what students will use to prove that they are authorised to access the account.
+     * @param firstName the first name/forename of the new student.
+     * @param middleName the middle name of the new student, may be blank.
+     * @param lastName the last name/surname of the new student
+     * @param year the year that the student is in. e.g. year 1, 2, or 3.
+     * @param level the level that they are currently on in the course. e.g. level 4, 5, or 6.
+     */
     private void createStudent(String username, String password, String firstName, String middleName, String lastName, int year, int level) {
         new StudentSaver().saveStudent(new Student(username, password, firstName, middleName, lastName, year, level));
     }
 
+    /**
+     * Creates a new instructor account
+     * @param username the given identifier of an instructor.
+     * @param password what instructors will use to prove that they are authorised to access the account.
+     * @param firstName the first name/forename of the new instructor.
+     * @param middleName the middle name of the new instructor, may be blank.
+     * @param lastName the last name/surname of the new instructor.
+     */
     private void createInstructor(String username, String password, String firstName, String middleName, String lastName) {
         new InstructorSaver().saveInstructor(new Instructor(username, password, firstName, middleName, lastName));
     }
 
+    /**
+     * Creates a new course administrator account
+     * @param username the given identifier of a course administrator.
+     * @param password what course administrators will use to prove that they are authorised to access the account.
+     * @param firstName the first name/forename of the new course administrator.
+     * @param middleName the middle name of the new course administrator, may be blank.
+     * @param lastName the last name/surname of the new course administrator.
+     */
     private void createCourseAdministrator(String username, String password, String firstName, String middleName, String lastName) {
         new CourseAdministratorSaver().saveCourseAdministrator(new CourseAdministrator(username, password, firstName, middleName, lastName));
     }
