@@ -3,7 +3,6 @@ package com.company.FileHandling.Savers;
 import com.company.FileHandling.FileHandler;
 import com.company.FileHandling.Filename;
 import com.company.FileHandling.Loaders.CourseModuleLoader;
-import com.company.Models.Study.Course;
 import com.company.Models.Study.CourseModule;
 import com.google.gson.Gson;
 

@@ -9,7 +9,6 @@ import com.company.Models.Study.Assignment;
 import com.company.Models.Study.CourseModule;
 import com.company.Models.Study.CourseModuleResult;
 
-import java.util.Calendar;
 import java.util.Objects;
 
 /**
@@ -18,9 +17,14 @@ import java.util.Objects;
 public class Instructor extends User {
     private final String[] courseModuleCodes;
 
+    public Instructor(String username, String password, String firstName, String middleName, String lastName) {
+        super(username, password, firstName, middleName, lastName);
+        this.courseModuleCodes = new String[] {null, null, null, null};
+    }
+
     public Instructor(String username, String password, String firstName, String middleName, String lastName,
-                      Calendar dateOfBirth, String[] courseModuleCodes) {
-        super(username, password, firstName, middleName, lastName, dateOfBirth);
+                      String[] courseModuleCodes) {
+        super(username, password, firstName, middleName, lastName);
         this.courseModuleCodes = new String[] {null, null, null, null};
 
         System.arraycopy(courseModuleCodes, 0, this.courseModuleCodes, 0, courseModuleCodes.length);

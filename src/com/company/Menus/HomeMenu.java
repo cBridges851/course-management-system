@@ -1,5 +1,8 @@
 package com.company.Menus;
 
+import com.company.Menus.Accounts.AccountCreator;
+import com.company.Menus.Accounts.LoginHandler;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -7,29 +10,22 @@ import java.util.Scanner;
  * The menu that all users will see when opening the application
  */
 public class HomeMenu {
+    private final Scanner scanner = new Scanner(System.in);
     /**
      * Method that allows the user to enter the program.
      */
-    public void login() {
+    public void runHomeMenu() {
         System.out.println("Welcome to the Course Management System!");
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("""
-                Who are you?\s
-                (1) Course Administrator\s
-                (2) Instructor\s
-                (3) Student""");
-        String action = scanner.nextLine();
-
+                What would you like to do?\s
+                (1) Create an account
+                (2) Login""");
+        String action = this.scanner.nextLine();
         if (Objects.equals(action, "1")) {
-            new CourseAdministratorMenu(scanner).runCourseAdministratorMenu();
+            new AccountCreator(this.scanner).createAccount();
         } else if (Objects.equals(action, "2")) {
-            new InstructorMenu(scanner).runInstructorMenu();
-        } else if (Objects.equals(action, "3")) {
-            new StudentMenu(scanner).runStudentMenu();
-        } else {
-            System.out.println("User type not recognised");
-            this.login();
+            new LoginHandler(this.scanner).login();
         }
     }
 }

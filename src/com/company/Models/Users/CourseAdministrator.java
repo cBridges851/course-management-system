@@ -18,8 +18,8 @@ import java.util.*;
  */
 public class CourseAdministrator extends User {
 
-    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth) {
-        super(username, password, firstName, middleName, lastName, dateOfBirth);
+    public CourseAdministrator(String username, String password, String firstName, String middleName, String lastName) {
+        super(username, password, firstName, middleName, lastName);
     }
 
     /**
@@ -283,9 +283,10 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * Removes course modules from courses
-     * @param course the course to remove the module from
-     * @param courseModule the course module that needs to be removed
+     * Removes course modules from courses.
+     * @param courses all the courses in the system.
+     * @param course the course to remove the module from.
+     * @param courseModule the course module that needs to be removed.
      */
     public void removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule) {
         course.removeCourseModule(courseModule.getCourseModuleCode());
@@ -294,9 +295,9 @@ public class CourseAdministrator extends User {
     }
 
     /**
-     * Removes a course module permanently from the system
-     * @param courses the courses to check through to see if the course module is in another course
-     * @param courseModule the course module to remove
+     * Removes a course module permanently from the system.
+     * @param courses the courses to check through to see if the course module is in another course.
+     * @param courseModule the course module to remove.
      */
     private void removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule) {
         boolean isInAnotherCourse = false;

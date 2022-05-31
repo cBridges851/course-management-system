@@ -19,7 +19,7 @@ public class CourseAdministratorSaver {
      * Saves all the course administrators to a file.
      * @param courseAdministrators all the course administrators to save.
      */
-    public void saveAllCourseAdminstrators(ArrayList<CourseAdministrator> courseAdministrators) {
+    public void saveAllCourseAdministrators(ArrayList<CourseAdministrator> courseAdministrators) {
         Gson gson = new Gson();
         String serialisedCourseAdministrators = gson.toJson(courseAdministrators);
         fileHandler.writeFile(Filename.COURSEADMINISTRATORS, serialisedCourseAdministrators);
@@ -45,6 +45,6 @@ public class CourseAdministratorSaver {
             courseAdministrators.add(courseAdministrator);
         }
 
-        this.saveAllCourseAdminstrators(courseAdministrators);
+        this.saveAllCourseAdministrators(courseAdministrators);
     }
 }

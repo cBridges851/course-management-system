@@ -11,16 +11,13 @@ public abstract class User {
     private final String firstName;
     private final String middleName;
     private final String lastName;
-    private final Calendar dateOfBirth;
 
-    public User(String username, String password, String firstName, String middleName, String lastName,
-                Calendar dateOfBirth) {
+    public User(String username, String password, String firstName, String middleName, String lastName) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
     }
 
     /**
@@ -56,12 +53,5 @@ public abstract class User {
      */
     public String getLastName() {
         return this.lastName;
-    }
-
-    /**
-     * @return the user's birthday.
-     */
-    public Calendar getDateOfBirth() {
-        return this.dateOfBirth;
     }
 }
