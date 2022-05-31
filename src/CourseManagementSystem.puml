@@ -6,7 +6,7 @@ namespace Models.Study #CC99FF {
     class Course {
         -courseId: String
         -name: String
-        -courseModuleCodes: courseModuleCodes
+        -courseModuleCodes: HashSet<String>
         -isAvailable: boolean
         +Course(String name, HashSet<String> courseModuleCodes, boolean isAvailable)
         +Course(String courseId, String name, HashSet<String> courseModuleCodes, boolean isAvailable)
@@ -47,12 +47,13 @@ namespace Models.Study #CC99FF {
         +<<void>>addAssignmentResults(String assignmentId)
     }
 
-    ' Assignments could be across multiple course modules, so would not be destroyed if the course module was
+    ' Aggregation - Assignments could be across multiple course modules, so would not be destroyed if the course module was
     CourseModule o-[bold,#421A55]- "0..*" Assignment
 
-    ' A course module could be in multiple courses, so would not be destroyed if the course was
+    ' Aggregation - A course module could be in multiple courses, so would not be destroyed if the course was
     Course o-[bold,#421A55]- "0..*" CourseModule
 
+    ' Association - The course module calls the AssignmentLoader
     CourseModule -[bold,#421A55]> "1" FileHandling.Loaders.AssignmentLoader
 }
 
@@ -76,7 +77,6 @@ namespace Models.Users #A9D1F7 {
         +Student(String username, String password, String firstName, String middleName, String lastName, int year, int level)
         +Student(String username, String password, String firstName, String middleName, String lastName, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules, CourseModuleResult[] currentCourseModules)
         +<<void>> addCompletedCourseModule(CourseModuleResult completedCourseModule)
-        +<<void>> registerForCourse(String courseName)
         +<<void>> enrolForCourseModule(String courseModuleCode)
         +<<void>> removeCurrentCourseModule(CourseModuleResult courseModule)
         +<<void>> removeAllCurrentCourseModules()
@@ -99,19 +99,19 @@ namespace Models.Users #A9D1F7 {
         +<<void>> assignInstructorToCourseModule(CourseModule courseModule, Instructor instructor)
         +<<void>> removeInstructorFromCourseModule(CourseModule courseModule, Instructor instructor)
         +<<void>> removeCourseModuleFromCourse(ArrayList<Course> courses, Course course, CourseModule courseModule)
-        +<<void>> removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule)
+        -<<void>> removeCourseModuleFromSystem(ArrayList<Course> courses, CourseModule courseModule)
         +<<void>> promoteStudent(Student student)
         +<<void>> removeStudentFromCourse(Student student)
     }
 
     class Instructor {
-        -courseModules: String[]
+        -courseModuleCodes: String[]
         +Instructor(String username, String password, String firstName, String middleName, String lastName)
         +Instructor(String username, String password, String firstName, String middleName, String lastName, String[] courseModuleCodes)
         +<<String[]>> getCourseModules()
         +<<boolean>> addCourseModule(String courseModuleCode)
         +<<void>> removeCourseModule(String courseModuleCode)
-        +<<void>> createAssignment(String courseModuleCode, String assignmentName, int mark)
+        +<<void>> createAssignment(String courseModuleCode, String assignmentName, int totalPossibleMarks)
         -<<void>> updateExistingStudents(CourseModule courseModule, Assignment assignment)
         +<<void>> addMark(Student student, CourseModule courseModule, Assignment assignment, int mark)
         +<<void>> markStudentAsCompleted(Student student, CourseModule courseModule)
@@ -119,40 +119,48 @@ namespace Models.Users #A9D1F7 {
         +<<void>> updateAssignmentMarks(CourseModule courseModule, Assignment assignment, int marks)
     }
 
-    ' User is an abstract class, and student, instructor and course administrator are children of it to get the basic info (i.e. username, password, first name, middle name, last name, date of birth)
+    ' User is an abstract class, and student, instructor and course administrator are children of it to get the basic info (i.e. username, password, first name, middle name, last name)
     User <|-- Student
     User <|-- Instructor
     User <|-- CourseAdministrator
 
-    ' Student relationships
-    ' The student has one course, or else they're not enrolled on one
+    ' The student has one course, or else they're not enrolled on one. Course would not be destroyed if the student was.
     Student o-[bold,#3B3B6B]- "0..1" Models.Study.Course
+    ' Composition - if student is destroyed, so will their results.
     Student *-[bold,#3B3B6B]- "0..*" Models.Study.CourseModuleResult
 
-    ' Instructor relationships
+    ' Aggregation - if instructor was destroyed, the course modules wouldn't.
     Instructor o-[bold,#3B3B6B]- "0..4" Models.Study.CourseModule
 
+    ' Association - Course Administrator and student call the course loader.
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Loaders.CourseLoader
     Student -[bold,#3B3B6B]> "1" FileHandling.Loaders.CourseLoader
 
+    ' Association - Course Administrator, Instructor and Student call the course module loader.
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Loaders.CourseModuleLoader
     Instructor -[bold,#3B3B6B]> "1" FileHandling.Loaders.CourseModuleLoader
     Student -[bold,#3B3B6B]> "1" FileHandling.Loaders.CourseModuleLoader
 
+    ' Association - instructor and student call the student loader.
     Instructor -[bold,#3B3B6B]> "1" FileHandling.Loaders.StudentLoader
     Student -[bold,#3B3B6B]> "1" FileHandling.Loaders.StudentLoader
 
+    ' Association - instructor calls the assignment saver.
     Instructor -[bold,#3B3B6B]> "1" FileHandling.Savers.AssignmentSaver
 
+    ' Association - course administrator and instructor call the course module saver.
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Savers.CourseModuleSaver
     Instructor -[bold,#3B3B6B]> "1" FileHandling.Savers.CourseModuleSaver
 
+    ' Association - course administrator calls the course saver and instructor saver.
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Savers.CourseSaver
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Savers.InstructorSaver
 
+    ' Association - course administrator and instructor call the student saver.
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Savers.StudentSaver
     Instructor -[bold,#3B3B6B]> "1" FileHandling.Savers.StudentSaver
 
+    ' Association - course administrator calls the assignment loader
     CourseAdministrator -[bold,#3B3B6B]> "1" FileHandling.Loaders.AssignmentLoader
 }
 
@@ -175,6 +183,7 @@ namespace FileHandling #B4F0A7 {
         +<<String>> loadFile(Filename filename)
     }
 
+    ' Association - FileHandler utilises the Filename enum
     FileHandler --> Filename
 }
 
@@ -189,14 +198,14 @@ namespace FileHandling.Loaders #FFFFBF {
     class CourseAdministratorLoader {
         -fileHandler: FileHandler
         +<<ArrayList<CourseAdministrator>>> loadAllCourseAdministrators()
-        +<<CourseAdministrator>> loadCourseAdministrator()
+        +<<CourseAdministrator>> loadCourseAdministrator(String username)
     }
 
     class CourseLoader {
         -fileHandler: FileHandler
         +<<ArrayList<Course>>> loadAllCourses()
         +<<ArrayList<Course>>> loadAllAvailableCourses()
-        +<<Course>> loadCourse(String name)
+        +<<Course>> loadCourse(String courseId)
     }
 
     class CourseModuleLoader {
@@ -217,7 +226,7 @@ namespace FileHandling.Loaders #FFFFBF {
         +<<Student>> loadStudent(String username)
     }
 
-    ' All the loaders will have access to the FileHandler, but the FileHandler won't have access to the loader/saver
+    ' Association - All the loaders call the FileHandler and will have access to it, but the FileHandler won't have access to the loader
     AssignmentLoader -[bold,#F4B404]> "0..1" FileHandling.FileHandler
     CourseAdministratorLoader -[bold,#F4B404]> "0..1" FileHandling.FileHandler
     CourseLoader -[bold,#F4B404]> "0..1" FileHandling.FileHandler
@@ -250,7 +259,7 @@ namespace FileHandling.Savers #FFDFBE {
         -fileHandler: FileHandler
         +<<void>> saveAllCourses(ArrayList<Course> courses)
         +<<void>> saveCourse(Course course)
-        +<<void>> deleteCourseAndSave(Course course))
+        +<<void>> deleteCourseAndSave(Course course)
     }
 
     class InstructorSaver {
@@ -270,6 +279,7 @@ namespace FileHandling.Savers #FFDFBE {
         +<<void>> saveStudent(Student student)
     }
 
+    ' Association - All the savers call the FileHandler and will have access to it, but the FileHandler won't have access to the saver
     AssignmentSaver -[bold,#FE8B01]> "0..1" FileHandling.FileHandler
     CourseAdministratorSaver -[bold,#FE8B01]> "0..1" FileHandling.FileHandler
     CourseSaver -[bold,#FE8B01]> "0..1" FileHandling.FileHandler
@@ -278,19 +288,23 @@ namespace FileHandling.Savers #FFDFBE {
     ResultsSlipSaver -[bold,#FE8B01]> "0..1" FileHandling.FileHandler
     StudentSaver -[bold,#FE8B01]> "0..1" FileHandling.FileHandler
 
+    ' Association - the assignment saver calls the assignment loader
     AssignmentSaver -[bold,#FE8B01]> "1" FileHandling.Loaders.AssignmentLoader
 
+    ' Association - the course administrator saver calls the course administrator loader
     CourseAdministratorSaver -[bold,#FE8B01]> "1" FileHandling.Loaders.CourseAdministratorLoader
 
+    ' Association - the course saver calls the course loader
     CourseSaver -[bold,#FE8B01]> "1" FileHandling.Loaders.CourseLoader
 
+    ' Association - the course module saver calls the course module loader
     CourseModuleSaver -[bold,#FE8B01]> "1" FileHandling.Loaders.CourseModuleLoader
 
+    ' Association - the student saver calls the student loader
     StudentSaver -[bold,#FE8B01]> "1" FileHandling.Loaders.StudentLoader
 }
 
 namespace Menus #FFB1B0 {
-    'Menus
     class CourseAdministratorCourseModuleSubMenu {
         -courseAdministrator: CourseAdministrator
         -scanner: Scanner
@@ -310,37 +324,38 @@ namespace Menus #FFB1B0 {
         -courseAdministrator: CourseAdministrator
         -scanner: Scanner
         -courses: ArrayList<Course>
-        +CourseAdministratorMenu(Scanner scanner, CourseAdministrator courseAdministrator)
+        +CourseAdministratorMenu(CourseAdministrator courseAdministrator, Scanner scanner)
         +<<void>> runCourseAdministratorMenu()
-        -<<void>> cancelCourse(ArrayList<Course> courses)
-        -<<void>> reopenCourse(ArrayList<Course> courses)
-        -<<void>> addCourse(ArrayList<Course> courses)
-        -<<void>> deleteCourse(ArrayList<Course> courses)
-        -<<void>> renameCourse(ArrayList<Course> courses)
+        -<<void>> cancelCourse()
+        -<<void>> reopenCourse()
+        -<<void>> addCourse()
+        -<<void>> deleteCourse()
+        -<<void>> renameCourse()
         -<<void>> generateResultsSlip()
         -<<void>> promoteStudent()
     }
 
     class HomeMenu {
-        +<<void>> login()
+        -scanner: Scanner
+        +<<void>> runHomeMenu()
     }
 
     class AccountCreator {
         -scanner: Scanner
         +AccountCreator(Scanner scanner)
         +createAccount()
-        -createStudent(String username, String password, String firstName, String middleName, String lastName, int year, int level)
-        -createInstructor(String username, String password, String firstName, String middleName, String lastName)
-        -createCourseAdministrator(String username, String password, String firstName, String middleName, String lastName)
+        -<<void>> createStudent(String username, String password, String firstName, String middleName, String lastName, int year, int level)
+        -<<void>> createInstructor(String username, String password, String firstName, String middleName, String lastName)
+        -<<void>> createCourseAdministrator(String username, String password, String firstName, String middleName, String lastName)
     }
 
     class LoginHandler {
         -scanner: Scanner
         +LoginHandler(Scanner scanner)
         +login()
-        -studentLogin()
-        -instructorLogin()
-        -courseAdministratorLogin()
+        -<<void>> studentLogin()
+        -<<void>> instructorLogin()
+        -<<void>> courseAdministratorLogin()
     }
 
     class InstructorMenu {
@@ -362,64 +377,94 @@ namespace Menus #FFB1B0 {
         -scanner: Scanner
         +StudentMenu(Student student, Scanner scanner)
         +<<void>> runStudentMenu()
+        -<<void>> registerForCourse()
         -<<void>> enrolOntoCourseModule()
         -<<void>> viewCurrentCourseModules()
         -<<void>> viewCompletedCourseModules()
     }
 
+    ' Association - Home menu calls the account creator to create an account.
     HomeMenu --> "1" AccountCreator
+    ' Association - the account creator calls the home menu after an account is created.
     AccountCreator --> "1" HomeMenu
+    ' Association - the home menu calls the login handler when the user wants to log in.
     HomeMenu --> "1" LoginHandler
+    ' Association - the login handler calls the course administrator menu if a course administrator logs in.
     LoginHandler --> "1" CourseAdministratorMenu
+    ' Association - the course administrator menu calls the home menu when a course administrator logs out.
     CourseAdministratorMenu --> HomeMenu
+    ' Association - the login handler calls the instructor menu of an instructor logs in.
     LoginHandler --> "1" InstructorMenu
+    ' Association - the instructor menu calls the home menu when an instructor logs out.
     InstructorMenu --> "1" HomeMenu
+    ' Association - the login handler calls the student menu when a student logs in.
     LoginHandler --> "1" StudentMenu
+    ' Association - student menu calls the home menu when a student logs out.
     StudentMenu --> "1" HomeMenu
+    ' Association - the course administrator menu calls the sub menu when the course administrator wants to update course modules.
     CourseAdministratorMenu --> "1" CourseAdministratorCourseModuleSubMenu
+    ' Association - the course administrator sub menu calls the original menu when the course administrator has finished updating the course modules.
     CourseAdministratorCourseModuleSubMenu --> "1" CourseAdministratorMenu
 
+    ' Association - the instructor menu and student menu call the assignment loader for displaying and editing specific assignments.
     InstructorMenu -[bold,#B22032]> "1" FileHandling.Loaders.AssignmentLoader
     StudentMenu -[bold,#B22032]> "1" FileHandling.Loaders.AssignmentLoader
 
-    CourseAdministratorMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseAdministratorLoader
+    ' Association - the instructor menu and student menu call the course loader for displaying and editing specific assignments.
     InstructorMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseLoader
     StudentMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseLoader
 
+    ' Association - the course administrator menu, instructor menu, and student menu call the course module loader for displaying and editing specific assignments.
     CourseAdministratorCourseModuleSubMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseModuleLoader
     InstructorMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseModuleLoader
     StudentMenu -[bold,#B22032]> "1" FileHandling.Loaders.CourseModuleLoader
 
+    ' Aggregation - course, course module and course administrator are part of the course module sub menu but would not be destroyed if the sub menu was destroyed.
     CourseAdministratorCourseModuleSubMenu o-[bold,#B22032]- "0..*" Models.Study.Course
     CourseAdministratorCourseModuleSubMenu o-[bold,#B22032]- "0..*" Models.Study.CourseModule
     CourseAdministratorCourseModuleSubMenu o-[bold,#B22032]- "0..1" Models.Users.CourseAdministrator
 
+    ' Association - the account creator calls the student saver, instructor saver, and course administrator saver to save the users to the JSON files.
     AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.StudentSaver
     AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.InstructorSaver
     AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.CourseAdministratorSaver
 
+    ' Association - the account creator calls the student loader, instructor loader, and course administrator loader to check there are no duplicates.
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.StudentLoader
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.InstructorLoader
+    AccountCreator -[bold,#B22032]> "1" FileHandling.Savers.CourseAdministratorLoader
+
+    ' Association - the login handler calls the student loader, instructor loader, and course administrator loader for checking if the user is authorised.
     LoginHandler -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader
     LoginHandler -[bold,#B22032]> "1" FileHandling.Loaders.InstructorLoader
     LoginHandler -[bold,#B22032]> "1" FileHandling.Loaders.CourseAdministratorLoader
 
-    ' CourseAdministratorMenu
+    ' Aggregation - the course administrator menu could have 0 to many courses, but these would not be destroyed if the menu was.
     CourseAdministratorMenu o-[bold,#B22032]- "0..*" Models.Study.Course
+    ' Aggregation - the course administrator menu could have 0 or 1 course administrator, and this would not get destroyed if the menu was.
     CourseAdministratorMenu o-[bold,#B22032]- "0..1" Models.Users.CourseAdministrator
+    ' Association - the course administrator menu calls methods on the student.
     CourseAdministratorMenu -[bold,#B22032]> Models.Users.Student
+    ' Association - the course administrator menu calls the result slip saver to generate a results slip for a student.
     CourseAdministratorMenu -[bold,#B22032]> FileHandling.Savers.ResultsSlipSaver
+    ' Association - the course administrator menu calls the student loader to get a student to generate a results slip for.
     CourseAdministratorMenu -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader
 
-    ' InstructorMenu
+    ' Aggregation - an instructor menu can have between 0 and 4 course modules, and these wouldn't be destroyed if the instructor menu was.
     InstructorMenu o-[bold,#B22032]- "0..4" Models.Study.CourseModule
+    ' Aggregation - the instructor menu could have 0 or 1 instructor, and this would not get destroyed if the menu was.
     InstructorMenu o-[bold,#B22032]- "0..1" Models.Users.Instructor
-    InstructorMenu -[bold,#B22032]> "1" FileHandling.Loaders.InstructorLoader
+    ' Association - the instructor menu calls the student loader for adding marks
     InstructorMenu -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader
 
-    ' StudentMenu
+    ' Aggregation - a student menu can have 0 to many course modules, and these wouldn't be destroyed if the menu was
     StudentMenu o-[bold,#B22032]- "0..*" Models.Study.CourseModule
-    StudentMenu o-[bold,#B22032]- Models.Users.Student
-    StudentMenu -[bold,#B22032]> "1" FileHandling.Loaders.StudentLoader
+    'Aggregation - the student menu can have 0 or 1 student, and this would not get destroyed if the menu was
+    StudentMenu o-[bold,#B22032]- "0..1" Models.Users.Student
+
+    ' Association - the student menu calls the course module saver when the student enrols onto a course module
     StudentMenu -[bold,#B22032]> "1" FileHandling.Savers.CourseModuleSaver
+    ' Association - the student menu calls the student saver when changes are made
     StudentMenu -[bold,#B22032]> "1" FileHandling.Savers.StudentSaver
 }
 @enduml

@@ -1,6 +1,5 @@
 package com.company.Menus;
 
-import com.company.FileHandling.Loaders.CourseAdministratorLoader;
 import com.company.FileHandling.Loaders.StudentLoader;
 import com.company.FileHandling.Savers.ResultsSlipSaver;
 import com.company.Models.Study.Course;
@@ -18,7 +17,7 @@ import java.util.Scanner;
  * Class that handles the interactions for the course administrator.
  */
 public class CourseAdministratorMenu {
-    private CourseAdministrator courseAdministrator;
+    private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private ArrayList<Course> courses;
 
@@ -33,8 +32,6 @@ public class CourseAdministratorMenu {
      */
     public void runCourseAdministratorMenu() {
         System.out.println("Logging in as course administrator");
-
-        this.courseAdministrator = new CourseAdministratorLoader().loadAllCourseAdministrators().get(0);
         this.courses = courseAdministrator.getAllCourses();
 
         AsciiTable asciiTable = new AsciiTable();

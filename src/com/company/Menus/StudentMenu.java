@@ -18,7 +18,7 @@ import java.util.*;
  * Class that handles the interactions for the students.
  */
 public class StudentMenu {
-    private Student student;
+    private final Student student;
     private final Scanner scanner;
 
     public StudentMenu(Student student, Scanner scanner) {

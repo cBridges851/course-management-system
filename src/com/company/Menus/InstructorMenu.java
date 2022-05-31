@@ -16,7 +16,7 @@ import java.util.*;
  * Class that handles the interactions for instructors.
  */
 public class InstructorMenu {
-    private Instructor instructor;
+    private final Instructor instructor;
     private final Scanner scanner;
     private ArrayList<CourseModule> courseModules;
 
