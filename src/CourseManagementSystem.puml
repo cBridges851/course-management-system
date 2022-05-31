@@ -243,6 +243,24 @@ class HomeMenu {
     +<<void>> login()
 }
 
+class AccountCreator {
+    -scanner: Scanner
+    +AccountCreator(Scanner scanner)
+    +createAccount()
+    -createStudent(String username, String password, String firstName, String middleName, String lastName, int year, int level)
+    -createInstructor(String username, String password, String firstName, String middleName, String lastName)
+    -createCourseAdministrator(String username, String password, String firstName, String middleName, String lastName)
+}
+
+class LoginHandler {
+    -scanner: Scanner
+    +LoginHandler(Scanner scanner)
+    +login()
+    -studentLogin()
+    -instructorLogin()
+    -courseAdministratorLogin()
+}
+
 class InstructorMenu {
     -instructor: Instructor
     -scanner: Scanner
@@ -289,9 +307,15 @@ Student o-- "0..1" Course
 Student *-- "0..*" CourseModuleResult
 
 ' Menus
-HomeMenu --> "1" CourseAdministratorMenu
-HomeMenu --> "1" InstructorMenu
-HomeMenu --> "1" StudentMenu
+HomeMenu --> "1" AccountCreator
+AccountCreator --> "1" HomeMenu
+HomeMenu --> "1" LoginHandler
+LoginHandler --> "1" CourseAdministratorMenu
+CourseAdministratorMenu --> HomeMenu
+LoginHandler --> "1" InstructorMenu
+InstructorMenu --> "1" HomeMenu
+LoginHandler --> "1" StudentMenu
+StudentMenu --> "1" HomeMenu
 CourseAdministratorMenu --> "1" CourseAdministratorCourseModuleSubMenu
 CourseAdministratorCourseModuleSubMenu --> "1" CourseAdministratorMenu
 
@@ -359,6 +383,15 @@ StudentSaver "1" <-- Instructor
 CourseAdministratorCourseModuleSubMenu o-- "0..*" Course
 CourseAdministratorCourseModuleSubMenu o-- "0..*" CourseModule
 CourseAdministratorCourseModuleSubMenu o-- "0..1" CourseAdministrator
+
+AccountCreator --> "1" StudentSaver
+AccountCreator --> "1" InstructorSaver
+AccountCreator --> "1" CourseAdministratorSaver
+
+LoginHandler --> "1" StudentLoader
+LoginHandler --> "1" InstructorLoader
+LoginHandler --> "1" CourseAdministratorLoader
+
 
 ' CourseAdministratorMenu
 CourseAdministratorMenu o-- "0..*" Course
