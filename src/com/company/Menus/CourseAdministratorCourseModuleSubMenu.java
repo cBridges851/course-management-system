@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Menu that handles tasks specifically about course modules.
  */
-public class CourseAdministratorCourseModuleSubMenu {
+public class CourseAdministratorCourseModuleSubMenu implements IMenu {
     private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private final ArrayList<Course> courses;
@@ -29,7 +29,7 @@ public class CourseAdministratorCourseModuleSubMenu {
     /**
      * Displays options in regards to modules.
      */
-    public void runCourseModuleSubMenu() {
+    public void run() {
         System.out.println("""
                 What would you like to do?\s
                 (1) Add a course module to a course\s
@@ -54,7 +54,7 @@ public class CourseAdministratorCourseModuleSubMenu {
         } else if(Objects.equals(action, "6")) {
             new CourseAdministratorMenu(this.courseAdministrator, this.scanner).runCourseAdministratorMenu();
         } else {
-            this.runCourseModuleSubMenu();
+            this.run();
         }
     }
 
@@ -172,7 +172,7 @@ public class CourseAdministratorCourseModuleSubMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseModuleSubMenu();
+        this.run();
     }
 
     /**
@@ -257,7 +257,7 @@ public class CourseAdministratorCourseModuleSubMenu {
                 }
             }
 
-            this.runCourseModuleSubMenu();
+            this.run();
         }
     }
 
@@ -289,7 +289,7 @@ public class CourseAdministratorCourseModuleSubMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseModuleSubMenu();
+        this.run();
     }
 
     /**
@@ -352,7 +352,7 @@ public class CourseAdministratorCourseModuleSubMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseModuleSubMenu();
+        this.run();
     }
 
     /**
@@ -382,7 +382,7 @@ public class CourseAdministratorCourseModuleSubMenu {
 
                     if (instructors.size() == 0) {
                         System.out.println("There are no instructors on this course module");
-                        runCourseModuleSubMenu();
+                        run();
                         return;
                     }
 
@@ -431,7 +431,7 @@ public class CourseAdministratorCourseModuleSubMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseModuleSubMenu();
+        this.run();
     }
 
     /**

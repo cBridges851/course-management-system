@@ -16,7 +16,7 @@ import java.util.Scanner;
 /**
  * Class that handles the interactions for the course administrator.
  */
-public class CourseAdministratorMenu {
+public class CourseAdministratorMenu implements IMenu {
     private final CourseAdministrator courseAdministrator;
     private final Scanner scanner;
     private ArrayList<Course> courses;
@@ -30,7 +30,7 @@ public class CourseAdministratorMenu {
      * The initial method that is called when a course administrator is logged in,
      * which directs them to what they can do
      */
-    public void runCourseAdministratorMenu() {
+    public void run() {
         System.out.println("Logging in as course administrator");
         this.courses = courseAdministrator.getAllCourses();
 
@@ -70,16 +70,15 @@ public class CourseAdministratorMenu {
         } else if (Objects.equals(action, "5")) {
             this.renameCourse();
         } else if(Objects.equals(action, "6")) {
-            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, this.courses)
-                    .runCourseModuleSubMenu();
+            new CourseAdministratorCourseModuleSubMenu(this.scanner, this.courseAdministrator, this.courses).run();
         } else if (Objects.equals(action, "7")) {
             this.generateResultsSlip();
         } else if (Objects.equals(action, "8")) {
             this.promoteStudent();
         } else if (Objects.equals(action, "9")) {
-            new HomeMenu().runHomeMenu();
+            new HomeMenu().run();
         } else {
-            this.runCourseAdministratorMenu();
+            this.run();
         }
     }
 
@@ -113,7 +112,7 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -145,7 +144,7 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -156,7 +155,7 @@ public class CourseAdministratorMenu {
         String courseName = scanner.nextLine();
 
         courseAdministrator.addNewCourse(courseName);
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -184,7 +183,7 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -213,7 +212,7 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -274,7 +273,7 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 
     /**
@@ -325,7 +324,7 @@ public class CourseAdministratorMenu {
                                 + " for their current level.");
                         System.out.print("Press a key to continue: ");
                         scanner.nextLine();
-                        this.runCourseAdministratorMenu();
+                        this.run();
                         return;
                     }
 
@@ -342,6 +341,6 @@ public class CourseAdministratorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runCourseAdministratorMenu();
+        this.run();
     }
 }

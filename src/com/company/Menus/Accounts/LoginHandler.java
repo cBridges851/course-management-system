@@ -44,7 +44,7 @@ public class LoginHandler {
                     || Objects.equals(userType, "3")) {
                 isValidUserType = true;
             } else if (Objects.equals(userType, "4")) {
-                new HomeMenu().runHomeMenu();
+                new HomeMenu().run();
                 return;
             }
         }
@@ -80,7 +80,7 @@ public class LoginHandler {
             return;
         }
 
-        new StudentMenu(student, this.scanner).runStudentMenu();
+        new StudentMenu(student, this.scanner).run();
     }
 
     /**
@@ -107,7 +107,7 @@ public class LoginHandler {
             return;
         }
 
-        new InstructorMenu(instructor, this.scanner).runInstructorMenu();
+        new InstructorMenu(instructor, this.scanner).run();
     }
 
     /**
@@ -134,6 +134,6 @@ public class LoginHandler {
             return;
         }
 
-        new CourseAdministratorMenu(courseAdministrator, this.scanner).runCourseAdministratorMenu();
+        new CourseAdministratorMenu(courseAdministrator, this.scanner).run();
     }
 }

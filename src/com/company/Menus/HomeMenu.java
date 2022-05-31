@@ -9,12 +9,12 @@ import java.util.Scanner;
 /**
  * The menu that all users will see when opening the application
  */
-public class HomeMenu {
+public class HomeMenu implements IMenu {
     private final Scanner scanner = new Scanner(System.in);
     /**
      * Method that allows the user to enter the program.
      */
-    public void runHomeMenu() {
+    public void run() {
         System.out.println("Welcome to the Course Management System!");
 
         System.out.println("""

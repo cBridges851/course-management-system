@@ -100,7 +100,7 @@ public class AccountCreator {
             this.createCourseAdministrator(username, password, firstName, middleName, lastName);
         }
 
-        new HomeMenu().runHomeMenu();
+        new HomeMenu().run();
     }
 
     /**

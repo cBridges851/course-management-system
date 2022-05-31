@@ -120,9 +120,9 @@ namespace Models.Users #A9D1F7 {
     }
 
     ' User is an abstract class, and student, instructor and course administrator are children of it to get the basic info (i.e. username, password, first name, middle name, last name)
-    User <|-- Student
-    User <|-- Instructor
-    User <|-- CourseAdministrator
+    User <|.. Student
+    User <|.. Instructor
+    User <|.. CourseAdministrator
 
     ' The student has one course, or else they're not enrolled on one. Course would not be destroyed if the student was.
     Student o-[bold,#3B3B6B]- "0..1" Models.Study.Course
@@ -305,13 +305,17 @@ namespace FileHandling.Savers #FFDFBE {
 }
 
 namespace Menus #FFB1B0 {
+    interface IMenu {
+        void run()
+    }
+
     class CourseAdministratorCourseModuleSubMenu {
         -courseAdministrator: CourseAdministrator
         -scanner: Scanner
         -courses: ArrayList<Course>
         -courseModules: ArrayList<CourseModule>
         +CourseAdministratorCourseModuleSubMenu(Scanner scanner, CourseAdministrator courseAdministrator, ArrayList<Course> courses)
-        +<<void>> runCourseModuleSubMenu()
+        +<<void>> run()
         -<<void>> addCourseModuleToCourse()
         -<<void>> removeCourseModuleFromCourse()
         -<<void>> renameCourseModule()
@@ -325,7 +329,7 @@ namespace Menus #FFB1B0 {
         -scanner: Scanner
         -courses: ArrayList<Course>
         +CourseAdministratorMenu(CourseAdministrator courseAdministrator, Scanner scanner)
-        +<<void>> runCourseAdministratorMenu()
+        +<<void>> run()
         -<<void>> cancelCourse()
         -<<void>> reopenCourse()
         -<<void>> addCourse()
@@ -337,7 +341,7 @@ namespace Menus #FFB1B0 {
 
     class HomeMenu {
         -scanner: Scanner
-        +<<void>> runHomeMenu()
+        +<<void>> run()
     }
 
     class AccountCreator {
@@ -363,7 +367,7 @@ namespace Menus #FFB1B0 {
         -scanner: Scanner
         -courseModules: ArrayList<CourseModule>
         +InstructorMenu(Instructor instructor, Scanner scanner)
-        +<<void>> runInstructorMenu()
+        +<<void>> run()
         -<<void>> addMarksToStudent()
         -<<void>> createAssignment()
         -<<void>> editAssignmentsInCourseModule()
@@ -376,12 +380,19 @@ namespace Menus #FFB1B0 {
         -student: Student
         -scanner: Scanner
         +StudentMenu(Student student, Scanner scanner)
-        +<<void>> runStudentMenu()
+        +<<void>> run()
         -<<void>> registerForCourse()
         -<<void>> enrolOntoCourseModule()
         -<<void>> viewCurrentCourseModules()
         -<<void>> viewCompletedCourseModules()
     }
+
+    ' Menus inherit the IMenu interface to utilise the run method, and then have additional of their own.
+    CourseAdministratorCourseModuleSubMenu --|> IMenu
+    CourseAdministratorCourseModuleMenu --|> IMenu
+    HomeMenu --|> IMenu
+    InstructorMenu --|> IMenu
+    StudentMenu --|> IMenu
 
     ' Association - Home menu calls the account creator to create an account.
     HomeMenu --> "1" AccountCreator

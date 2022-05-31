@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Class that handles the interactions for instructors.
  */
-public class InstructorMenu {
+public class InstructorMenu implements IMenu {
     private final Instructor instructor;
     private final Scanner scanner;
     private ArrayList<CourseModule> courseModules;
@@ -29,7 +29,7 @@ public class InstructorMenu {
      * The initial method that is called when an instructor is logged in,
      * which directs them to what they can do
      */
-    public void runInstructorMenu() {
+    public void run() {
         courseModules = new ArrayList<>();
         String[] courseModuleCodes = this.instructor.getCourseModules();
 
@@ -94,12 +94,12 @@ public class InstructorMenu {
             } else if (Objects.equals(action, "4")) {
                 this.markStudentAsCompletedModule();
             } else if (Objects.equals(action, "5")) {
-                new HomeMenu().runHomeMenu();
+                new HomeMenu().run();
             } else {
-                this.runInstructorMenu();
+                this.run();
             }
 
-            this.runInstructorMenu();
+            this.run();
         } else {
             System.out.println("You have not been assigned any course modules");
         }
@@ -121,7 +121,7 @@ public class InstructorMenu {
                     System.out.println("There are no assignments on this course module");
                     System.out.print("Press a key to continue: ");
                     scanner.nextLine();
-                    this.runInstructorMenu();
+                    this.run();
                     return;
                 }
 
@@ -129,7 +129,7 @@ public class InstructorMenu {
 
                 if (studentNames.size() == 0) {
                     System.out.println("There are no students enrolled on this course module.");
-                    this.runInstructorMenu();
+                    this.run();
                     return;
                 }
 
@@ -327,7 +327,7 @@ public class InstructorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runInstructorMenu();
+        this.run();
     }
 
     /**
@@ -368,7 +368,7 @@ public class InstructorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runInstructorMenu();
+        this.run();
     }
 
     /**
@@ -387,7 +387,7 @@ public class InstructorMenu {
 
                 if (assignmentIds.size() == 0) {
                     System.out.println("There are no assignments on this course module.");
-                    this.runInstructorMenu();
+                    this.run();
                     return;
                 }
 
@@ -436,7 +436,7 @@ public class InstructorMenu {
                             } else if (Objects.equals(action, "2")) {
                                 this.updateMarks(selectedCourseModule, selectedAssignment);
                             } else if (Objects.equals(action, "3")) {
-                                this.runInstructorMenu();
+                                this.run();
                             } else {
                                 this.editAssignmentsInCourseModule();
                             }
@@ -452,7 +452,7 @@ public class InstructorMenu {
             System.out.println("Invalid input");
         }
 
-        this.runInstructorMenu();
+        this.run();
     }
 
     /**
@@ -471,7 +471,7 @@ public class InstructorMenu {
 
                 if (studentNames.size() == 0) {
                     System.out.println("There are no students enrolled on this course module.");
-                    this.runInstructorMenu();
+                    this.run();
                     return;
                 }
 

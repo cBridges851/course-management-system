@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Class that handles the interactions for the students.
  */
-public class StudentMenu {
+public class StudentMenu implements IMenu {
     private final Student student;
     private final Scanner scanner;
 
@@ -30,7 +30,7 @@ public class StudentMenu {
      * The initial method that is called when a student is logged in,
      * which directs them to what they can do
      */
-    public void runStudentMenu() {
+    public void run() {
         ArrayList<CourseModuleResult> currentCourseModules = new ArrayList<>(Arrays.asList(this.student.getCurrentCourseModules()));
         currentCourseModules.removeAll(Collections.singleton(null));
         Course course = null;
@@ -53,9 +53,9 @@ public class StudentMenu {
             if (Objects.equals(action, "1")) {
                 this.registerForCourse();
             } else if (Objects.equals(action, "2")) {
-                new HomeMenu().runHomeMenu();
+                new HomeMenu().run();
             } else {
-                this.runStudentMenu();
+                this.run();
             }
         } else if (currentCourseModules.size() < 4) {
             System.out.println("""
@@ -74,9 +74,9 @@ public class StudentMenu {
             } else if (Objects.equals(action, "3")) {
                 this.viewCompletedCourseModules();
             } else if (Objects.equals(action, "4")) {
-                new HomeMenu().runHomeMenu();
+                new HomeMenu().run();
             } else {
-                this.runStudentMenu();
+                this.run();
             }
         } else {
             System.out.println("""
@@ -91,9 +91,9 @@ public class StudentMenu {
             } else if (Objects.equals(action, "2")) {
                 this.viewCompletedCourseModules();
             } else if (Objects.equals(action, "3")) {
-                new HomeMenu().runHomeMenu();
+                new HomeMenu().run();
             } else {
-                this.runStudentMenu();
+                this.run();
             }
         }
     }
@@ -148,7 +148,7 @@ public class StudentMenu {
             System.out.println("Invalid input");
         }
 
-        this.runStudentMenu();
+        this.run();
     }
 
     /**
@@ -251,7 +251,7 @@ public class StudentMenu {
                     selectedCourseModule.addStudentName(this.student.getUsername());
                     new CourseModuleSaver().saveCourseModule(selectedCourseModule);
 
-                    this.runStudentMenu();
+                    this.run();
                     return;
                 }
             } else {
@@ -261,7 +261,7 @@ public class StudentMenu {
             System.out.println("Invalid input");
         }
 
-        this.runStudentMenu();
+        this.run();
     }
 
     /**
@@ -332,7 +332,7 @@ public class StudentMenu {
         System.out.println(asciiTable.render());
         System.out.print("Press a key to continue: ");
         scanner.nextLine();
-        this.runStudentMenu();
+        this.run();
     }
 
     /**
@@ -402,6 +402,6 @@ public class StudentMenu {
         System.out.println(asciiTable.render());
         System.out.print("Press a key to continue: ");
         scanner.nextLine();
-        this.runStudentMenu();
+        this.run();
     }
 }
