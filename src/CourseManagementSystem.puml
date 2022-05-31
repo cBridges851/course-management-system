@@ -55,8 +55,7 @@ abstract class User {
     -firstName: String
     -middleName: String
     -lastName: String
-    -dateOfBirth: Calendar
-    +User(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth)
+    +User(String username, String password, String firstName, String middleName, String lastName)
 }
 
 class Student {
@@ -65,7 +64,7 @@ class Student {
     -courseId: String
     -completedCourseModules: ArrayList<CourseModuleResult>
     -currentCourseModules: CourseModuleResult[8]
-    +Student(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules, CourseModuleResult[] currentCourseModules)
+    +Student(String username, String password, String firstName, String middleName, String lastName, int year, int level, String courseId, ArrayList<CourseModuleResult> completedCourseModules, CourseModuleResult[] currentCourseModules)
     +<<void>> addCompletedCourseModule(CourseModuleResult completedCourseModule)
     +<<void>> registerForCourse(String courseName)
     +<<void>> enrolForCourseModule(String courseModuleCode)
@@ -76,7 +75,7 @@ class Student {
 }
 
 class CourseAdministrator {
-    +CourseAdministrator(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth)
+    +CourseAdministrator(String username, String password, String firstName, String middleName, String lastName)
     +<<void>> addNewCourse(String courseName)
     +<<void>> addNewCourseModuleToCourse(Course course, String courseModuleCode, String name, int level, HashSet<String> instructorNames, boolean isMandatory, HashSet<String> assignmentIds, HashSet<String> studentNames)
     +<<ArrayList<Course>>> getAllCourses()
@@ -97,7 +96,7 @@ class CourseAdministrator {
 
 class Instructor {
     -courseModules: String[]
-    +Instructor(String username, String password, String firstName, String middleName, String lastName, Calendar dateOfBirth, String[] courseModuleCodes)
+    +Instructor(String username, String password, String firstName, String middleName, String lastName, String[] courseModuleCodes)
     +<<String[]>> getCourseModules()
     +<<boolean>> addCourseModule(String courseModuleCode)
     +<<void>> removeCourseModule(String courseModuleCode)
